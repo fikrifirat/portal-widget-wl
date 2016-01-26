@@ -1,0 +1,67 @@
+script(src="//webrtc.voxbone.com/js/jssip-0.7.9-vox.js",type="application/javascript")
+script(src="//webrtc.voxbone.com/js/voxbone-0.0.3.js",type="application/javascript")
+script(src=docRoot+"/javascripts/widget-0.2.js",type="application/javascript")
+
+
+
+script.
+    var supported = voxbone.WebRTC.isWebRTCSupported();
+
+    function makeCall(){
+        var config = { 'callerId': !{"callerId" in request.query ? JSON.stringify(request.query.callerId) : "myScope.callerId"},
+                       'dial_pad': !{"dialPad" in request.query ? JSON.stringify(request.query.dialPad) : "JSON.stringify(myScope.dial_pad)"},
+                       'context': !{"context" in request.query ? JSON.stringify(request.query.context) : "myScope.context"},
+                       'send_digits': !{"sendDigits" in request.query ? JSON.stringify(request.query.sendDigits) : "myScope.send_digits"},
+                       'ibc': !{"incompatibleBrowserConfiguration" in request.query ? JSON.stringify(request.query.incompatibleBrowserConfiguration)  : "myScope.incompatible_browser_configuration"},
+                       'link_button_to_a_page_value': !{"linkButtonToAPageValue" in request.query ? JSON.stringify(request.query.linkButtonToAPageValue) : "myScope.link_button_to_a_page_value"},
+                       'number': !{JSON.stringify(request.query.e164)},
+                       'supported': !{"incompatibleBrowserConfiguration" in request.query ? "supported" : "myScope.preview_webrtc_compatible"}
+                     };
+
+        VoxWidget.makeCall(config);
+    };
+
+if request.query.authUrl
+    script.
+        $(document).ready(function () {
+            if(!supported) {
+                !{request.query.incompatibleBrowserConfiguration=='show_text_html' ? "$('#launch_call').hide();$('#not-supported-message').removeClass('hidden');":""}
+                !{request.query.incompatibleBrowserConfiguration=='hide_widget' ? "$('.widget-box').hide();":""}
+            } else {
+                voxbone.WebRTC.init(voxrtc_config);
+            }
+        });
+else if request.query.basic_auth == 1
+    script.
+        $(document).ready(function () {
+            if(!supported) {
+                !{request.query.incompatibleBrowserConfiguration=='show_text_html' ? "$('.widget-box').hide();$('#not-supported-message').removeClass('hidden');":""}
+                !{request.query.incompatibleBrowserConfiguration=='hide_widget' ? "$('.widget-box').hide();":""}
+            } else {
+                var username = !{JSON.stringify(request.query.login)};
+                var secret = !{JSON.stringify(request.query.password)};
+                voxbone.WebRTC.basicAuthInit(username, secret);
+                voxbone.WebRTC.customEventHandler.authExpired= function() { voxbone.WebRTC.basicAuthInit(username, secret);};
+            }
+        });
+
+.not-supported.hidden#not-supported-message
+    | !{"showTextHtmlValue" in request.query ? request.query.showTextHtmlValue : ""}
+.widget-box(class="#{request.query.buttonStyle || 'style-b'}")
+   if "buttonText" in request.query
+        if request.query.buttonText != undefined && request.query.buttonText != ''
+            button.btn-style#launch_call #{request.query.buttonText}
+        else
+            button.btn-style#launch_call Call Sales
+   else
+        button.btn-style#launch_call #[span {{buttonText || 'Call Sales'}}]
+
+   div#control
+
+
+
+   .widget-footer-right(class="#{request.query.buttonStyle || 'style-b'}")
+        a(href="http://www.voxbone.com"  target="_blank") powered by:
+
+
+
