@@ -135,7 +135,12 @@ block content
       myScope.showWidgetCode = true;
       setCode('Generating code snippet...');
 
-      $.get("widget?" + objStr, setCode);
+      $.ajax({
+                type: "POST",
+                url: "widget",
+                data: JSON.stringify(obj),
+                contentType: "application/json"
+      }).done(setCode);
       console.log("http://www.voxbone.com/click2vox/widget?"+objStr);
     }
 

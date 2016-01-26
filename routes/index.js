@@ -7,7 +7,17 @@ router.get('/', function(req, res, next) {
   res.render('generator', { title: title, request: req, docRoot: docroot });
 });
 
+router.post('/', function(req, res, next) {
+  req.query = req.body;
+  res.render('generator', { title: title, request: req, docRoot: docroot });
+});
+
 router.get('/widget', function(req, res, next) {
+  res.render('widgetwrap', { title: title, request: req, docRoot: docroot, pretty: true });
+});
+
+router.post('/widget', function(req, res, next) {
+  req.query = req.body;
   res.render('widgetwrap', { title: title, request: req, docRoot: docroot, pretty: true });
 });
 

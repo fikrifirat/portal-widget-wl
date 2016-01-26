@@ -7,7 +7,7 @@ When trying to host this widget generator for your self, please modify the varia
 
 ## Accessing the generator
 
-The generator requires several pieces of information to be passed either in json via HTTP POST or passed url encoded
+The generator requires several pieces of information to be passed either HTTP POST  (urlencoded form sumbission or json) or passed url encoded via HTTP GET
 
 Parameter | Meaning
 ----------|--------
@@ -15,6 +15,8 @@ e164      | your voxbone did w/o the +
 login     | your provisioned webrtc login
 password  | your shared secret used for webrtc
 basic_auth| 1 if you've enabled basic auth 0 if you host your own credential service
+
+Example form can be found at `docRoot`/html/widget_form.html
 
 
 ## Launcing the applicaiton
