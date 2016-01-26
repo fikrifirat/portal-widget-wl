@@ -1,4 +1,4 @@
-# voxbone-generator
+# click2vox WebRTC Widget generator
 
 
 ## Usage
@@ -15,3 +15,14 @@ e164      | your voxbone did w/o the +
 login     | your provisioned webrtc login
 password  | your shared secret used for webrtc
 basic_auth| 1 if you've enabled basic auth 0 if you host your own credential service
+
+
+## Launcing the applicaiton
+First install the required dependencies:
+`npm install`
+
+
+Then you can launch the node application:
+`npm start`
+
+By default the application will listen to port 3000
