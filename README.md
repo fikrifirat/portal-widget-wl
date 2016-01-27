@@ -19,7 +19,7 @@ basic_auth| 1 if you've enabled basic auth 0 if you host your own credential ser
 Example form can be found at `docRoot`/html/widget_form.html
 
 
-## Launcing the applicaiton
+## Launching the applicaiton
 First install the required dependencies:
 `npm install`
 
