@@ -281,6 +281,9 @@ extend(voxbone, {
 			'ended': function (e) {
 			},
 			'authExpired': function (e) {
+			},
+			'getUserMediaAccepted': function(e) {
+				voxbone.Logger.loginfo("local media accepted");
 			}
 		},
 
@@ -631,6 +634,7 @@ extend(voxbone, {
 			if (this.phone == undefined) {
 				this.phone = new JsSIP.UA(this.configuration);
 				this.phone.on('connected', function() { voxbone.WebRTC.rtcSession = voxbone.WebRTC.phone.call(uri.toAor(), options); });
+				this.phone.on('newRTCSession', function(data) { data.session.on('connecting', function(e) {voxbone.WebRTC.customEventHandler.getUserMediaAccepted(e);}) });
 				this.phone.start();
 			} else {
 				this.rtcSession = this.phone.call(uri.toAor(), options);
