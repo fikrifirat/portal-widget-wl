@@ -626,6 +626,12 @@ extend(voxbone, {
 					ice_servers.push(this.configuration.turn_servers[i]);
 				}
 				options.pcConfig.iceServers = ice_servers;
+				
+				/**
+				  * Stop the ice gathering process 10 seconds after we
+			          * we have atleast 1 relay candidate 
+                                */
+                                options.pcConfig.gatheringTimeoutAfterRelay = 10000;
 			}
 			options.pcConfig.iceCandidatePoolSize=10;
 
