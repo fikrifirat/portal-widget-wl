@@ -10,10 +10,8 @@ block content
           myScope = $scope;
           function getCookieWithDefault(key, default_value) {
                     if(typeof($cookies.get(key)) == 'undefined') {
-                            console.log(key + " " + typeof($cookies.get(key)));        
                         return default_value;
                   } else {
-                            console.log(key + " " + typeof($cookies.get(key)) + " " + $cookies.get(key));        
                         return $cookies.get(key);
                 }
           }
