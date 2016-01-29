@@ -46,21 +46,18 @@ else if request.query.basic_auth == 1
         });
 
 .not-supported.hidden#not-supported-message
-    | !{"showTextHtmlValue" in request.query ? request.query.showTextHtmlValue : ""}
-.widget-box(class="#{request.query.buttonStyle || 'style-b'}")
+    | !{"showTextHtmlValue" in request.query ? request.query.showTextHtmlValue : "{{show_text_html_value}}"}
+.widget-box(class="#{request.query.buttonStyle || '{{button_style}}'}")
    if "buttonText" in request.query
-        if request.query.buttonText != undefined && request.query.buttonText != ''
-            button.btn-style#launch_call #{request.query.buttonText}
-        else
-            button.btn-style#launch_call Call Sales
+       button.btn-style#launch_call #{request.query.buttonText}
    else
-        button.btn-style#launch_call #[span {{buttonText || 'Call Sales'}}]
+        button.btn-style#launch_call #[span {{buttonText}}]
 
    div#control
 
 
 
-   .widget-footer-right(class="#{request.query.buttonStyle || 'style-b'}")
+   .widget-footer-right(class="#{request.query.buttonStyle || '{{button_style}}'}")
         a(href="http://www.voxbone.com"  target="_blank") powered by:
 
 
