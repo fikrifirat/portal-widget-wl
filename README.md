@@ -3,7 +3,7 @@
 
 ## Usage
 
-When trying to host this widget generator for your self, please modify the variable `docroot` in `routes/index.js` to correspond to the URL where you are hosting the widget generator
+When trying to host this widget generator for your self, please modify the variable `docroot` in `routes/index.js` to correspond to the URL where you are hosting the widget generator or you can set an environment variable called `DOCROOT` with the corresponding value.
 
 ## Accessing the generator
 
