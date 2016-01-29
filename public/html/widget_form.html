@@ -1,24 +1,41 @@
 <html>
 <head>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", rel="stylesheet"/>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="application/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" type="application/javascript"></script>
+<script>
+	function getCookies() {
+		$('#e164').val($.cookie("e164"));
+		$('#login').val($.cookie("login"));
+		$('#password').val($.cookie("password"));
+		$('#basic_auth').val($.cookie("basic_auth"));
+	}
+
+	function setCookies() {
+		$.cookie("e164",$('#e164').val());
+		$.cookie("login",$('#login').val());
+		$.cookie("password",$('#password').val());
+		$.cookie("basic_auth",$('#basic_auth').val());
+	}
+</script>
 </head>
-<body style="background: #92168e">
+<body style="background: #92168e" onLoad='getCookies()'>
 <form id="formData" action="../" method="post"> 
 <center>
 <div class="form-group" style="width:350px">
 <div style="box-shadow: 0 0 30px black;border-radius: 15px; padding: 10px;background: #ffffff">
 <h3>Voxbone Account Configuration</h3>
 <label>E164:</label>
-<input type="text" name="e164" class="form-control" value=""><br/>
+<input type="text" name="e164" id="e164" class="form-control" value=""><br/>
 <label>Login:</label>
-<input type="text" name="login" class="form-control" value=""><br/>
+<input type="text" name="login" id="login" class="form-control" value=""><br/>
 <label>Password:</label>
-<input type="text" name="password" class="form-control" value=""><br/>
+<input type="text" name="password" id="password" class="form-control" value=""><br/>
 <label>Basic Auth:</label>
-<input type="text" name="basic_auth" class="form-control" value=""><br/>
+<input type="text" name="basic_auth" id="basic_auth" class="form-control" value=""><br/>
 
 <br/>
-<input type="submit" value="Submit" class="btn btn-default">
+<input type="submit" value="Submit" onClick="setCookies()" class="btn btn-default">
 </div>
 </div>
 </center>
