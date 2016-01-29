@@ -631,7 +631,7 @@ extend(voxbone, {
 				  * Stop the ice gathering process 10 seconds after we
 			          * we have atleast 1 relay candidate 
                                 */
-                                options.pcConfig.gatheringTimeoutAfterRelay = 10000;
+                                options.pcConfig.gatheringTimeoutAfterRelay = 5000;
 			}
 			options.pcConfig.iceCandidatePoolSize=10;
 
