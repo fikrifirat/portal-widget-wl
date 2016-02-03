@@ -7,15 +7,15 @@ block content
     var myScope;
     var app = angular.module('voxboneApp', ['ngCookies'])
       .controller('WidgetController', ['$scope', '$http', '$window', '$cookies', function($scope, $http, $window, $cookies){
+
           myScope = $scope;
+
           function getCookieWithDefault(key, default_value) {
-                    if(typeof($cookies.get(key)) == 'undefined') {
-                        return default_value;
-                  } else {
-                        return $cookies.get(key);
-                }
+            if(typeof($cookies.get(key)) == 'undefined')
+              return default_value;
+            else
+              return $cookies.get(key);
           }
-                  
 
           myScope.callerId = getCookieWithDefault("callerId", "click2vox");
           myScope.buttonText = getCookieWithDefault("buttonText", "Call Sales");
@@ -33,34 +33,31 @@ block content
           myScope.auth_uri_valid = false;
           myScope.showWidgetCode = false;
 
-
           $scope.saveConfig = function() {
-                  $cookies.put("callerId", myScope.callerId);
-                  $cookies.put("buttonText", myScope.buttonText);
-                  $cookies.put("context", myScope.context);
-                  $cookies.put("button_style", myScope.button_style);
-                  $cookies.put("dial_pad", myScope.dial_pad);
-                  $cookies.put("send_digits", myScope.send_digits);
-                  $cookies.put("incompatible_browser_configuration", myScope.incompatible_browser_configuration);
-                  $cookies.put("link_button_to_a_page_value", myScope.link_button_to_a_page_value);
-                  $cookies.put("show_text_html_value", myScope.show_text_html_value);
-                  $cookies.put("auth_uri", myScope.auth_uri);
+            $cookies.put("callerId", myScope.callerId);
+            $cookies.put("buttonText", myScope.buttonText);
+            $cookies.put("context", myScope.context);
+            $cookies.put("button_style", myScope.button_style);
+            $cookies.put("dial_pad", myScope.dial_pad);
+            $cookies.put("send_digits", myScope.send_digits);
+            $cookies.put("incompatible_browser_configuration", myScope.incompatible_browser_configuration);
+            $cookies.put("link_button_to_a_page_value", myScope.link_button_to_a_page_value);
+            $cookies.put("show_text_html_value", myScope.show_text_html_value);
+            $cookies.put("auth_uri", myScope.auth_uri);
           }
 
-
           $scope.widget_focus = function(form){
-                   $("#valid-auth").hide();
-                   $("#invalid-auth").hide();
+            $("#valid-auth").hide();
+            $("#invalid-auth").hide();
           }
 
           $scope.test_web = function(form){
-
-              if(!form.$valid) {
-                   $("#valid-auth").hide();
-                   $("#invalid-auth").hide();
-                   myScope.auth_uri_valid = false;
-                   return;
-              }
+            if(!form.$valid) {
+              $("#valid-auth").hide();
+              $("#invalid-auth").hide();
+              myScope.auth_uri_valid = false;
+              return;
+            }
 
               voxrtc_config = undefined;
               $.ajax({
@@ -102,61 +99,59 @@ block content
           }
 
           $scope.updateText = function() {
-                $('#not-supported-message').html($scope.show_text_html_value);
+            $('#not-supported-message').html($scope.show_text_html_value);
           }
 
           $scope.generateCode = function() {
-            $scope.saveConfig(); 
+            $scope.saveConfig();
             getCode();
           }
 
           $scope.changePreviewMode = function(mode) {
-               $scope.preview_webrtc_compatible = mode;
-               if(mode) {
-                      $('.widget-box').show();
-                      $('#launch_call').show();
-                      $('#not-supported-message').addClass('hidden');
-                } else {
-                    $scope.updateIncompatible();
-                }
+              $scope.preview_webrtc_compatible = mode;
+              if(mode) {
+                $('.widget-box').show();
+                $('#launch_call').show();
+                $('#not-supported-message').addClass('hidden');
+              } else {
+                $scope.updateIncompatible();
+              }
           }
-          
-
     }]);
 
     function setCode(value) {
       $("#widget_code").text(value);
       $("#widget_code").html(PR.prettyPrintOne($("#widget_code").html()));
-
     }
 
     function prepareHtmlForCodepen() {
-        console.log($("#widget_code").text());
-        return $("#widget_code").text();//.replace(/"/g, "'");
+      console.log($("#widget_code").text());
+      return $("#widget_code").text();//.replace(/"/g, "'");
     }
 
     function getCode() {
-      var obj = { e164 : !{JSON.stringify(request.query.e164)},
-                  login: !{JSON.stringify(request.query.login)},
-                  password: !{JSON.stringify(request.query.password)},
-                  buttonText: myScope.buttonText,
-                  callerId: myScope.callerId,
-                  buttonStyle: myScope.button_style,
-                  sendDigits: myScope.send_digits,
-                  dialPad: myScope.dial_pad,
-                  context: myScope.context,
-                  incompatibleBrowserConfiguration: myScope.incompatible_browser_configuration,
-                  linkButtonToAPageValue: myScope.link_button_to_a_page_value,
-                  showTextHtmlValue: myScope.show_text_html_value,
-                  basic_auth: !{JSON.stringify(request.query.basic_auth)}
+      var obj = {
+        e164 : !{JSON.stringify(request.query.e164)},
+        login: !{JSON.stringify(request.query.login)},
+        password: !{JSON.stringify(request.query.password)},
+        buttonText: myScope.buttonText,
+        callerId: myScope.callerId,
+        buttonStyle: myScope.button_style,
+        sendDigits: myScope.send_digits,
+        dialPad: myScope.dial_pad,
+        context: myScope.context,
+        incompatibleBrowserConfiguration: myScope.incompatible_browser_configuration,
+        linkButtonToAPageValue: myScope.link_button_to_a_page_value,
+        showTextHtmlValue: myScope.show_text_html_value,
+        basic_auth: !{JSON.stringify(request.query.basic_auth)}
       };
 
       if (!{request.query.basic_auth} != 1) {
-          if (!myScope.auth_uri_valid) {
-              setCode("Please specify a valid Auth URL before generating code");
-              return;
-          }
-          obj.authUrl = myScope.auth_uri;
+        if (!myScope.auth_uri_valid) {
+          setCode("Please specify a valid Auth URL before generating code");
+          return;
+        }
+        obj.authUrl = myScope.auth_uri;
       }
 
       var objStr = jQuery.param(obj);
@@ -174,24 +169,28 @@ block content
 
     //Copy to Clipboard
     var clipboard = new Clipboard('#clipboard_copy', {
-                text: function(trigger) {
-                    return $('#widget_code').text();
-                }
-            });
+      text: function(trigger) {
+        return $('#widget_code').text();
+      }
+    });
+
     clipboard.on('success', function(e) {
       console.info('Action:', e.action);
       console.info('Text:', e.text);
       console.info('Trigger:', e.trigger);
       e.clearSelection();
     });
+
     clipboard.on('error', function(e) {
       console.error('Action:', e.action);
       console.error('Trigger:', e.trigger);
     });
+
     clipboard.on('text', function(e) {
       console.error('Action:', e.action);
       console.error('Trigger:', e.trigger);
     });
+
     $(document).ready(function () {
 
       getCode();
@@ -207,6 +206,7 @@ block content
         $( ".widget-box" ).removeClass( "style-b" ).addClass( "style-a" );
         $( ".widget-footer-right" ).removeClass( "style-b" ).addClass( "style-a" );
       });
+
       $( ".btn-style-b" ).click(function() {
         $( ".widget-box" ).removeClass( "style-a" ).addClass( "style-b" );
         $( ".widget-footer-right" ).removeClass( "style-a" ).addClass( "style-b" );
@@ -215,9 +215,11 @@ block content
       $( ".togle-bg a.dark" ).click(function() {
         $( ".prev-view" ).removeClass("light").removeClass("grey").addClass( "dark" );
       });
+
       $( ".togle-bg a.grey" ).click(function() {
         $( ".prev-view" ).removeClass("light").removeClass("black").addClass( "grey" );
       });
+
       $( ".togle-bg a.light" ).click(function() {
         $( ".prev-view" ).removeClass("black").removeClass("grey").addClass( "light" );
       });
@@ -226,13 +228,10 @@ block content
         e.preventDefault();
       });
 
-
       // if we've loaded the auth uri from cookies, test if it's valid
       if(!{request.query.basic_auth != 1} && myScope.auth_uri != "") {
               $('#auth_uri').trigger('blur');
       }
-
-
     });
 
   .main.createButton
@@ -359,4 +358,3 @@ block content
                                 input#html(type="hidden" name="data" value!='{"html": prepareHtmlForCodepen()"}')
                           form#code_debug_jsfiddle(action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank")
                                 input#html(type="hidden" name="html" value="")
-

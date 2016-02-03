@@ -2,13 +2,11 @@ link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", rel
 link(href=docRoot+"/stylesheets/root.css", rel="stylesheet")
 link(href=docRoot+"/stylesheets/widget.css", rel="stylesheet")
 
-
-script(src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js",type="application/javascript")
+script(src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
 script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js' )
 
 if request.query.basic_auth != 1 && request.query.authUrl
     script( src=request.query.authUrl )
-
 
 div(style={width: '300px'})
     include widget.jade

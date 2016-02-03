@@ -1,9 +1,6 @@
-script(src="//webrtc.voxbone.com/js/jssip-0.7.9-vox.js",type="application/javascript")
-script(src=docRoot+"/javascripts/voxbone-0.0.4.js",type="application/javascript")
-script(src=docRoot+"/javascripts/widget-0.2.js",type="application/javascript")
-
-
-
+script(src="//webrtc.voxbone.com/js/jssip-0.7.9-vox.js")
+script(src=docRoot+"/javascripts/voxbone-0.0.4.js")
+script(src=docRoot+"/javascripts/widget-0.2.js")
 script.
     var supported = voxbone.WebRTC.isWebRTCSupported();
 
@@ -55,10 +52,5 @@ else if request.query.basic_auth == 1
 
    div#control
 
-
-
    .widget-footer-right(class="#{request.query.buttonStyle || '{{button_style}}'}")
         a(href="http://www.voxbone.com"  target="_blank") powered by:
-
-
-

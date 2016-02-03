@@ -91,8 +91,8 @@ $(document).ready(function () {
     switch(event.data) {
       case 'openWidgetWithoutDialPad':
         $("#dialpad").addClass('hidden');
-        $("#vw-title").text("Calling");
-	$("#microphone em").removeClass('on').removeClass('off');
+        $("#vw-title").text("Waiting for User Media");
+        $("#microphone em").removeClass('on').removeClass('off');
         $(".vw-animated-dots").removeClass('hidden');
         $(".vox-widget-wrapper").removeClass('hidden');
         $("#vw-in-call").removeClass('hidden');
@@ -101,8 +101,8 @@ $(document).ready(function () {
         $("#full-screen").removeClass('hidden');
         break;
       case 'openWidget':
-        $("#vw-title").text("Calling");
-	$("#microphone em").removeClass('on').removeClass('off');
+        $("#vw-title").text("Waiting for User Media");
+        $("#microphone em").removeClass('on').removeClass('off');
         $(".vw-animated-dots").removeClass('hidden');
         $(".vox-widget-wrapper").removeClass('hidden');
         $("#vw-in-call").removeClass('hidden');
@@ -112,7 +112,6 @@ $(document).ready(function () {
         break;
       };
   });
-
 
   function stopRingbackTone(){
     $("#audio-ringback-tone").trigger('pause');
@@ -124,11 +123,9 @@ $(document).ready(function () {
     $("#audio-ringback-tone").trigger('play');
   };
 
-
   function send_voxbone_interaction(message){
-
     if (!(typeof voxbone.WebRTC.rtcSession.isEstablished === "function") || voxbone.WebRTC.rtcSession.isEnded())
-                return;
+      return;
 
     switch(message) {
       case 'hang_up':
@@ -162,7 +159,7 @@ $(document).ready(function () {
   };
 
   function call_action(message) {
-      send_voxbone_interaction(message);
+    send_voxbone_interaction(message);
   };
 
   $('.vw-dialpad li').click(function(e) {
@@ -209,75 +206,80 @@ $(document).ready(function () {
     call_action('volume-mute');
   });
 
-    $("#launch_call").click(function(e) {
-      e.preventDefault();
-        $("#vw-title").text("Calling");
-	    $(".vw-animated-dots").removeClass('hidden');
-        makeCall();
-        window.onbeforeunload=function(e){
-          voxbone.WebRTC.unloadHandler();
-        }
-    });
-
-    $("#hangup_call").click(function(e) {
-      e.preventDefault();
-      voxbone.WebRTC.hangup();
-      stopRingbackTone();
-      $(".vw-body").addClass('hidden');
-      $("#full-screen").addClass('hidden');
-
-    });
-
-    voxbone.WebRTC.customEventHandler.progress = function(e){
-        $("#vw-title").text("Calling");
-        $(".vw-animated-dots").removeClass('hidden');
-        playRingbackTone();
-    };
-
-    voxbone.WebRTC.customEventHandler.failed = function(e){
-        if (e.cause == JsSIP.C.causes.USER_DENIED_MEDIA_ACCESS) {
-            $("#vw-title").text("Unable to Access Mic");
-            $("#vw-unable-to-acces-mic").removeClass('hidden');
-            $("#vw-in-call").addClass('hidden');
-        } else {
-            $("#vw-title").text("Call Failed" + (e.cause != null ? ":\n " + e.cause :""));
-        }
-
-	    $(".vw-animated-dots").addClass('hidden');
-	    $(".vw-body").addClass('hidden');
-        $("#full-screen").addClass('hidden');
-        stopRingbackTone();
-    };
-
-    voxbone.WebRTC.customEventHandler.accepted = function(e){
-        $("#vw-title").text("In Call");
-        $(".vw-animated-dots").addClass('hidden');
-        stopRingbackTone();
+  $("#launch_call").click(function(e) {
+    e.preventDefault();
+    $("#vw-title").text("");
+    $(".vw-animated-dots").removeClass('hidden');
+    makeCall();
+    window.onbeforeunload=function(e){
+      voxbone.WebRTC.unloadHandler();
     }
-    voxbone.WebRTC.customEventHandler.ended = function(e){
-        $("#vw-title").text("Call Ended");
-        $(".vw-animated-dots").addClass('hidden');
-        $(".vw-body").addClass('hidden');
-        $("#full-screen").addClass('hidden');
-        stopRingbackTone();
+  });
+
+  $("#hangup_call").click(function(e) {
+    e.preventDefault();
+    voxbone.WebRTC.hangup();
+    stopRingbackTone();
+    $(".vw-body").addClass('hidden');
+    $("#full-screen").addClass('hidden');
+  });
+
+  voxbone.WebRTC.customEventHandler.progress = function(e){
+    $("#vw-title").text("Calling");
+    $(".vw-animated-dots").removeClass('hidden');
+    // playRingbackTone();
+  };
+
+  voxbone.WebRTC.customEventHandler.failed = function(e){
+    if (e.cause == JsSIP.C.causes.USER_DENIED_MEDIA_ACCESS) {
+      $("#vw-title").text("Unable to Access Mic");
+      $("#vw-unable-to-acces-mic").removeClass('hidden');
+      $("#vw-in-call").addClass('hidden');
+    } else {
+      $("#vw-title").text("Call Failed" + (e.cause != null ? ":\n " + e.cause :""));
     }
 
-    voxbone.WebRTC.customEventHandler.getUserMediaFailed = function(e){
-    }
+    $(".vw-animated-dots").addClass('hidden');
+    $(".vw-body").addClass('hidden');
+    $("#full-screen").addClass('hidden');
+    stopRingbackTone();
+  };
 
-    voxbone.WebRTC.customEventHandler.localMediaVolume = function(e){
-          if(voxbone.WebRTC.isMuted) return;
+  voxbone.WebRTC.customEventHandler.accepted = function(e){
+    $("#vw-title").text("In Call");
+    $(".vw-animated-dots").addClass('hidden');
+    stopRingbackTone();
+  }
+  voxbone.WebRTC.customEventHandler.ended = function(e){
+    $("#vw-title").text("Call Ended");
+    $(".vw-animated-dots").addClass('hidden');
+    $(".vw-body").addClass('hidden');
+    $("#full-screen").addClass('hidden');
+    stopRingbackTone();
+  }
 
-          if (e.localVolume > 0.30) postMessage("setMicVolume5","*")
-          else if (e.localVolume > 0.20) postMessage("setMicVolume4","*")
-          else if (e.localVolume > 0.10) postMessage("setMicVolume3","*")
-          else if (e.localVolume > 0.05) postMessage("setMicVolume2","*")
-          else if (e.localVolume > 0.01) postMessage("setMicVolume1","*")
-          else if (e.localVolume <= 0.01) postMessage("setMicVolume0","*")
-    }
+  voxbone.WebRTC.customEventHandler.getUserMediaFailed = function(e){
+  }
 
-    JsSIP.debug.enable('JsSIP:*');
+  voxbone.WebRTC.customEventHandler.getUserMediaAccepted = function(e){
+    $("#vw-title").text("Calling");
+    playRingbackTone();
+    console.log('local media accepted');
+    voxbone.Logger.loginfo("local media accepted");
+  }
 
+  voxbone.WebRTC.customEventHandler.localMediaVolume = function(e){
+    if(voxbone.WebRTC.isMuted) return;
+
+    if (e.localVolume > 0.30) postMessage("setMicVolume5","*")
+    else if (e.localVolume > 0.20) postMessage("setMicVolume4","*")
+    else if (e.localVolume > 0.10) postMessage("setMicVolume3","*")
+    else if (e.localVolume > 0.05) postMessage("setMicVolume2","*")
+    else if (e.localVolume > 0.01) postMessage("setMicVolume1","*")
+    else if (e.localVolume <= 0.01) postMessage("setMicVolume0","*")
+  }
+
+  JsSIP.debug.enable('JsSIP:*');
 });
 
 var VoxWidget = ( function() {
@@ -289,11 +291,11 @@ var VoxWidget = ( function() {
 			voxbone.WebRTC.configuration.post_logs = true;
 
 			if(config.context) {
-			    voxbone.WebRTC.context = config.context;
+		    voxbone.WebRTC.context = config.context;
 			}
 
 			if(config.send_digits) {
-			    voxbone.WebRTC.configuration.dialer_string = config.send_digits;
+        voxbone.WebRTC.configuration.dialer_string = config.send_digits;
 			}
 
 			if(config.supported == false) {
