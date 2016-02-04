@@ -249,6 +249,12 @@ extend(voxbone, {
 			'stun_servers': undefined,
 			'turn_servers': undefined,
 			'post_logs': false,
+			/**
+			It controls if we want to push
+			the logs for a web session where
+			the user didn't make any call attempt
+			**/
+			'post_logs_nocall': false,
 			'webrtc_log': undefined,
 			'uri': 'voxrtc@voxbone.com',
 			'trace_sip': true,
@@ -517,6 +523,7 @@ extend(voxbone, {
 		}
 		voxbone.WebRTC.callid = "";
 		voxbone.WebRTC.webrtcLogs = "";
+		voxbone.WebRTC.rtcSession = {};
 		
 	},
 		/**
@@ -713,10 +720,13 @@ extend(voxbone, {
 		 * and post the logs
 		 */
 		unloadHandler: function () {
-			if (voxbone.WebRTC.rtcSession !== undefined) {
+			if (typeof(voxbone.WebRTC.rtcSession.hangup) === "function") {
 					voxbone.Logger.loginfo("Page unloading while a call was in progress, hanging up");
 					voxbone.WebRTC.hangup();
 					voxbone.WebRTC.postLogsToServer();
+			} else if (voxbone.WebRTC.configuration.post_logs_nocall == true) {
+				/*Don't care if any calls were made, we still want logs*/
+				voxbone.WebRTC.postLogsToServer();
 			}
 
 		},
