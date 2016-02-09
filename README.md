@@ -5,6 +5,10 @@
 
 When trying to host this widget generator for your self, please modify the variable `docroot` in `routes/index.js` to correspond to the URL where you are hosting the widget generator or you can set an environment variable called `DOCROOT` with the corresponding value.
 
+Also for saving properly the ratings submitted by the caller, we need to set
+`CLIENT_ID`, `CLIENT_SECRET` & `REFRESH_TOKEN` (in order to get a new pair of these, refer to file `get_google_drive_token.js`).
+`SPREADSHEET_NAME` & `WORKSHEET_NAME` are also needed to determine to which document the ratings should be sent
+
 ## Accessing the generator
 
 The generator requires several pieces of information to be passed either HTTP POST  (urlencoded form sumbission or json) or passed url encoded via HTTP GET

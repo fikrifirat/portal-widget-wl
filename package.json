@@ -1,6 +1,6 @@
 {
   "name": "click2vox",
-  "version": "0.0.2",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -9,10 +9,12 @@
     "async": "^1.5.0",
     "body-parser": "~1.13.2",
     "debug": "~2.2.0",
+    "edit-google-spreadsheet": "^0.2.21",
     "express": "~4.13.1",
     "express-session": "^1.12.1",
     "jade": "~1.11.0",
-    "morgan": "~1.6.1",
-    "method-override": "~1.0.0"
+    "method-override": "~1.0.0",
+    "minifier": "^0.7.1",
+    "morgan": "~1.6.1"
   }
 }
