@@ -49,7 +49,16 @@ router.post('/rate', function(req, res, next){
         if(err) throw err;
 
         var addData = {}, nextLastRow = info.lastRow + 1;
-        addData[nextLastRow] = [[new Date().toISOString(),req.body.rate,req.body.comment,req.body.url]];
+        addData[nextLastRow] = [
+          [
+            new Date().toISOString(),
+            req.body.rate,
+            req.body.comment,
+            req.body.url,
+            req.body.did,
+            req.body.callid,
+          ]
+        ];
         spreadsheet.add(addData);
 
         spreadsheet.send(function(err) {

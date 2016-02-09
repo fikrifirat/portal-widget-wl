@@ -185,13 +185,10 @@ $(document).ready(function () {
     var obj = {
       rate: rate,
       comment: comment,
-      url: document.URL
+      url: document.URL,
+      did: voxbone.WebRTC.previous_call_did,
+      callid: voxbone.WebRTC.previous_call_id,
     };
-
-    var objStr = jQuery.param(obj);
-
-    console.log(obj);
-    console.log(objStr);
 
     $.ajax({
       type: "POST",
@@ -353,6 +350,7 @@ $(document).ready(function () {
   }
 
   voxbone.WebRTC.customEventHandler.accepted = function(e){
+    voxbone.WebRTC.previous_call_id = voxbone.WebRTC.callid;
     stopRingbackTone();
     $("#vw-title").text("In Call");
     $(".vw-animated-dots").addClass('hidden');
@@ -422,6 +420,7 @@ var VoxWidget = ( function() {
         } else {
           postMessage("openWidgetWithoutDialPad","*");
         }
+        voxbone.WebRTC.previous_call_did = config.number;
         voxbone.WebRTC.call(config.number);
       }
     }
