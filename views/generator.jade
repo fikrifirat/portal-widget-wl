@@ -120,13 +120,13 @@ block content
     }]);
 
     function setCode(value) {
-      $("#widget_code").text(value);
+      $("#widget_code").text(value.replace(/ +\n/g,''));
       $("#widget_code").html(PR.prettyPrintOne($("#widget_code").html()));
     }
 
     function prepareHtmlForCodepen() {
       console.log($("#widget_code").text());
-      return $("#widget_code").text();//.replace(/"/g, "'");
+      return $("#widget_code").text();
     }
 
     function getCode() {

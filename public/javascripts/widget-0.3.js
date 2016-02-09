@@ -1,4 +1,46 @@
+var mySource = document.currentScript.src;
+
+function loadScript(url, callback) {
+  // Adding the script tag to the head as suggested before
+  var head = document.getElementsByTagName('head')[0];
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = url;
+
+  // Then bind the event to the callback function.
+  // There are several events for cross browser compatibility.
+  script.onreadystatechange = callback;
+  script.onload = callback;
+
+  // Fire the loading
+  head.appendChild(script);
+}
+
+// $.getScript("//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.js");
+
 $(document).ready(function () {
+
+  $("<link/>", {
+     rel: "stylesheet",
+     type: "text/css",
+     href: "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  }).appendTo("head");
+
+  var docroot = mySource.substr(0, mySource.indexOf('/javascripts'))
+  console.log(docroot);
+
+  $("<link/>", {
+     rel: "stylesheet",
+     type: "text/css",
+     href: docroot + "/stylesheets/widget.css"
+  }).appendTo("head");
+
+  $("<link/>", {
+     rel: "stylesheet",
+     type: "text/css",
+     href: docroot + "/stylesheets/root.css"
+  }).appendTo("head");
+
   $('#control').append(' \
       <audio id="audio-ringback-tone" preload="auto" loop> \
         <source src="https://upload.wikimedia.org/wikipedia/commons/c/cd/US_ringback_tone.ogg" type="audio/ogg"> \
@@ -64,6 +106,23 @@ $(document).ready(function () {
               </ul> \
             </div> \
           </div> \
+          <div id="vw-rating" class="vw-rating hidden"> \
+            <form name="rating"> \
+              <div id="vw-rating-question" class="vw-question">How was the quality of your call?</div> \
+              <div id="vw-rating-stars" class="vw-stars"></div> \
+              <div id="vw-rating-message" class="vw-message">Any additional feedback? \
+                <input type="text" name="rating-message" id="rating-message" placeholder="Optional"" class="form-control"> \
+              </div> \
+              <div id="vw-rating-button" class="vw-button"> \
+                <button class="btn-style btn-style-disabled" id="send-rating"> \
+                  <span>Send</span> \
+                </button> \
+              </div> \
+            </form> \
+          </div> \
+          <div id="vw-rating-after-message" class="vw-rating hidden"> \
+            <p>Thank you for using our service</p> \
+          </div> \
           <div class="vw-footer"> \
             <a href="https://voxbone.com" target="_blank">powered by:</a> \
           </div> \
@@ -99,6 +158,7 @@ $(document).ready(function () {
         $("#vw-unable-to-acces-mic").addClass('hidden');
         $(".vw-body").removeClass('hidden');
         $("#full-screen").removeClass('hidden');
+        $(".vw-rating").addClass('hidden');
         break;
       case 'openWidget':
         $("#vw-title").text("Waiting for User Media");
@@ -109,8 +169,53 @@ $(document).ready(function () {
         $("#vw-unable-to-acces-mic").addClass('hidden');
         $(".vw-body").removeClass('hidden');
         $("#full-screen").removeClass('hidden');
+        $(".vw-rating").addClass('hidden');
         break;
       };
+  });
+
+  $('#send-rating').click(function(e) {
+    e.preventDefault();
+
+    var rate = $('#vw-rating-stars').raty('score');
+    var comment = $('#rating-message').val();
+
+    if (!rate && !comment) return;
+
+    var obj = {
+      rate: rate,
+      comment: comment,
+      url: document.URL
+    };
+
+    var objStr = jQuery.param(obj);
+
+    console.log(obj);
+    console.log(objStr);
+
+    $.ajax({
+      type: "POST",
+      url: "rate",
+      data: JSON.stringify(obj),
+      contentType: "application/json"
+    }).done($("#vw-rating-after-message").removeClass('hidden'));
+
+    $("#vw-rating").addClass('hidden');
+  });
+
+  function resetRating() {
+    $('#send-rating').addClass("btn-style-disabled");
+    $('#vw-rating-stars').raty('cancel');
+    $('#rating-message').val('');
+  };
+
+  $('#vw-rating-stars').raty({
+    starType  : 'i',
+    click     : function(score, evt) {
+      // alert("Score: " + score);
+      $('#send-rating').removeClass("btn-style-disabled");
+      $('#send-rating').addClass("btn-style");
+    }
   });
 
   function stopRingbackTone(){
@@ -135,11 +240,10 @@ $(document).ready(function () {
         // TODO: implement
         break;
       case 'microphone-mute':
-        if (voxbone.WebRTC.isMuted) {
+        if (voxbone.WebRTC.isMuted)
           voxbone.WebRTC.unmute();
-        } else {
+        else
           voxbone.WebRTC.mute();
-        }
         break;
       case '1':
       case '2':
@@ -169,17 +273,21 @@ $(document).ready(function () {
 
   $(".vw-end-call").click(function(e) {
     e.preventDefault();
+    stopRingbackTone();
     $("#vw-title").text("Call Ended");
     $(".vw-animated-dots").addClass('hidden');
-    stopRingbackTone();
     call_action('hang_up');
   });
 
   $("#close-screen i").click(function(e) {
     e.preventDefault();
     $(".vox-widget-wrapper").addClass('hidden');
-    stopRingbackTone();
-    call_action('hang_up');
+
+    // send "no rating"
+    console.log("send no rating");
+    var data =  { rate: 0, comment: 'Closed Without Rating', url: document.URL };
+    var message = { action: 'rate', data: data };
+    call_action(message);
   });
 
   $("#full-screen i").click(function(e) {
@@ -227,10 +335,10 @@ $(document).ready(function () {
   voxbone.WebRTC.customEventHandler.progress = function(e){
     $("#vw-title").text("Calling");
     $(".vw-animated-dots").removeClass('hidden');
-    // playRingbackTone();
   };
 
   voxbone.WebRTC.customEventHandler.failed = function(e){
+    stopRingbackTone();
     if (e.cause == JsSIP.C.causes.USER_DENIED_MEDIA_ACCESS) {
       $("#vw-title").text("Unable to Access Mic");
       $("#vw-unable-to-acces-mic").removeClass('hidden');
@@ -242,20 +350,23 @@ $(document).ready(function () {
     $(".vw-animated-dots").addClass('hidden');
     $(".vw-body").addClass('hidden');
     $("#full-screen").addClass('hidden');
-    stopRingbackTone();
-  };
+  }
 
   voxbone.WebRTC.customEventHandler.accepted = function(e){
+    stopRingbackTone();
     $("#vw-title").text("In Call");
     $(".vw-animated-dots").addClass('hidden');
-    stopRingbackTone();
   }
+
   voxbone.WebRTC.customEventHandler.ended = function(e){
-    $("#vw-title").text("Call Ended");
-    $(".vw-animated-dots").addClass('hidden');
-    $(".vw-body").addClass('hidden');
-    $("#full-screen").addClass('hidden');
     stopRingbackTone();
+    $("#vw-title").text("Call Ended!");
+    $("#vw-in-call").addClass('hidden');
+    $(".vw-animated-dots").addClass('hidden');
+    $(".vw-body").removeClass('hidden');
+    $("#full-screen").addClass('hidden');
+    resetRating();
+    $("#vw-rating").removeClass('hidden');
   }
 
   voxbone.WebRTC.customEventHandler.getUserMediaFailed = function(e){
@@ -283,37 +394,36 @@ $(document).ready(function () {
 });
 
 var VoxWidget = ( function() {
-		return {
+  return {
 
-		makeCall: function(config){
-			voxbone.WebRTC.configuration.uri = (new JsSIP.URI(scheme="sip", user=(config.callerId).replace(/[^a-zA-Z0-9-_]/g, ''), "voxbone.com")).toString();
-			voxbone.WebRTC.configuration.display_name = config.callerId;
-			voxbone.WebRTC.configuration.post_logs = true;
+    makeCall: function(config){
+      voxbone.WebRTC.configuration.uri = (new JsSIP.URI(scheme="sip", user=(config.callerId).replace(/[^a-zA-Z0-9-_]/g, ''), "voxbone.com")).toString();
+      voxbone.WebRTC.configuration.display_name = config.callerId;
+      voxbone.WebRTC.configuration.post_logs = true;
 
-			if(config.context) {
-		    voxbone.WebRTC.context = config.context;
-			}
+      if(config.context)
+        voxbone.WebRTC.context = config.context;
 
-			if(config.send_digits) {
+      if(config.send_digits)
         voxbone.WebRTC.configuration.dialer_string = config.send_digits;
-			}
 
-			if(config.supported == false) {
-			     console.log("WebRTC is NOT supported!" + config.ibc);
-			     if(config.ibc == 'hide_widget') return;
-			     else if(config.ibc == 'link_button_to_a_page')
-				window.open(config.link_button_to_a_page_value,'_blank');
-			} else {
-			    if (voxbone.WebRTC.isCallOpen()) {
-				return;
-			    }
-			    if(config.dial_pad=="true") {
-				postMessage("openWidget","*");
-			    } else {
-				postMessage("openWidgetWithoutDialPad","*");
-			    }
-			    voxbone.WebRTC.call(config.number);
-			}
-		}
-	};
-  })();
+      if(!config.supported) {
+        console.log("WebRTC is NOT supported!" + config.ibc);
+        if(config.ibc == 'hide_widget')
+          return;
+        else if(config.ibc == 'link_button_to_a_page')
+          window.open(config.link_button_to_a_page_value,'_blank');
+      } else {
+        if (voxbone.WebRTC.isCallOpen()) {
+          return;
+        }
+        if(config.dial_pad=="true") {
+          postMessage("openWidget","*");
+        } else {
+          postMessage("openWidgetWithoutDialPad","*");
+        }
+        voxbone.WebRTC.call(config.number);
+      }
+    }
+  };
+})();
