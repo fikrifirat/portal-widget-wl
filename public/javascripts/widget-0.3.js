@@ -2,25 +2,8 @@ var mySource = document.currentScript.src;
 var docroot = mySource.substr(0, mySource.indexOf('/javascripts'))
 console.log("docroot ->" + docroot + "<-");
 
-function loadScript(url, callback) {
-  // Adding the script tag to the head as suggested before
-  var head = document.getElementsByTagName('head')[0];
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = url;
+function loadWidget() {
 
-  // Then bind the event to the callback function.
-  // There are several events for cross browser compatibility.
-  script.onreadystatechange = callback;
-  script.onload = callback;
-
-  // Fire the loading
-  head.appendChild(script);
-}
-
-// $.getScript("//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.js");
-
-$(document).ready(function () {
   $("<link/>", {
      rel: "stylesheet",
      type: "text/css",
@@ -389,7 +372,7 @@ $(document).ready(function () {
   }
 
   JsSIP.debug.enable('JsSIP:*');
-});
+};
 
 var VoxWidget = ( function() {
   return {
@@ -426,3 +409,5 @@ var VoxWidget = ( function() {
     }
   };
 })();
+
+$.getScript("//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.js", loadWidget);
