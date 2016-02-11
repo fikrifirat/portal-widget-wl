@@ -39,3 +39,8 @@ Then you can launch the node application:
 `npm start`
 
 By default the application will listen to port 3000
+
+## Landing Page for [TestRTC](http://testrtc.com/)
+
+* `docRoot`/html/testrtc.html
+
