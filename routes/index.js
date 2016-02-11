@@ -7,6 +7,13 @@ var docroot = process.env.DOCROOT || "http://0.0.0.0:3000/click2vox";
 
 var Spreadsheet = require('edit-google-spreadsheet');
 
+router.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 router.get('/', function(req, res, next) {
   res.render('generator', { title: title, request: req, docRoot: docroot });
 });

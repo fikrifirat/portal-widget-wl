@@ -1,4 +1,6 @@
 var mySource = document.currentScript.src;
+var docroot = mySource.substr(0, mySource.indexOf('/javascripts'))
+console.log("docroot ->" + docroot + "<-");
 
 function loadScript(url, callback) {
   // Adding the script tag to the head as suggested before
@@ -19,15 +21,11 @@ function loadScript(url, callback) {
 // $.getScript("//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.js");
 
 $(document).ready(function () {
-
   $("<link/>", {
      rel: "stylesheet",
      type: "text/css",
      href: "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
   }).appendTo("head");
-
-  var docroot = mySource.substr(0, mySource.indexOf('/javascripts'))
-  console.log(docroot);
 
   $("<link/>", {
      rel: "stylesheet",
@@ -190,9 +188,11 @@ $(document).ready(function () {
       callid: voxbone.WebRTC.previous_call_id,
     };
 
+    console.log(JSON.stringify(obj));
+
     $.ajax({
       type: "POST",
-      url: "rate",
+      url: docroot + "/rate",
       data: JSON.stringify(obj),
       contentType: "application/json"
     }).done($("#vw-rating-after-message").removeClass('hidden'));
