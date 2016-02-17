@@ -65,9 +65,12 @@ app.locals.globalScripts = [
 ];
 
 app.locals.voxboneScripts = [
-  "public/javascripts/jssip-0.7.9-vox.js",
-  "public/javascripts/voxbone-0.0.4.js",
-  "public/javascripts/widget-0.3.js"
+  "//webrtc.voxbone.com/js/jssip-latest.js",
+  "//webrtc.voxbone.com/js/voxbone-latest.js"
+];
+
+app.locals.click2voxScripts = [
+  app.locals.docroot+"/javascripts/widget-0.3.js"
 ];
 
 app.locals.globalCss = [
@@ -78,4 +81,4 @@ app.locals.globalCss = [
 
 module.exports = app;
 
-minifier.minify(app.locals.voxboneScripts, {template: 'widget.min.js'});
+// minifier.minify(app.locals.click2voxScripts, {template: 'widget.min.js'});

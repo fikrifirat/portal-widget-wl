@@ -1,7 +1,11 @@
 - var using_auth_server = request.query.authUrl
 - var using_basic_auth = request.query.basic_auth == 1
 
-script(src=docroot+"/javascripts/widget.min.js")
+each script in voxboneScripts
+  script(type='text/javascript', src=script)
+
+each script in click2voxScripts
+  script(type='text/javascript', src=script)
 
 if using_auth_server
   script(src=request.query.authUrl)
