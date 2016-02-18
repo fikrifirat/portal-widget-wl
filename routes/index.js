@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var title = 'Voxbone Widget Generator 1.0';
-var docroot = process.env.DOCROOT || "http://0.0.0.0:3000/click2vox/";
+var docroot = process.env.DOCROOT || "http://127.0.0.1:3000/click2vox/";
 var pjson = require('../package.json');
 
 router.get('/', function(req, res, next) {
