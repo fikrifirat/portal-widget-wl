@@ -52,7 +52,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.locals.docroot = process.env.DOCROOT || "http://0.0.0.0:3000/click2vox";
+app.locals.docroot = process.env.DOCROOT;
 
 app.locals.globalScripts = [
   '//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js',

@@ -84,18 +84,15 @@ block content
                                   });
           }
           $scope.updateIncompatible = function() {
-              if(myScope.incompatible_browser_configuration == 'show_text_html') {
-                $('.widget-box').hide();
-                $('#not-supported-message').removeClass('hidden');
-                $('#launch_call').hide();
-              } else if(myScope.incompatible_browser_configuration == 'hide_widget') {
-                $('.widget-box').hide();
-                $('#not-supported-message').addClass('hidden');
-              } else {
-                $('.widget-box').show();
-                $('#launch_call').show();
-                $('#not-supported-message').addClass('hidden');
-              }
+            if(myScope.incompatible_browser_configuration == 'show_text_html') {
+              $('#not-supported-message').removeClass('hidden');
+              $('#launch_call').hide();
+            } else if(myScope.incompatible_browser_configuration == 'hide_widget') {
+              $('#not-supported-message').addClass('hidden');
+            } else {
+              $('#launch_call').show();
+              $('#not-supported-message').addClass('hidden');
+            }
           }
 
           $scope.updateText = function() {
