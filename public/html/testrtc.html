@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TestRTC</title>
+</head>
+<body>
+<script src="https://pre-prod-click2vox.herokuapp.com/click2vox/javascripts/widget.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../stylesheets/root.css" rel="stylesheet"/>
+<link href="../stylesheets/widget.css" rel="stylesheet"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<div style="width:300px">
+  <script src="//webrtc.voxbone.com/js/jssip-0.7.9-vox.js"></script>
+  <script src="//webrtc.voxbone.com/js/voxbone-0.0.4.js"></script>
+  <script src="../javascripts/widget-0.2.js"></script>
+  <script>
+    var supported = voxbone.WebRTC.isWebRTCSupported();
+    
+    function makeCall(){
+        var config = { 'callerId': "click2vox",
+                       'dial_pad': true,
+                       'context': "",
+                       'send_digits': "",
+                       'ibc': "hide_widget",
+                       'link_button_to_a_page_value': "",
+                       'number': "883510080253",
+                       'supported': supported
+                     };
+    
+        VoxWidget.makeCall(config);
+    };
+    
+  </script>
+  <script>
+    $(document).ready(function () {
+        if(!supported) {
+            
+            $('.widget-box').hide();
+        } else {
+            var username = "voxbonedev";
+            var secret = "RhgjedGu^@*9";
+            voxbone.WebRTC.basicAuthInit(username, secret);
+            voxbone.WebRTC.customEventHandler.authExpired= function() { voxbone.WebRTC.basicAuthInit(username, secret);};
+        }
+    });
+    
+  </script>
+  <div id="not-supported-message" class="not-supported hidden"></div>
+  <div style="max-width: 400px" class="widget-box style-b">
+    <button id="launch_call" class="btn-style"><span>Click-To-TestRTC</span></button>
+    <div id="control"></div>
+    <div class="widget-footer-right style-b"><a href="http://www.voxbone.com" target="_blank">powered by:</a></div>
+  </div>
+</div>
+</body>
+</html>
+
