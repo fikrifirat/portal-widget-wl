@@ -101,6 +101,7 @@ $(document).ready(function () {
         $("#full-screen").removeClass('hidden');
         break;
       case 'openWidget':
+        $("#dialpad").removeClass('hidden');
         $("#vw-title").text("Waiting for User Media");
         $("#microphone em").removeClass('on').removeClass('off');
         $(".vw-animated-dots").removeClass('hidden');
