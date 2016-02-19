@@ -142,6 +142,7 @@ function loadWidget() {
         $(".vw-rating").addClass('hidden');
         break;
       case 'openWidget':
+        $("#dialpad").removeClass('hidden');
         $("#vw-title").text("Waiting for User Media");
         $("#microphone em").removeClass('on').removeClass('off');
         $(".vw-animated-dots").removeClass('hidden');
@@ -199,11 +200,13 @@ function loadWidget() {
   });
 
   function stopRingbackTone(){
+    console.log("stopRingbackTone ->", Date().toLocaleString());
     $("#audio-ringback-tone").trigger('pause');
     $("#audio-ringback-tone").prop("currentTime",0);
   };
 
   function playRingbackTone(){
+    console.log("playRingbackTone ->", Date().toLocaleString());
     $("#audio-ringback-tone").prop("currentTime",0);
     $("#audio-ringback-tone").trigger('play');
   };
@@ -389,20 +392,23 @@ var VoxWidget = ( function() {
         voxbone.WebRTC.configuration.dialer_string = config.send_digits;
 
       if(!config.supported) {
-        console.log("WebRTC is NOT supported!" + config.ibc);
-        if(config.ibc == 'hide_widget')
+        console.log("WebRTC is NOT supported!", config.ibc);
+
+        if(config.ibc === 'hide_widget')
           return;
-        else if(config.ibc == 'link_button_to_a_page')
+        else if(config.ibc === 'link_button_to_a_page')
           window.open(config.link_button_to_a_page_value,'_blank');
+
       } else {
-        if (voxbone.WebRTC.isCallOpen()) {
+
+        if (voxbone.WebRTC.isCallOpen())
           return;
-        }
-        if(config.dial_pad=="true") {
+
+        if(config.dial_pad === "true")
           postMessage("openWidget","*");
-        } else {
+        else
           postMessage("openWidgetWithoutDialPad","*");
-        }
+
         voxbone.WebRTC.previous_call_did = config.number;
         voxbone.WebRTC.call(config.number);
       }
