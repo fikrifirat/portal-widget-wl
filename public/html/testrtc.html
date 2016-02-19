@@ -5,14 +5,15 @@
   <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.png">
 </head>
 <body>
+
 <script>window.jQuery || document.write("<script src='//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'>\x3C/script>")</script>
 <script type="text/javascript" src="//webrtc.voxbone.com/js/jssip-latest.js"></script>
-<script type="text/javascript" src="//webrtc.voxbone.com/js/voxbone-latest.js"></script>
-<script type="text/javascript" src="http://0.0.0.0:3000/click2vox/javascripts/widget-0.3.js"></script>
+<script type="text/javascript" src="../../click2vox/javascripts/voxbone-0.0.5.js"></script>
+<script type="text/javascript" src="../../click2vox/javascripts/widget-0.3.js"></script>
 <script>
   var supported = voxbone.WebRTC.isWebRTCSupported();
   function makeCall(){
-    VoxWidget.makeCall({ 'callerId': "click2vox-test", 'dial_pad': "true", 'context': "", 'send_digits': "1,3,500ms,4", 'ibc': "link_button_to_a_page", 'link_button_to_a_page_value': "http://google.com", 'number': "883510080292", 'supported': supported});
+    VoxWidget.makeCall({ 'callerId': "click2vox", 'dial_pad': "true", 'context': "", 'send_digits': "", 'ibc': "hide_widget", 'link_button_to_a_page_value': "", 'number': "883510080292", 'supported': supported});
   };
   $(document).ready(function () {
     if(supported) {
@@ -20,15 +21,17 @@
       voxbone.WebRTC.basicAuthInit(username, secret);
       voxbone.WebRTC.customEventHandler.authExpired= function() { voxbone.WebRTC.basicAuthInit(username, secret);};
     } else {
+      $('.widget-box').hide();
     }
   });
 </script>
 <div id="widget-box" style="max-width: 400px" class="widget-box style-b">
-  <div id="not-supported-message" class="not-supported hidden"><h1>HOLAasdasdads</h1>aaddd</div>
+  <div id="not-supported-message" class="not-supported hidden"></div>
   <button id="launch_call" class="btn-style"><span>Call Sales</span></button>
   <div id="control">
     <div class="widget-footer-right style-b"><a href="https://www.voxbone.com" target="_blank">powered by:</a></div>
   </div>
 </div>
+
 </body>
 </html>

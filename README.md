@@ -4,18 +4,11 @@
 
 When trying to host this widget generator for your self, please modify the variable `docroot` in `routes/index.js` to correspond to the URL where you are hosting the widget generator or you can set an environment variable called `DOCROOT` with the corresponding value.
 
-Also for saving properly the ratings submitted by the caller, we need to set
-`CLIENT_ID`, `CLIENT_SECRET` & `REFRESH_TOKEN` (in order to get a new pair of these, refer to file `get_google_drive_token.js`).
-`SPREADSHEET_NAME` & `WORKSHEET_NAME` are also needed to determine to which document the ratings should be sent
-
 Envionment Variable | Meaning
 ----------|--------
-DOCROOT | Url where the as is being hosted (i.e. http://0.0.0.0:3000, http://127.0.0.1:3000, http://voxbone.com/clickvox) no trailing slash 
-CLIENT_ID       | Google API's Client ID
-CLIENT_SECRET     | Google API's Client Secret Token
-REFRESH_TOKEN  | Google API's Refresh Token
-SPREADSHEET_NAME| Google Spreadsheet Name for your rating target document
-WORKSHEET_NAME| Google Worksheet Name in your SPREADSHEET_NAME document (Defaults to `Sheet1`)
+DOCROOT | Url where the as is being hosted (i.e. http://0.0.0.0:3000, http://127.0.0.1:3000, http://voxbone.com/clickvox) no trailing slash
+
+Also the ratings will be posted to Kibana through `voxbone.WebRTC.postCallRating(did, rating, comment, url)`
 
 ## Accessing the generator
 
@@ -35,7 +28,6 @@ Example form can be found at `docRoot`/html/widget_form.html
 First install the required dependencies:
 `npm install`
 
-
 Then you can launch the node application:
 `npm start`
 
@@ -44,4 +36,3 @@ By default the application will listen to port 3000
 ## Landing Page for [TestRTC](http://testrtc.com/)
 
 * `docRoot`/html/testrtc.html
-
