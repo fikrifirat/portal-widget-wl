@@ -10,6 +10,7 @@ Also for saving properly the ratings submitted by the caller, we need to set
 
 Envionment Variable | Meaning
 ----------|--------
+DOCROOT | Url where the as is being hosted (i.e. http://0.0.0.0:3000, http://127.0.0.1:3000, http://voxbone.com/clickvox) no trailing slash 
 CLIENT_ID       | Google API's Client ID
 CLIENT_SECRET     | Google API's Client Secret Token
 REFRESH_TOKEN  | Google API's Refresh Token
