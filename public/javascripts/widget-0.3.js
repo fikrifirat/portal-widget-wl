@@ -1,6 +1,5 @@
 var mySource = document.currentScript.src;
 var docroot = mySource.substr(0, mySource.indexOf('/javascripts'))
-console.log("docroot ->" + docroot + "<-");
 
 function loadWidget() {
 
@@ -112,11 +111,9 @@ function loadWidget() {
   ');
 
   window.addEventListener('message', function(event) {
-    // console.log(event.data);
     var message = event.data;
 
     if (typeof message === 'string' && message.substring(0,12) == 'setMicVolume') {
-      // console.log("Vol -> " + message.substring(12,13));
       var vol = parseInt(message.substring(12,13));
 
       $("#microphone em").removeClass();
@@ -163,25 +160,10 @@ function loadWidget() {
     var comment = $('#rating-message').val();
 
     if (!rate && !comment) return;
-
-    var obj = {
-      rate: rate,
-      comment: comment,
-      url: document.URL,
-      did: voxbone.WebRTC.previous_call_did,
-      callid: voxbone.WebRTC.previous_call_id,
-    };
-
-    console.log(JSON.stringify(obj));
-
-    $.ajax({
-      type: "POST",
-      url: docroot + "/rate",
-      data: JSON.stringify(obj),
-      contentType: "application/json"
-    }).done($("#vw-rating-after-message").removeClass('hidden'));
+    send_rating(rate, comment);
 
     $("#vw-rating").addClass('hidden');
+    $("#vw-rating-after-message").removeClass('hidden');
   });
 
   function resetRating() {
@@ -211,7 +193,7 @@ function loadWidget() {
     $("#audio-ringback-tone").trigger('play');
   };
 
-  function send_voxbone_interaction(message){
+  function call_action(message){
     if (!(typeof voxbone.WebRTC.rtcSession.isEstablished === "function") || voxbone.WebRTC.rtcSession.isEnded())
       return;
 
@@ -245,9 +227,16 @@ function loadWidget() {
     }
   };
 
-  function call_action(message) {
-    send_voxbone_interaction(message);
-  };
+  function send_rating(rating, comment) {
+    if (!voxbone.WebRTC.can_rate) return;
+
+    var did = voxbone.WebRTC.previous_call_did || 'No DID';
+    var url = document.URL;
+
+    console.log("postCallRating", did, rating, comment, url);
+    voxbone.WebRTC.postCallRating(did, rating, comment, url);
+    voxbone.WebRTC.can_rate = false;
+  }
 
   $('.vw-dialpad li').click(function(e) {
     e.preventDefault();
@@ -264,13 +253,10 @@ function loadWidget() {
 
   $("#close-screen i").click(function(e) {
     e.preventDefault();
+    stopRingbackTone();
     $(".vox-widget-wrapper").addClass('hidden');
-
-    // send "no rating"
-    console.log("send no rating");
-    var data =  { rate: 0, comment: 'Closed Without Rating', url: document.URL };
-    var message = { action: 'rate', data: data };
-    call_action(message);
+    send_rating(0, 'Closed Without Rating');
+    call_action('hang_up');
   });
 
   $("#full-screen i").click(function(e) {
@@ -333,9 +319,11 @@ function loadWidget() {
     $(".vw-animated-dots").addClass('hidden');
     $(".vw-body").addClass('hidden');
     $("#full-screen").addClass('hidden');
+    $("#vw-rating-after-message").removeClass('hidden');
   }
 
   voxbone.WebRTC.customEventHandler.accepted = function(e){
+    voxbone.WebRTC.can_rate = true;
     voxbone.WebRTC.previous_call_id = voxbone.WebRTC.callid;
     stopRingbackTone();
     $("#vw-title").text("In Call");
@@ -344,7 +332,7 @@ function loadWidget() {
 
   voxbone.WebRTC.customEventHandler.ended = function(e){
     stopRingbackTone();
-    $("#vw-title").text("Call Ended!");
+    $("#vw-title").text("Call Ended");
     $("#vw-in-call").addClass('hidden');
     $(".vw-animated-dots").addClass('hidden');
     $(".vw-body").removeClass('hidden');
