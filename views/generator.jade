@@ -271,11 +271,10 @@ block content
                     button.btn-style-a(ng-click="button_style = 'style-a';generateCode()") #[span {{buttonText || 'Call Sales'}}]
                     button.btn-style-b(ng-click="button_style = 'style-b';generateCode()") #[span {{buttonText || 'Call Sales'}}]
                   .form-group
-                    label Show Voxbone branding:
-                    input(type="checkbox" name="voxbone_branding" ng-model="voxbone_branding" ng-change="toggleVoxboneBrandingOnWidget(); generateCode()" )
-                    span  Enabled?
-                    span.badge(data-toggle='tooltip' data-placement="right" title="Display (or not)the legend 'Powered by Voxbone' on the generated widget") ?
-
+                    label(for="btn-context")
+                      input(type="checkbox" name="voxbone_branding" ng-model="voxbone_branding" ng-change="toggleVoxboneBrandingOnWidget(); generateCode()")
+                      span  Branding
+                      span.badge(data-toggle='tooltip' data-placement="right" title="Display (or not) the legend 'Powered by Voxbone' on the generated widget") ?
             section
               span.title Call Configuration
               form#widget_form(name="widget_form", novalidate)
@@ -302,9 +301,9 @@ block content
                           input.form-control(type="text", name="context", ng-model="context" ng-change="generateCode()" ng-model-options="{ updateOn: 'blur' }")
                         .form-group
                           label(for="btn-context")
-                                input(type="checkbox" name="dial_pad" ng-model="dial_pad" ng-change="generateCode()")
-                                span  DTMF Dial Pad
-                                span.badge(data-toggle='tooltip' data-placement="right" title="Display a dialpad to allow your users to enter DTMF digits during a call.") ?
+                            input(type="checkbox" name="dial_pad" ng-model="dial_pad" ng-change="generateCode()")
+                            span  DTMF Dial Pad
+                            span.badge(data-toggle='tooltip' data-placement="right" title="Display a dialpad to allow your users to enter DTMF digits during a call.") ?
                         .form-group
                           label(for="btn-context") Send Digits  #[span.badge(data-toggle='tooltip' data-placement="right" data-html="true" title="Automatically send DTMF digit(s) after a call is connected. This is useful for automatically navigating IVRs or entering access codes for a conference bridge. Digits should use the following format: <br><br>'1,2,3,1200ms,4,5,900ms,6,#'<br><br>This string will  generate 1 2 3, wait 1200 milliseconds, enter 4, 5, wait 900 milliseconds then enter 6, #") ?]
                           input.form-control(type="text", name="send_digits", ng-model="send_digits" ng-change="generateCode()" ng-model-options="{ updateOn: 'blur' }")
