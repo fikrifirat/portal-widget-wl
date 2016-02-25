@@ -31,7 +31,7 @@ JsSIP.VoxboneLogger.setInfo(function() {
 		} else {
 			voxbone.Logger.addLogToBuffer("INFO: "+args[0]);
 		}
-		 
+
 	});
 
 JsSIP.VoxboneLogger.setError = function () {
@@ -59,7 +59,7 @@ extend(voxbone, {
 			voxbone.WebRTC.webrtcLogs = voxbone.WebRTC.webrtcLogs.concat("\r\n");
 			voxbone.WebRTC.webrtcLogs = voxbone.WebRTC.webrtcLogs.concat(log);
 		}
-	
+
 	}
 })
 /**
@@ -265,13 +265,13 @@ extend(voxbone, {
 			'register': false,
 			/**
 			 * dialer_string
-			 * Digits to dial after call is established 
+			 * Digits to dial after call is established
 			 * dialer string is comma separated, to define a specfic pause between digits,
 			 * we add another entry like 1,700ms,2, this will add a 700ms of pause between
 			 * digits 1 & 2.
 			 * Example = '1,2,3,1200ms,4,5,900ms,6,#'
 			*/
-			'dialer_string': undefined, 
+			'dialer_string': undefined,
 			'digit_duration': 100,  // duration of a digit
 			'digit_gap': 500 // pause between two digits
 		},
@@ -452,13 +452,13 @@ extend(voxbone, {
             video.src = (window.URL ? URL : webkitURL).createObjectURL(videoStream);
             return video;
         },
-	
+
 
         sendPreConfiguredDtmf : function(digitsPending){
 		var digit = undefined;
-		var pause = 0; 
+		var pause = 0;
 		var digit_sent = false;
-		
+
 		if (voxbone.WebRTC.dtmfTimer !== undefined) {
 			clearTimeout(voxbone.WebRTC.dtmfTimer);
 			voxbone.WebRTC.dtmfTime = undefined;
@@ -487,9 +487,9 @@ extend(voxbone, {
 					voxbone.WebRTC.sendPreConfiguredDtmf(digitsPending);
 					}, nextDigitGap);
 			}
-			
+
 		}
-		
+
 	},
         postCallRating : function(e164, rating, comment, url){
 		if (voxbone.WebRTC.previous_callid !== undefined) {
@@ -509,7 +509,7 @@ extend(voxbone, {
 				}
 			});
 			/*
-			 *We are assuming that postCallRating is the 
+			 *We are assuming that postCallRating is the
 			 *only function using previous_callid, so
                          *we can nuke it here
 			*/
@@ -518,7 +518,7 @@ extend(voxbone, {
 
 	},
         postLogsToServer : function(){
-		if (voxbone.WebRTC.configuration.post_logs == true) {	
+		if (voxbone.WebRTC.configuration.post_logs == true) {
 			/*Push the webrtc logs to the logging server*/
 			if (voxbone.WebRTC.configuration.webrtc_log !== undefined) {
 				$.ajax({
@@ -556,7 +556,7 @@ extend(voxbone, {
 		voxbone.WebRTC.callid = "";
 		voxbone.WebRTC.webrtcLogs = "";
 		voxbone.WebRTC.rtcSession = {};
-		
+
 	},
 		/**
 		 * Place a call on a given phone number.
@@ -566,7 +566,7 @@ extend(voxbone, {
 		 * @param destPhone phone number to dial in E164 format.
 		 */
 		call: function (destPhone) {
-			var uri = new JsSIP.URI('sip', destPhone, 'voxout.voxbone.com'); 
+			var uri = new JsSIP.URI('sip', destPhone, 'voxout.voxbone.com');
 			if (this.preferedPop == undefined) {
 				this.preferedPop = voxbone.Pinger.getBestPop().name;
 			}
@@ -588,7 +588,7 @@ extend(voxbone, {
 							if(streams[i].getAudioTracks().length > 0) {
 								/*activate the local volume monitoring*/
 								try {
-						        		voxbone.WebRTC.audioContext = new AudioContext();	
+						        		voxbone.WebRTC.audioContext = new AudioContext();
 								}
 								catch (e) {
 									voxbone.Logger.logerror("Web Audio API not supported");
@@ -601,7 +601,7 @@ extend(voxbone, {
 									var input = event.inputBuffer.getChannelData(0);
 									var i;
 									var sum = 0.0;
-									for (i = 0; i < input.length; ++i) {	
+									for (i = 0; i < input.length; ++i) {
 										sum += input[i] * input[i];
 									}
 									voxbone.WebRTC.localVolume = Math.sqrt(sum / input.length);
@@ -613,7 +613,7 @@ extend(voxbone, {
 								break;
 							}
 					 	}
-						
+
 					},
 					'sending': function (e) {
 						voxbone.WebRTC.callid = e.request.call_id;
@@ -625,7 +625,7 @@ extend(voxbone, {
 						voxbone.Logger.logerror("Call failed, Failure cause is " +e.cause);
 						voxbone.WebRTC.postLogsToServer();
 						voxbone.WebRTC.cleanUp();
-						if (e.cause == JsSIP.C.causes.USER_DENIED_MEDIA_ACCESS) { 
+						if (e.cause == JsSIP.C.causes.USER_DENIED_MEDIA_ACCESS) {
 							voxbone.WebRTC.customEventHandler.getUserMediaFailed(e);
 						}
 						voxbone.WebRTC.customEventHandler.failed(e);
@@ -665,10 +665,10 @@ extend(voxbone, {
 					ice_servers.push(this.configuration.turn_servers[i]);
 				}
 				options.pcConfig.iceServers = ice_servers;
-				
+
 				/**
 				  * Stop the ice gathering process 10 seconds after we
-			          * we have atleast 1 relay candidate 
+			          * we have atleast 1 relay candidate
                                 */
                                 options.pcConfig.gatheringTimeoutAfterRelay = 5000;
 			}
@@ -682,12 +682,13 @@ extend(voxbone, {
 				this.phone.on('newRTCSession', function(data) { data.session.on('connecting', function(e) {voxbone.WebRTC.customEventHandler.getUserMediaAccepted(e);}) });
 				this.phone.start();
 			} else {
+				this.phone.configuration = this.configuration;
 				this.rtcSession = this.phone.call(uri.toAor(), options);
 			}
 		      },
 		/**
 		 * Checks if user is in an established
-                 * call or if a call attempt is in progress, 
+                 * call or if a call attempt is in progress,
 		 * returns true if any of the above conditions
 		 * is true otherwise returns false
 		 *
@@ -695,10 +696,10 @@ extend(voxbone, {
 		 */
 		isCallOpen : function() {
 			if (typeof voxbone.WebRTC.rtcSession.isEstablished === "function" && typeof voxbone.WebRTC.rtcSession.isInProgress === "function") {
-				if ((voxbone.WebRTC.rtcSession.isInProgress() == true) || (voxbone.WebRTC.rtcSession.isEstablished() == true)) {	
+				if ((voxbone.WebRTC.rtcSession.isInProgress() == true) || (voxbone.WebRTC.rtcSession.isEstablished() == true)) {
 					return true;
 				}
-			} 
+			}
 			return false;
 		},
 
