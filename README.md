@@ -6,7 +6,7 @@ When trying to host this widget generator for your self, please modify the varia
 
 Envionment Variable | Meaning
 ----------|--------
-DOCROOT | Url where the as is being hosted (i.e. http://0.0.0.0:3000, http://127.0.0.1:3000, http://voxbone.com/clickvox) no trailing slash
+DOCROOT | Url where the as is being hosted (i.e. http://0.0.0.0:3000, http://127.0.0.1:3000, https://voxbone.com/clickvox) no trailing slash
 
 Also the ratings will be posted to Kibana through `voxbone.WebRTC.postCallRating(did, rating, comment, url)`
 
