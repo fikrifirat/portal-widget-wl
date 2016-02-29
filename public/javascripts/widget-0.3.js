@@ -335,10 +335,16 @@ function loadWidget() {
     $("#vw-title").text("Call Ended");
     $("#vw-in-call").addClass('hidden');
     $(".vw-animated-dots").addClass('hidden');
-    $(".vw-body").removeClass('hidden');
     $("#full-screen").addClass('hidden');
     resetRating();
-    $("#vw-rating").removeClass('hidden');
+
+    if(voxbone.WebRTC.enable_rating) {
+      $(".vw-body").removeClass('hidden');
+      $("#vw-rating").removeClass('hidden');
+    }
+    else {
+      $(".vw-body").addClass('hidden');
+    }
   }
 
   voxbone.WebRTC.customEventHandler.getUserMediaFailed = function(e){
@@ -372,6 +378,7 @@ var VoxWidget = ( function() {
       voxbone.WebRTC.configuration.uri = (new JsSIP.URI(scheme="sip", user=(config.callerId).replace(/[^a-zA-Z0-9-_]/g, ''), "voxbone.com")).toString();
       voxbone.WebRTC.configuration.display_name = config.callerId;
       voxbone.WebRTC.configuration.post_logs = true;
+      voxbone.WebRTC.enable_rating = config.enable_rating === 'true';
 
       if(config.context)
         voxbone.WebRTC.context = config.context;
