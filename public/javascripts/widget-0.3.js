@@ -343,8 +343,7 @@ function loadWidget() {
       $("#vw-rating").removeClass('hidden');
     }
     else {
-      $("#vw-rating").addClass('hidden');
-      $("#vw-rating-after-message").removeClass('hidden');
+      $(".vw-body").addClass('hidden');
     }
   }
 
