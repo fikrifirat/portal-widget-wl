@@ -90,11 +90,12 @@ block content
           $scope.updateIncompatible = function() {
             if(myScope.incompatible_browser_configuration == 'show_text_html') {
               $('#not-supported-message').removeClass('hidden');
-              $('#launch_call').hide();
+              $('.widget-box').hide();
             } else if(myScope.incompatible_browser_configuration == 'hide_widget') {
               $('#not-supported-message').addClass('hidden');
+              $('.widget-box').hide();
             } else {
-              $('#launch_call').show();
+              $('.widget-box').show();
               $('#not-supported-message').addClass('hidden');
             }
           }
@@ -119,7 +120,6 @@ block content
               $scope.preview_webrtc_compatible = mode;
               if(mode) {
                 $('.widget-box').show();
-                $('#launch_call').show();
                 $('#not-supported-message').addClass('hidden');
               } else {
                 $scope.updateIncompatible();
