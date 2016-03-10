@@ -66,7 +66,7 @@ app.locals.globalScripts = [
 
 app.locals.voxboneScripts = [
   "//webrtc.voxbone.com/js/jssip-latest.js",
-  app.locals.docroot+"/javascripts/voxbone-0.0.5.js"
+  "//webrtc.voxbone.com/js/voxbone-0.0.5.js"
   // "//webrtc.voxbone.com/js/voxbone-latest.js"
 ];
 
