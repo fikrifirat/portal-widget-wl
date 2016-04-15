@@ -71,7 +71,7 @@ app.locals.voxboneScripts = [
 ];
 
 app.locals.click2voxScripts = [
-  app.locals.docroot+"/javascripts/widget-0.3.js"
+  app.locals.docroot+"/javascripts/widget-0.4.js"
 ];
 
 app.locals.globalCss = [

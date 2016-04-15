@@ -24,19 +24,19 @@ script.
       !{!using_auth_server && using_basic_auth ? "voxbone.WebRTC.basicAuthInit(username, secret);" : ""}
       !{!using_auth_server && using_basic_auth ? "voxbone.WebRTC.customEventHandler.authExpired= function() { voxbone.WebRTC.basicAuthInit(username, secret);};" : ""}
     } else {
-      !{request.query.incompatibleBrowserConfiguration == 'show_text_html' ? "$('.widget-box').hide();$('#not-supported-message').removeClass('hidden');":""}
+      !{request.query.incompatibleBrowserConfiguration == 'show_text_html' ? "$('.widget-box').hide();$('#vox-not-supported-message').removeClass('hidden');":""}
       !{request.query.incompatibleBrowserConfiguration == 'hide_widget' ? "$('.widget-box').hide();":""}
     }
   });
-.not-supported.hidden#not-supported-message
+.vox-not-supported.hidden#vox-not-supported-message
   | !{using_widget ? request.query.showTextHtmlValue : "{{show_text_html_value}}"}
-.widget-box#control(style="max-width: 400px" class="#{request.query.buttonStyle || '{{button_style}}'}")
+.widget-box#vox-control(style="max-width: 400px" class="#{request.query.buttonStyle || '{{button_style}}'}")
   if "buttonText" in request.query
-    button.btn-style#launch_call #[span #{request.query.buttonText}]
+    button.btn-style#vox-launch-call #[span #{request.query.buttonText}]
   else
-    button.btn-style#launch_call #[span {{buttonText}}]
+    button.btn-style#vox-launch-call #[span {{buttonText}}]
 
   if show_voxbone_branding
-    #footer.widget-footer-right(class="#{request.query.buttonStyle || '{{button_style}}'}")
+    #vox-footer.widget-footer-right(class="#{request.query.buttonStyle || '{{button_style}}'}")
       a(href="https://www.voxbone.com" target="_blank") powered by:
 
