@@ -77,7 +77,7 @@ app.locals.click2voxScripts = [
 app.locals.globalCss = [
   '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',
   app.locals.docroot+"/stylesheets/root.css",
-  app.locals.docroot+"/stylesheets/widget.css"
+  app.locals.docroot+"/stylesheets/widget-0.4.css"
 ];
 
 module.exports = app;
