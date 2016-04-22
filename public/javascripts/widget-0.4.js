@@ -6,7 +6,7 @@ function loadWidget() {
   $("<link/>", {
      rel: "stylesheet",
      type: "text/css",
-     href: docroot + "/stylesheets/widget.css"
+     href: docroot + "/stylesheets/widget-0.4.css"
   }).appendTo("head");
 
   $('#vox-control').append(' \
