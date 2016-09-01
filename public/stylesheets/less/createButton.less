@@ -1,10 +1,37 @@
+.b-r-t{
+  .border-radius(6px, 6px, 6px, 0);
+}
+
+.preview-link {
+  left: 15px;
+  bottom: 5px;
+  position: absolute;
+}
+
 .createButton{
+  .panel-heading a:after {
+    font-family:'Glyphicons Halflings';
+    content:"\e114";
+    float: right;
+    color: grey;
+  }
+  .panel-heading a.collapsed:after {
+      content:"\e080";
+  }
+  .options-wrap {
+    padding: 10px !important;
+  }
   .header{
     h1{
     }
     p{
-      font-size: 13px; 
+      font-size: 13px;
     }
+  }
+  .badge{
+    padding: 2px 5px;
+    font-size: 10px;
+    margin: 0 4px;
   }
   .body{
     width: 100%;
@@ -13,12 +40,15 @@
     padding-top: 40px;
     .halfColorBg;
     .left-col{
-      padding-right: 50px;
+      @media (min-width: 992px) {
+        padding-right: 50px;
+      }
     }
     .right-col{
-      padding-left: 50px;
+      @media (min-width: 992px) {
+        padding-left: 50px;
+      }
     }
-    
   }
   .title{
     display: block;
@@ -32,11 +62,23 @@
     margin-bottom: 20px;
     border: 1px solid @border-grey;
     .rounded(6px);
-    
+    &.preview {
+      border-top-left-radius: 0;
+    }
+    button{
+      margin: 0 5px 10px;
+    }
     label{
       display: block;
       color: @subText;
       margin-bottom: 2px;
+    }
+    .radio-name{
+      margin: 0px 5px;
+      display: inline-block;
+    }
+    .form-control{
+      margin-top: 8px;
     }
   }
   .sub-config{
@@ -48,8 +90,8 @@
       font-weight: normal;
       color: @subText;
       margin-bottom: 10px;
-      
-      
+
+
       &:before{
         content: "\f054";
         font:normal normal normal 12px/1 FontAwesome;
@@ -65,7 +107,7 @@
       display: none;
       padding: 10px 10px 0;
       border: 1px solid @border-grey;
-      .rounded(6px);      
+      .rounded(6px);
       margin-bottom: 10px;
       .checkbox{
         margin: 0;
@@ -87,13 +129,17 @@
     }
 
   }
+  .nav-tabs>li.active>a{
+    background: #FBFCFC;
+  }
   .preview{
     background: #f0f4f7;
     padding: 0;
+
     .prev-view{
       position: relative;
       padding: 45px 60px 45px;
-      .border-radius(5px, 0, 0, 5px);
+      .border-radius(5px, 0, 0, 0);
       border-bottom: 1px solid @border-grey;
       &.dark{
         background: #363636;
@@ -125,22 +171,50 @@
             background: #fbfcfc;
           }
         }
-        
       }
-    } 
-    .prev-code{ 
+      .togle-bg-tooltip{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        a{
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          .rounded(4px);
+          border: 1px solid #ddd;
+          margin-left: 2px;
+        }
+      }
+      button {
+        margin: 0;
+        &[disabled]{
+          cursor: not-allowed;
+          filter: alpha(opacity=65);
+          -webkit-box-shadow: none;
+          box-shadow: none;
+          opacity: .65;
+        }
+      }
+    }
+    .prev-code{
       padding: 20px;
       .title{
         p{
           font-size: 12px;
           font-weight: normal;
-        } 
+        }
+      }
+      .nav-tabs{
+        position: relative;
+        z-index: 2;
       }
       .widget-code-wrap{
         position: relative;
-        padding: 10px 10px 30px;
-        .rounded(6px);
+        padding: 30px 10px 0px;
+        .border-radius(6px, 6px, 6px, 0);
         border: 1px solid @border-grey;
+        background: @panel-bg;
+
         .codebox-actions{
           position: absolute;
           bottom: 0;
@@ -149,7 +223,8 @@
           padding: 0 5px;
           background: @border-grey;
           .border-radius(0, 5px, 0, 5px);
-          a{
+
+          a {
             display: inline-block;
             line-height : 22px;
             font-size: 12px;
@@ -157,16 +232,52 @@
               content: "|";
               display: inline-block;
               color: darken(@border-grey, 10%);
-              margin-right: 2px;
+              padding: 0 3px 0 4px;
             }
             &:first-child{
               &:before{
                 content: "";
+                padding: 0;
               }
             }
           }
         }
+
+        // some overrides now
+        .codebox-playground {
+          position: absolute;
+          top: 0;
+          right: 0px;
+          height: 22px;
+          padding: 0 5px;
+          background: @border-grey;
+          .border-radius(5px, 0, 5px, 0);
+
+          .btn-jsfiddle{
+            display: inline-block;
+
+            &:last-child {
+              a:after{
+                content: "" !important;
+                padding: 0;
+              }
+            }
+          }
+
+          a{
+            display: inline-block;
+            line-height : 22px;
+            font-size: 12px;
+
+            &:after{
+              content: "|";
+              display: inline-block;
+              color: darken(@border-grey, 10%);
+              padding: 0 3px 0 4px;
+            }
+          }
+        }
       }
-    } 
+    }
   }
-} 
+}
