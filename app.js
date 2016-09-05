@@ -9,6 +9,13 @@ var params = require('strong-params');
 
 var app = express();
 
+// Use the session middleware
+app.use(session({
+  secret: process.env.SECRET || 'super_secret_key',
+  resave: false,
+  saveUninitialized: true
+}));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -16,6 +23,10 @@ app.set('view engine', 'jade');
 app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// keeping this as legacy support
+app.use('/click2vox', express.static(path.join(__dirname, 'public')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

@@ -22,8 +22,13 @@ var PERMITTED_FIELDS = [
 ];
 
 var portalHandler = function(req, res, next) {
-  var params = req.parameters;
+  var params = req.parameters.all();
   var required = ['e164', 'login', 'password', 'basic_auth'];
+
+  if (Object.keys(params).length === 0 && req.session.params)
+    params = req.session.params;
+  else
+    req.session.params = params;
 
   // check if required params are present
   var reqCheck = _.filter(required, function(n) {
