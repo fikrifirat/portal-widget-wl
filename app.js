@@ -1,25 +1,49 @@
 var express = require('express');
 var path = require('path');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var minifier = require('minifier');
+var params = require('strong-params');
 
 var app = express();
+
+// Use the session middleware
+app.use(session({
+  secret: process.env.SECRET || 'super_secret_key',
+  resave: false,
+  saveUninitialized: true
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// keeping this as legacy support
+app.use('/click2vox', express.static(path.join(__dirname, 'public')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-var routes = require('./routes/index');
+app.use(params.expressMiddleware());
 
-app.use('/click2vox', express.static(path.join(__dirname, 'public')));
+var routes = require('./routes/index');
+var utils = require('./routes/utils');
+var widgetRoutes = require('./routes/widget').router;
 
 app.use('/click2vox/', routes);
+app.use('/click2vox/', widgetRoutes);
+app.use('/widget/', widgetRoutes);
+
+// This is indented to get the latest version always
+app.use(utils.click2voxJsFileName, function(req, res) {
+  res.redirect('/javascripts/click2vox-1.5.0.js');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,24 +1,25 @@
 /*Btn Widget Stuff*/
 .btn-widget(@btn-color){
+  max-width: 100%;
+  min-width: 140px;
   display: inline-block;
-  
+
   border: 1px solid darken(@btn-color,0.5%);
   padding: 0;
-  margin-right: 10px;
-  
+
   text-decoration: none;
   font-size: 14px;
   text-align: center;
   line-height: 1.4;
   font-weight: 700;
   color: #ffffff;
-  
+
   white-space: nowrap;
   vertical-align: middle;
   touch-action: manipulation;
   cursor: pointer;
   -webkit-user-select: none;
-  
+
   background: @btn-color;
   background: -webkit-linear-gradient(@btn-color,darken(@btn-color,10%));
   background: -moz-linear-gradient(@btn-color,darken(@btn-color,0.10%));
@@ -26,20 +27,22 @@
   background: -o-linear-gradient(@btn-color,darken(@btn-color,0.10%));
   background: linear-gradient(@btn-color,darken(@btn-color,10%));
 
-  .rounded(4px);  
-  
+  .rounded(4px);
+
   -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.16);
   -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.16);
   -ms-box-shadow: 0 1px 1px rgba(0,0,0,0.16);
   -o-box-shadow: 0 1px 1px rgba(0,0,0,0.16);
   box-shadow: 0 1px 1px rgba(0,0,0,0.16);
+
   span{
     display: block;
-    min-width: 120px;
+    width: 100%;
     padding: 10px 12px 12px;
-    border-top:1px solid rgba(255, 255, 255, 0.10); 
+    border-top:1px solid rgba(255, 255, 255, 0.10);
     text-shadow: 0px -1px #07619E;
-    .rounded(4px);  
+    .rounded(4px);
+    .truncate-line();
   }
   &:hover{
   background: -webkit-linear-gradient(darken(@btn-color,10%),@btn-color);
@@ -56,13 +59,21 @@
   .btn-widget(#92168e);
 }
 
-
 .widget-box{
   position: relative;
-  padding: 70px;
+  padding: 70px 40px;
   text-align: center;
   .rounded(6px);
-  .widget-footer{
+  .widget-footer-left{
+    position: absolute;
+    font-size: 9px;
+    bottom: 8px;
+    left: 8px;
+    a{
+      padding-right: 62px;
+    }
+  }
+  .widget-footer-right{
     position: absolute;
     font-size: 9px;
     bottom: 8px;
@@ -75,8 +86,25 @@
       background-repeat: no-repeat;
     }
   }
+
   .btn-style{
-    width: 100%;
+    display: inline-block;
+    padding-left:10px;
+    padding-right:10px;
+    text-align: center;
+  }
+  &.no-frame{
+    display: inline-block !important;
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 35px 25px 35px;
+  }
+  &.no-frame.no-branding{
+    display: inline-block !important;
+    padding: 0px !important;
+  }
+  &.no-frame.ng-hide{
+    display: none !important;
   }
   &.style-a{
     .boxShadow(1,0.2);
@@ -86,7 +114,7 @@
     }
     .widget-footer{
       a{
-        color: #8b8b8b;      
+        color: #8b8b8b;
       }
     }
   }
@@ -96,10 +124,20 @@
     .btn-style{
       .btn-widget(#92168e);
     }
-    .widget-footer{
+    .widget-footer-left,
+    .widget-footer-right{
       a{
-        color: #d8d8d8;        
+        color: #adb3b7;
+      }
+    }
+    .widget-footer-right{
+      a{
+        background-image: url('../../images/widget-brand-light.png');
       }
     }
   }
+}
+
+.btn-style-disabled {
+  cursor: not-allowed !important;
 }
