@@ -13,7 +13,7 @@ var _ = require('lodash');
 var utils = require('./utils');
 
 var PERMITTED_FIELDS = [
-  'configuration_name', 'button_color', 'button_label', 'button_style',
+  'configuration_name', 'button_color', 'frame_color', 'button_label', 'button_style',
   'background_style', 'sip_uri', 'caller_id', 'context',
   'dial_pad', 'send_digits', 'hide_widget', 'updated_at',
   'link_button_to_a_page', 'show_text_html',

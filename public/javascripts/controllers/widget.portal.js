@@ -15,11 +15,14 @@ define([
     $scope.previewFullScreen = true;
     $scope.previewMute = false;
     $scope.widgetCode = 'Generating widget code...';
+    $scope.tempButtonColor = "";
+    $scope.tempFrameColor = "";
 
     $scope.master = {
       showWidgetCode: true,
       dial_pad: true,
       button_style: 'style-a',
+      frame_color: '',
       background_style: 'dark',
       show_text_html_value: '<h3>This is a placeholder for your message</h3>',
       incompatible_browser_configuration: 'hide_widget',
@@ -77,9 +80,20 @@ define([
     $scope.init();
 
     $scope.setTheme = function (theme) {
+      if($scope.widget.frame_color)
+        $scope.tempFrameColor = $scope.widget.frame_color;
+      if($scope.widget.button_color)
+        $scope.tempButtonColor = $scope.widget.button_color; 
+
+      $scope.widget.frame_color = "";
       $scope.widget.button_color = "";
-      if ($scope.widget.button_style !== theme)
+      if ($scope.widget.button_style != theme)
         $scope.widget.button_style = theme;
+    };
+
+    $scope.setCustomTheme = function() {
+      $scope.tempFrameColor ? $scope.widget.frame_color = $scope.tempFrameColor : $scope.widget.frame_color = "black";
+      $scope.widget.button_color = $scope.tempButtonColor;
     };
 
     $scope.generateWidgetCode = function () {
