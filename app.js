@@ -76,7 +76,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.locals.docroot = process.env.DOCROOT;
+app.locals.docroot = process.env.APP_URL;
 
 app.locals.globalScripts = [
   '//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js',
