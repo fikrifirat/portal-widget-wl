@@ -2,11 +2,9 @@
 
 ## Usage
 
-When trying to host this widget generator for your self, please modify the variable `docroot` in `routes/index.js` to correspond to the URL where you are hosting the widget generator or you can set an environment variable called `DOCROOT` with the corresponding value.
-
 Envionment Variable | Meaning
 ----------|--------
-DOCROOT | Url where the as is being hosted (i.e. http://0.0.0.0:3000, http://127.0.0.1:3000, https://voxbone.com/clickvox) no trailing slash
+APP_URL | Url where the app is being hosted (i.e. http://0.0.0.0:3000, http://127.0.0.1:3000, https://voxbone.com/clickvox) no trailing slash
 
 Also the ratings will be posted to Kibana through `voxbone.WebRTC.postCallRating(did, rating, comment, url)`
 
