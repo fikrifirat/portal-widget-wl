@@ -51,6 +51,28 @@ module.exports = function (grunt) {
             return true;
         }
       }
+    },
+    nightwatch: {
+      options: {
+        cwd: './'
+      },
+
+      'default' : {},
+
+      browserstack: {
+        argv: {
+          env: 'browserstack'
+        },
+        settings: {
+          silent: true
+        }
+      },
+
+      'all' : {
+        argv: {
+          env: 'default,browserstack'
+        }
+      },
     }
   });
 
