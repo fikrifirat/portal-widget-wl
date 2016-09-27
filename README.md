@@ -1,4 +1,8 @@
-# click2vox WebRTC Widget generator
+<img src="public/images/navbar-brand.png" align="right" />
+# Click2Vox WebRTC Widget generator
+
+Click2Vox creates a button that allows anyone with a WebRTC enabled browser to call a SIP address you define. The widget generator makes is possible to cut and paste code that can be inserted into your own website and place the button there. 
+This portal is intended to host your own widget generator, so your customers/employees can create their own click-to-call buttons that connect to your service.
 
 ## Usage
 
@@ -19,18 +23,45 @@ login     | your provisioned webrtc login
 password  | your shared secret used for webrtc
 basic_auth| 1 if you've enabled basic auth 0 if you host your own credential service
 
-Example form can be found at `docRoot`/html/widget_form.html
+POST Example, form can be found at:
+```
+APP_URL/html/widget_form.html
+```
 
+GET Example, URL query string:
+```
+APP_URL/click2vox/?e164=your_e164&login=your_login&password=your_password&basic_auth=1
+```
 
-## Launching the application
-First install the required dependencies:
+## Installing the application
+
+Install the required dependencies with:
 `npm install`
 
-Then you can launch the node application:
+## Launching the application
+Load the APP_URL environment variable with the corresponding URL where the APP is being hosted, then
+launch the node application:
 `npm start`
 
 By default the application will listen to port 3000
 
-## Landing Page for [TestRTC](http://testrtc.com/)
+## Running Tests 
 
-* `docRoot`/html/testrtc.html
+* NightWatch (http://nightwatchjs.org/)
+
+- To run the tests first serve the app with `grunt` and in another window run:
+```bash
+grunt nightwatch
+```
+
+#Note:
+
+The following files are being kept for retro-compatibily with widgets that where generated with older versions of the generator and soon will be deleted:
+* javascripts/jssip-0.7.9-vox.js
+* javascripts/widget-0.1.js
+* javascripts/widget-0.2.js
+* javascripts/widget-0.3.js
+* javascripts/widget-0.4.js
+* stylesheets/widget-0.4.css
+
+

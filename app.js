@@ -76,34 +76,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.locals.docroot = process.env.APP_URL;
-
-app.locals.globalScripts = [
-  '//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js',
-  '//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.js',
-  '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js',
-  '//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js',
-  '//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-cookies.min.js',
-  '//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js',
-  '//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js'
-];
-
-app.locals.voxboneScripts = [
-  "//webrtc.voxbone.com/js/jssip-0.7.9.min-vox.js",
-  "//webrtc.voxbone.com/js/voxbone-0.0.5.js"
-  // "//webrtc.voxbone.com/js/voxbone-latest.js"
-];
-
-app.locals.click2voxScripts = [
-  app.locals.docroot+"/javascripts/widget-0.4.js"
-];
-
-app.locals.globalCss = [
-  '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',
-  app.locals.docroot+"/stylesheets/root.css",
-  app.locals.docroot+"/stylesheets/widget-0.4.css"
-];
-
 module.exports = app;
 
 // minifier.minify(app.locals.click2voxScripts, {template: 'widget.min.js'});

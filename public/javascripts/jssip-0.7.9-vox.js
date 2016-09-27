@@ -682,7 +682,7 @@ module.exports = (function(){
    *
    * http://pegjs.majda.cz/
    */
-  
+
   function quote(s) {
     /*
      * ECMA-262, 5th ed., 7.8.4: All characters may appear literally in a
@@ -705,7 +705,7 @@ module.exports = (function(){
       .replace(/[\x00-\x07\x0B\x0E-\x1F\x80-\uFFFF]/g, escape)
       + '"';
   }
-  
+
   var result = {
     /*
      * Parses the input with a generated parser. If the parsing is successfull,
@@ -939,7 +939,7 @@ module.exports = (function(){
         "from_tag": parse_from_tag,
         "early_flag": parse_early_flag
       };
-      
+
       if (startRule !== undefined) {
         if (parseFunctions[startRule] === undefined) {
           throw new Error("Invalid rule name: " + quote(startRule) + ".");
@@ -947,28 +947,28 @@ module.exports = (function(){
       } else {
         startRule = "CRLF";
       }
-      
+
       var pos = 0;
       var reportFailures = 0;
       var rightmostFailuresPos = 0;
       var rightmostFailuresExpected = [];
-      
+
       function padLeft(input, padding, length) {
         var result = input;
-        
+
         var padLength = length - input.length;
         for (var i = 0; i < padLength; i++) {
           result = padding + result;
         }
-        
+
         return result;
       }
-      
+
       function escape(ch) {
         var charCode = ch.charCodeAt(0);
         var escapeChar;
         var length;
-        
+
         if (charCode <= 0xFF) {
           escapeChar = 'x';
           length = 2;
@@ -976,26 +976,26 @@ module.exports = (function(){
           escapeChar = 'u';
           length = 4;
         }
-        
+
         return '\\' + escapeChar + padLeft(charCode.toString(16).toUpperCase(), '0', length);
       }
-      
+
       function matchFailed(failure) {
         if (pos < rightmostFailuresPos) {
           return;
         }
-        
+
         if (pos > rightmostFailuresPos) {
           rightmostFailuresPos = pos;
           rightmostFailuresExpected = [];
         }
-        
+
         rightmostFailuresExpected.push(failure);
       }
-      
+
       function parse_CRLF() {
         var result0;
-        
+
         if (input.substr(pos, 2) === "\r\n") {
           result0 = "\r\n";
           pos += 2;
@@ -1007,10 +1007,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_DIGIT() {
         var result0;
-        
+
         if (/^[0-9]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1022,10 +1022,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_ALPHA() {
         var result0;
-        
+
         if (/^[a-zA-Z]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1037,10 +1037,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_HEXDIG() {
         var result0;
-        
+
         if (/^[0-9a-fA-F]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1052,20 +1052,20 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_WSP() {
         var result0;
-        
+
         result0 = parse_SP();
         if (result0 === null) {
           result0 = parse_HTAB();
         }
         return result0;
       }
-      
+
       function parse_OCTET() {
         var result0;
-        
+
         if (/^[\0-\xFF]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1077,10 +1077,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_DQUOTE() {
         var result0;
-        
+
         if (/^["]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1092,10 +1092,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_SP() {
         var result0;
-        
+
         if (input.charCodeAt(pos) === 32) {
           result0 = " ";
           pos++;
@@ -1107,10 +1107,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_HTAB() {
         var result0;
-        
+
         if (input.charCodeAt(pos) === 9) {
           result0 = "\t";
           pos++;
@@ -1122,10 +1122,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_alphanum() {
         var result0;
-        
+
         if (/^[a-zA-Z0-9]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1137,10 +1137,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_reserved() {
         var result0;
-        
+
         if (input.charCodeAt(pos) === 59) {
           result0 = ";";
           pos++;
@@ -1251,20 +1251,20 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_unreserved() {
         var result0;
-        
+
         result0 = parse_alphanum();
         if (result0 === null) {
           result0 = parse_mark();
         }
         return result0;
       }
-      
+
       function parse_mark() {
         var result0;
-        
+
         if (input.charCodeAt(pos) === 45) {
           result0 = "-";
           pos++;
@@ -1364,11 +1364,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_escaped() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.charCodeAt(pos) === 37) {
@@ -1406,11 +1406,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_LWS() {
         var result0, result1, result2;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         pos2 = pos;
@@ -1462,19 +1462,19 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_SWS() {
         var result0;
-        
+
         result0 = parse_LWS();
         result0 = result0 !== null ? result0 : "";
         return result0;
       }
-      
+
       function parse_HCOLON() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = [];
@@ -1523,11 +1523,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_TEXT_UTF8_TRIM() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result1 = parse_TEXT_UTF8char();
@@ -1602,10 +1602,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_TEXT_UTF8char() {
         var result0;
-        
+
         if (/^[!-~]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1620,10 +1620,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_UTF8_NONASCII() {
         var result0;
-        
+
         if (/^[\x80-\uFFFF]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1635,10 +1635,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_UTF8_CONT() {
         var result0;
-        
+
         if (/^[\x80-\xBF]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -1650,10 +1650,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_LHEX() {
         var result0;
-        
+
         result0 = parse_DIGIT();
         if (result0 === null) {
           if (/^[a-f]/.test(input.charAt(pos))) {
@@ -1668,11 +1668,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_token() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_alphanum();
         if (result1 === null) {
@@ -1913,11 +1913,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_token_nodot() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_alphanum();
         if (result1 === null) {
@@ -2136,10 +2136,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_separators() {
         var result0;
-        
+
         if (input.charCodeAt(pos) === 40) {
           result0 = "(";
           pos++;
@@ -2325,11 +2325,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_word() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_alphanum();
         if (result1 === null) {
@@ -2840,11 +2840,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_STAR() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -2882,11 +2882,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_SLASH() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -2924,11 +2924,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_EQUAL() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -2966,11 +2966,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_LPAREN() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3008,11 +3008,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_RPAREN() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3050,11 +3050,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_RAQUOT() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.charCodeAt(pos) === 62) {
@@ -3086,11 +3086,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_LAQUOT() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3122,11 +3122,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_COMMA() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3164,11 +3164,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_SEMI() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3206,11 +3206,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_COLON() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3248,11 +3248,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_LDQUOT() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3276,11 +3276,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_RDQUOT() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_DQUOTE();
@@ -3304,11 +3304,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_comment() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_LPAREN();
         if (result0 !== null) {
@@ -3348,10 +3348,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_ctext() {
         var result0;
-        
+
         if (/^[!-']/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -3391,11 +3391,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_quoted_string() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3443,11 +3443,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_quoted_string_clean() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SWS();
@@ -3495,10 +3495,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_qdtext() {
         var result0;
-        
+
         result0 = parse_LWS();
         if (result0 === null) {
           if (input.charCodeAt(pos) === 33) {
@@ -3538,11 +3538,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_quoted_pair() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         if (input.charCodeAt(pos) === 92) {
           result0 = "\\";
@@ -3597,11 +3597,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_SIP_URI_noparams() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_uri_scheme();
@@ -3656,11 +3656,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_SIP_URI() {
         var result0, result1, result2, result3, result4, result5;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_uri_scheme();
@@ -3721,7 +3721,7 @@ module.exports = (function(){
                                 delete data.host_type;
                                 delete data.port;
                                 delete data.uri_params;
-        
+
                                 if (startRule === 'SIP_URI') { data = data.uri;}
                               } catch(e) {
                                 data = -1;
@@ -3732,11 +3732,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_uri_scheme() {
         var result0;
         var pos0;
-        
+
         if (input.substr(pos, 3).toLowerCase() === "sip") {
           result0 = input.substr(pos, 3);
           pos += 3;
@@ -3767,11 +3767,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_userinfo() {
         var result0, result1, result2;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_user();
@@ -3832,10 +3832,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_user() {
         var result0, result1;
-        
+
         result1 = parse_unreserved();
         if (result1 === null) {
           result1 = parse_escaped();
@@ -3860,10 +3860,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_user_unreserved() {
         var result0;
-        
+
         if (input.charCodeAt(pos) === 38) {
           result0 = "&";
           pos++;
@@ -3952,11 +3952,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_password() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result0 = [];
         result1 = parse_unreserved();
@@ -4089,11 +4089,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hostport() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_host();
         if (result0 !== null) {
@@ -4132,11 +4132,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_host() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_IPv4address();
         if (result0 === null) {
@@ -4155,11 +4155,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hostname() {
         var result0, result1, result2;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = [];
@@ -4247,10 +4247,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_domainlabel() {
         var result0, result1;
-        
+
         if (/^[a-zA-Z0-9_\-]/.test(input.charAt(pos))) {
           result1 = input.charAt(pos);
           pos++;
@@ -4279,10 +4279,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_toplabel() {
         var result0, result1;
-        
+
         if (/^[a-zA-Z0-9_\-]/.test(input.charAt(pos))) {
           result1 = input.charAt(pos);
           pos++;
@@ -4311,11 +4311,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_IPv6reference() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.charCodeAt(pos) === 91) {
@@ -4363,11 +4363,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_IPv6address() {
         var result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_h16();
@@ -5967,11 +5967,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_h16() {
         var result0, result1, result2, result3;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_HEXDIG();
         if (result0 !== null) {
@@ -6003,11 +6003,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_ls32() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_h16();
         if (result0 !== null) {
@@ -6041,11 +6041,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_IPv4address() {
         var result0, result1, result2, result3, result4, result5, result6;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_dec_octet();
@@ -6125,11 +6125,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_dec_octet() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 2) === "25") {
           result0 = "25";
@@ -6257,11 +6257,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_port() {
         var result0, result1, result2, result3, result4;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_DIGIT();
@@ -6311,11 +6311,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_uri_parameters() {
         var result0, result1, result2;
         var pos0;
-        
+
         result0 = [];
         pos0 = pos;
         if (input.charCodeAt(pos) === 59) {
@@ -6366,10 +6366,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_uri_parameter() {
         var result0;
-        
+
         result0 = parse_transport_param();
         if (result0 === null) {
           result0 = parse_user_param();
@@ -6391,11 +6391,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_transport_param() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 10).toLowerCase() === "transport=") {
@@ -6473,11 +6473,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_user_param() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 5).toLowerCase() === "user=") {
@@ -6533,11 +6533,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_method_param() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 7).toLowerCase() === "method=") {
@@ -6571,11 +6571,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_ttl_param() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 4).toLowerCase() === "ttl=") {
@@ -6609,11 +6609,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_maddr_param() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 6).toLowerCase() === "maddr=") {
@@ -6647,11 +6647,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_lr_param() {
         var result0, result1, result2;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 2).toLowerCase() === "lr") {
@@ -6707,11 +6707,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_other_param() {
         var result0, result1, result2;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_pname();
@@ -6765,11 +6765,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_pname() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_paramchar();
         if (result1 !== null) {
@@ -6789,11 +6789,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_pvalue() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_paramchar();
         if (result1 !== null) {
@@ -6813,10 +6813,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_paramchar() {
         var result0;
-        
+
         result0 = parse_param_unreserved();
         if (result0 === null) {
           result0 = parse_unreserved();
@@ -6826,10 +6826,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_param_unreserved() {
         var result0;
-        
+
         if (input.charCodeAt(pos) === 91) {
           result0 = "[";
           pos++;
@@ -6907,11 +6907,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_headers() {
         var result0, result1, result2, result3, result4;
         var pos0, pos1;
-        
+
         pos0 = pos;
         if (input.charCodeAt(pos) === 63) {
           result0 = "?";
@@ -6989,11 +6989,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_header() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_hname();
@@ -7039,10 +7039,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hname() {
         var result0, result1;
-        
+
         result1 = parse_hnv_unreserved();
         if (result1 === null) {
           result1 = parse_unreserved();
@@ -7067,10 +7067,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hvalue() {
         var result0, result1;
-        
+
         result0 = [];
         result1 = parse_hnv_unreserved();
         if (result1 === null) {
@@ -7091,10 +7091,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hnv_unreserved() {
         var result0;
-        
+
         if (input.charCodeAt(pos) === 91) {
           result0 = "[";
           pos++;
@@ -7172,21 +7172,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Request_Response() {
         var result0;
-        
+
         result0 = parse_Status_Line();
         if (result0 === null) {
           result0 = parse_Request_Line();
         }
         return result0;
       }
-      
+
       function parse_Request_Line() {
         var result0, result1, result2, result3, result4;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_Method();
         if (result0 !== null) {
@@ -7221,21 +7221,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Request_URI() {
         var result0;
-        
+
         result0 = parse_SIP_URI();
         if (result0 === null) {
           result0 = parse_absoluteURI();
         }
         return result0;
       }
-      
+
       function parse_absoluteURI() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_scheme();
         if (result0 !== null) {
@@ -7269,11 +7269,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hier_part() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_net_path();
         if (result0 === null) {
@@ -7315,11 +7315,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_net_path() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 2) === "//") {
           result0 = "//";
@@ -7351,11 +7351,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_abs_path() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         if (input.charCodeAt(pos) === 47) {
           result0 = "/";
@@ -7380,11 +7380,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_opaque_part() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_uric_no_slash();
         if (result0 !== null) {
@@ -7406,10 +7406,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_uric() {
         var result0;
-        
+
         result0 = parse_reserved();
         if (result0 === null) {
           result0 = parse_unreserved();
@@ -7419,10 +7419,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_uric_no_slash() {
         var result0;
-        
+
         result0 = parse_unreserved();
         if (result0 === null) {
           result0 = parse_escaped();
@@ -7528,11 +7528,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_path_segments() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_segment();
         if (result0 !== null) {
@@ -7596,11 +7596,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_segment() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = [];
         result1 = parse_pchar();
@@ -7669,10 +7669,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_param() {
         var result0, result1;
-        
+
         result0 = [];
         result1 = parse_pchar();
         while (result1 !== null) {
@@ -7681,10 +7681,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_pchar() {
         var result0;
-        
+
         result0 = parse_unreserved();
         if (result0 === null) {
           result0 = parse_escaped();
@@ -7768,11 +7768,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_scheme() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_ALPHA();
@@ -7874,21 +7874,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_authority() {
         var result0;
-        
+
         result0 = parse_srvr();
         if (result0 === null) {
           result0 = parse_reg_name();
         }
         return result0;
       }
-      
+
       function parse_srvr() {
         var result0, result1;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_userinfo();
@@ -7928,10 +7928,10 @@ module.exports = (function(){
         result0 = result0 !== null ? result0 : "";
         return result0;
       }
-      
+
       function parse_reg_name() {
         var result0, result1;
-        
+
         result1 = parse_unreserved();
         if (result1 === null) {
           result1 = parse_escaped();
@@ -8126,10 +8126,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_query() {
         var result0, result1;
-        
+
         result0 = [];
         result1 = parse_uric();
         while (result1 !== null) {
@@ -8138,11 +8138,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_SIP_Version() {
         var result0, result1, result2, result3, result4, result5;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 3).toLowerCase() === "sip") {
@@ -8227,10 +8227,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_INVITEm() {
         var result0;
-        
+
         if (input.substr(pos, 6) === "INVITE") {
           result0 = "INVITE";
           pos += 6;
@@ -8242,10 +8242,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_ACKm() {
         var result0;
-        
+
         if (input.substr(pos, 3) === "ACK") {
           result0 = "ACK";
           pos += 3;
@@ -8257,10 +8257,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_OPTIONSm() {
         var result0;
-        
+
         if (input.substr(pos, 7) === "OPTIONS") {
           result0 = "OPTIONS";
           pos += 7;
@@ -8272,10 +8272,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_BYEm() {
         var result0;
-        
+
         if (input.substr(pos, 3) === "BYE") {
           result0 = "BYE";
           pos += 3;
@@ -8287,10 +8287,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_CANCELm() {
         var result0;
-        
+
         if (input.substr(pos, 6) === "CANCEL") {
           result0 = "CANCEL";
           pos += 6;
@@ -8302,10 +8302,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_REGISTERm() {
         var result0;
-        
+
         if (input.substr(pos, 8) === "REGISTER") {
           result0 = "REGISTER";
           pos += 8;
@@ -8317,10 +8317,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_SUBSCRIBEm() {
         var result0;
-        
+
         if (input.substr(pos, 9) === "SUBSCRIBE") {
           result0 = "SUBSCRIBE";
           pos += 9;
@@ -8332,10 +8332,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_NOTIFYm() {
         var result0;
-        
+
         if (input.substr(pos, 6) === "NOTIFY") {
           result0 = "NOTIFY";
           pos += 6;
@@ -8347,10 +8347,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_REFERm() {
         var result0;
-        
+
         if (input.substr(pos, 5) === "REFER") {
           result0 = "REFER";
           pos += 5;
@@ -8362,11 +8362,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Method() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_INVITEm();
         if (result0 === null) {
@@ -8406,11 +8406,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Status_Line() {
         var result0, result1, result2, result3, result4;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_SIP_Version();
         if (result0 !== null) {
@@ -8445,11 +8445,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Status_Code() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_extension_code();
         if (result0 !== null) {
@@ -8461,11 +8461,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_extension_code() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_DIGIT();
         if (result0 !== null) {
@@ -8488,11 +8488,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Reason_Phrase() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result0 = [];
         result1 = parse_reserved();
@@ -8545,11 +8545,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Allow_Events() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_event_type();
         if (result0 !== null) {
@@ -8597,11 +8597,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Call_ID() {
         var result0, result1, result2;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_word();
@@ -8648,11 +8648,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Contact() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         result0 = parse_STAR();
         if (result0 === null) {
@@ -8723,11 +8723,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_contact_param() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SIP_URI_noparams();
@@ -8799,11 +8799,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_name_addr() {
         var result0, result1, result2, result3;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_display_name();
         result0 = result0 !== null ? result0 : "";
@@ -8833,11 +8833,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_display_name() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_token();
@@ -8900,10 +8900,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_contact_params() {
         var result0;
-        
+
         result0 = parse_c_p_q();
         if (result0 === null) {
           result0 = parse_c_p_expires();
@@ -8913,11 +8913,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_c_p_q() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 1).toLowerCase() === "q") {
@@ -8957,11 +8957,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_c_p_expires() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 7).toLowerCase() === "expires") {
@@ -9001,11 +9001,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_delta_seconds() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_DIGIT();
         if (result1 !== null) {
@@ -9026,11 +9026,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_qvalue() {
         var result0, result1, result2, result3, result4;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.charCodeAt(pos) === 48) {
@@ -9100,11 +9100,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_generic_param() {
         var result0, result1, result2;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_token();
@@ -9150,10 +9150,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_gen_value() {
         var result0;
-        
+
         result0 = parse_token();
         if (result0 === null) {
           result0 = parse_host();
@@ -9163,11 +9163,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Content_Disposition() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_disp_type();
         if (result0 !== null) {
@@ -9215,10 +9215,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_disp_type() {
         var result0;
-        
+
         if (input.substr(pos, 6).toLowerCase() === "render") {
           result0 = input.substr(pos, 6);
           pos += 6;
@@ -9266,21 +9266,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_disp_param() {
         var result0;
-        
+
         result0 = parse_handling_param();
         if (result0 === null) {
           result0 = parse_generic_param();
         }
         return result0;
       }
-      
+
       function parse_handling_param() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 8).toLowerCase() === "handling") {
           result0 = input.substr(pos, 8);
@@ -9333,11 +9333,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Content_Encoding() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_token();
         if (result0 !== null) {
@@ -9385,11 +9385,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Content_Length() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_DIGIT();
         if (result1 !== null) {
@@ -9410,11 +9410,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Content_Type() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_media_type();
         if (result0 !== null) {
@@ -9426,11 +9426,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_media_type() {
         var result0, result1, result2, result3, result4, result5;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_m_type();
         if (result0 !== null) {
@@ -9490,20 +9490,20 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_m_type() {
         var result0;
-        
+
         result0 = parse_discrete_type();
         if (result0 === null) {
           result0 = parse_composite_type();
         }
         return result0;
       }
-      
+
       function parse_discrete_type() {
         var result0;
-        
+
         if (input.substr(pos, 4).toLowerCase() === "text") {
           result0 = input.substr(pos, 4);
           pos += 4;
@@ -9562,10 +9562,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_composite_type() {
         var result0;
-        
+
         if (input.substr(pos, 7).toLowerCase() === "message") {
           result0 = input.substr(pos, 7);
           pos += 7;
@@ -9591,21 +9591,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_extension_token() {
         var result0;
-        
+
         result0 = parse_token();
         if (result0 === null) {
           result0 = parse_x_token();
         }
         return result0;
       }
-      
+
       function parse_x_token() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 2).toLowerCase() === "x-") {
           result0 = input.substr(pos, 2);
@@ -9630,21 +9630,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_m_subtype() {
         var result0;
-        
+
         result0 = parse_extension_token();
         if (result0 === null) {
           result0 = parse_token();
         }
         return result0;
       }
-      
+
       function parse_m_parameter() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_token();
         if (result0 !== null) {
@@ -9667,21 +9667,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_m_value() {
         var result0;
-        
+
         result0 = parse_token();
         if (result0 === null) {
           result0 = parse_quoted_string();
         }
         return result0;
       }
-      
+
       function parse_CSeq() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_CSeq_value();
         if (result0 !== null) {
@@ -9704,11 +9704,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_CSeq_value() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_DIGIT();
         if (result1 !== null) {
@@ -9729,11 +9729,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Expires() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_delta_seconds();
         if (result0 !== null) {
@@ -9744,11 +9744,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Event() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_event_type();
@@ -9804,11 +9804,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_event_type() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_token_nodot();
         if (result0 !== null) {
@@ -9872,11 +9872,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_From() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SIP_URI_noparams();
@@ -9941,21 +9941,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_from_param() {
         var result0;
-        
+
         result0 = parse_tag_param();
         if (result0 === null) {
           result0 = parse_generic_param();
         }
         return result0;
       }
-      
+
       function parse_tag_param() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 3).toLowerCase() === "tag") {
@@ -9993,11 +9993,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Max_Forwards() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result1 = parse_DIGIT();
         if (result1 !== null) {
@@ -10018,11 +10018,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Min_Expires() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_delta_seconds();
         if (result0 !== null) {
@@ -10033,11 +10033,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Name_Addr_Header() {
         var result0, result1, result2, result3, result4, result5, result6;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = [];
@@ -10120,18 +10120,18 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Proxy_Authenticate() {
         var result0;
-        
+
         result0 = parse_challenge();
         return result0;
       }
-      
+
       function parse_challenge() {
         var result0, result1, result2, result3, result4, result5;
         var pos0, pos1;
-        
+
         pos0 = pos;
         if (input.substr(pos, 6).toLowerCase() === "digest") {
           result0 = input.substr(pos, 6);
@@ -10202,11 +10202,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_other_challenge() {
         var result0, result1, result2, result3, result4, result5;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_token();
         if (result0 !== null) {
@@ -10266,11 +10266,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_auth_param() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_token();
         if (result0 !== null) {
@@ -10296,10 +10296,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_digest_cln() {
         var result0;
-        
+
         result0 = parse_realm();
         if (result0 === null) {
           result0 = parse_domain();
@@ -10324,11 +10324,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_realm() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 5).toLowerCase() === "realm") {
           result0 = input.substr(pos, 5);
@@ -10359,11 +10359,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_realm_value() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_quoted_string_clean();
         if (result0 !== null) {
@@ -10374,11 +10374,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_domain() {
         var result0, result1, result2, result3, result4, result5, result6;
         var pos0, pos1;
-        
+
         pos0 = pos;
         if (input.substr(pos, 6).toLowerCase() === "domain") {
           result0 = input.substr(pos, 6);
@@ -10476,21 +10476,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_URI() {
         var result0;
-        
+
         result0 = parse_absoluteURI();
         if (result0 === null) {
           result0 = parse_abs_path();
         }
         return result0;
       }
-      
+
       function parse_nonce() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 5).toLowerCase() === "nonce") {
           result0 = input.substr(pos, 5);
@@ -10521,11 +10521,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_nonce_value() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_quoted_string_clean();
         if (result0 !== null) {
@@ -10536,11 +10536,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_opaque() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 6).toLowerCase() === "opaque") {
@@ -10578,11 +10578,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_stale() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         if (input.substr(pos, 5).toLowerCase() === "stale") {
           result0 = input.substr(pos, 5);
@@ -10646,11 +10646,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_algorithm() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 9).toLowerCase() === "algorithm") {
@@ -10711,11 +10711,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_qop_options() {
         var result0, result1, result2, result3, result4, result5, result6;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         if (input.substr(pos, 3).toLowerCase() === "qop") {
           result0 = input.substr(pos, 3);
@@ -10818,11 +10818,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_qop_value() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 8).toLowerCase() === "auth-int") {
           result0 = input.substr(pos, 8);
@@ -10857,11 +10857,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Proxy_Require() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_token();
         if (result0 !== null) {
@@ -10909,11 +10909,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Record_Route() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_rec_route();
@@ -10981,11 +10981,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_rec_route() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_name_addr();
@@ -11054,11 +11054,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Reason() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 3).toLowerCase() === "sip") {
@@ -11119,9 +11119,9 @@ module.exports = (function(){
         if (result0 !== null) {
           result0 = (function(offset, protocol) {
                           data.protocol = protocol.toLowerCase();
-        
+
                           if (!data.params) data.params = {};
-        
+
                           if (data.params.text && data.params.text[0] === '"') {
                             var text = data.params.text;
                             data.text = text.substring(1, text.length-1);
@@ -11134,21 +11134,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_reason_param() {
         var result0;
-        
+
         result0 = parse_reason_cause();
         if (result0 === null) {
           result0 = parse_generic_param();
         }
         return result0;
       }
-      
+
       function parse_reason_cause() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 5).toLowerCase() === "cause") {
@@ -11197,11 +11197,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Require() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_token();
         if (result0 !== null) {
@@ -11249,11 +11249,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Route() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_route_param();
         if (result0 !== null) {
@@ -11301,11 +11301,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_route_param() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_name_addr();
         if (result0 !== null) {
@@ -11353,11 +11353,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Subscription_State() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_substate_value();
         if (result0 !== null) {
@@ -11405,11 +11405,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_substate_value() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 6).toLowerCase() === "active") {
           result0 = input.substr(pos, 6);
@@ -11454,11 +11454,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_subexp_params() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 6).toLowerCase() === "reason") {
@@ -11576,10 +11576,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_event_reason_value() {
         var result0;
-        
+
         if (input.substr(pos, 11).toLowerCase() === "deactivated") {
           result0 = input.substr(pos, 11);
           pos += 11;
@@ -11660,19 +11660,19 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Subject() {
         var result0;
-        
+
         result0 = parse_TEXT_UTF8_TRIM();
         result0 = result0 !== null ? result0 : "";
         return result0;
       }
-      
+
       function parse_Supported() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_token();
         if (result0 !== null) {
@@ -11721,11 +11721,11 @@ module.exports = (function(){
         result0 = result0 !== null ? result0 : "";
         return result0;
       }
-      
+
       function parse_To() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SIP_URI_noparams();
@@ -11790,21 +11790,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_to_param() {
         var result0;
-        
+
         result0 = parse_tag_param();
         if (result0 === null) {
           result0 = parse_generic_param();
         }
         return result0;
       }
-      
+
       function parse_Via() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_via_param();
         if (result0 !== null) {
@@ -11852,11 +11852,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_via_param() {
         var result0, result1, result2, result3, result4, result5;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_sent_protocol();
         if (result0 !== null) {
@@ -11916,10 +11916,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_via_params() {
         var result0;
-        
+
         result0 = parse_via_ttl();
         if (result0 === null) {
           result0 = parse_via_maddr();
@@ -11938,11 +11938,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_via_ttl() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 3).toLowerCase() === "ttl") {
@@ -11981,11 +11981,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_via_maddr() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 5).toLowerCase() === "maddr") {
@@ -12024,11 +12024,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_via_received() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 8).toLowerCase() === "received") {
@@ -12070,11 +12070,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_via_branch() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 6).toLowerCase() === "branch") {
@@ -12113,11 +12113,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_response_port() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 5).toLowerCase() === "rport") {
@@ -12170,11 +12170,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_sent_protocol() {
         var result0, result1, result2, result3, result4;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_protocol_name();
         if (result0 !== null) {
@@ -12209,11 +12209,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_protocol_name() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 3).toLowerCase() === "sip") {
           result0 = input.substr(pos, 3);
@@ -12236,11 +12236,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_transport() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 3).toLowerCase() === "udp") {
           result0 = input.substr(pos, 3);
@@ -12296,11 +12296,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_sent_by() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_via_host();
         if (result0 !== null) {
@@ -12331,11 +12331,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_via_host() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_IPv4address();
         if (result0 === null) {
@@ -12353,11 +12353,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_via_port() {
         var result0, result1, result2, result3, result4;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_DIGIT();
@@ -12405,11 +12405,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_ttl() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_DIGIT();
@@ -12442,18 +12442,18 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_WWW_Authenticate() {
         var result0;
-        
+
         result0 = parse_challenge();
         return result0;
       }
-      
+
       function parse_Session_Expires() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_s_e_expires();
         if (result0 !== null) {
@@ -12501,11 +12501,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_s_e_expires() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_delta_seconds();
         if (result0 !== null) {
@@ -12516,21 +12516,21 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_s_e_params() {
         var result0;
-        
+
         result0 = parse_s_e_refresher();
         if (result0 === null) {
           result0 = parse_generic_param();
         }
         return result0;
       }
-      
+
       function parse_s_e_refresher() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 9).toLowerCase() === "refresher") {
@@ -12587,11 +12587,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_extension_header() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_token();
         if (result0 !== null) {
@@ -12614,10 +12614,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_header_value() {
         var result0, result1;
-        
+
         result0 = [];
         result1 = parse_TEXT_UTF8char();
         if (result1 === null) {
@@ -12638,10 +12638,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_message_body() {
         var result0, result1;
-        
+
         result0 = [];
         result1 = parse_OCTET();
         while (result1 !== null) {
@@ -12650,11 +12650,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_uuid_URI() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 5) === "uuid:") {
           result0 = "uuid:";
@@ -12679,11 +12679,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_uuid() {
         var result0, result1, result2, result3, result4, result5, result6, result7, result8;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_hex8();
@@ -12782,11 +12782,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hex4() {
         var result0, result1, result2, result3;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_HEXDIG();
         if (result0 !== null) {
@@ -12815,11 +12815,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hex8() {
         var result0, result1;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_hex4();
         if (result0 !== null) {
@@ -12836,11 +12836,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_hex12() {
         var result0, result1, result2;
         var pos0;
-        
+
         pos0 = pos;
         result0 = parse_hex4();
         if (result0 !== null) {
@@ -12863,11 +12863,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Refer_To() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_SIP_URI_noparams();
@@ -12930,11 +12930,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_Replaces() {
         var result0, result1, result2, result3;
         var pos0, pos1;
-        
+
         pos0 = pos;
         result0 = parse_call_id();
         if (result0 !== null) {
@@ -12982,11 +12982,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_call_id() {
         var result0, result1, result2;
         var pos0, pos1, pos2;
-        
+
         pos0 = pos;
         pos1 = pos;
         result0 = parse_word();
@@ -13033,10 +13033,10 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_replaces_param() {
         var result0;
-        
+
         result0 = parse_to_tag();
         if (result0 === null) {
           result0 = parse_from_tag();
@@ -13049,11 +13049,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_to_tag() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 6) === "to-tag") {
@@ -13092,11 +13092,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_from_tag() {
         var result0, result1, result2;
         var pos0, pos1;
-        
+
         pos0 = pos;
         pos1 = pos;
         if (input.substr(pos, 8) === "from-tag") {
@@ -13135,11 +13135,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
+
       function parse_early_flag() {
         var result0;
         var pos0;
-        
+
         pos0 = pos;
         if (input.substr(pos, 10) === "early-only") {
           result0 = "early-only";
@@ -13159,11 +13159,11 @@ module.exports = (function(){
         }
         return result0;
       }
-      
-      
+
+
       function cleanupExpected(expected) {
         expected.sort();
-        
+
         var lastExpected = null;
         var cleanExpected = [];
         for (var i = 0; i < expected.length; i++) {
@@ -13174,7 +13174,7 @@ module.exports = (function(){
         }
         return cleanExpected;
       }
-      
+
       function computeErrorPosition() {
         /*
          * The first idea was to use |String.split| to break the input up to the
@@ -13182,11 +13182,11 @@ module.exports = (function(){
          * there. However IE's |split| implementation is so broken that it was
          * enough to prevent it.
          */
-        
+
         var line = 1;
         var column = 1;
         var seenCR = false;
-        
+
         for (var i = 0; i < Math.max(pos, rightmostFailuresPos); i++) {
           var ch = input.charAt(i);
           if (ch === "\n") {
@@ -13202,19 +13202,19 @@ module.exports = (function(){
             seenCR = false;
           }
         }
-        
+
         return { line: line, column: column };
       }
-      
-      
+
+
         var URI = require('./URI');
         var NameAddrHeader = require('./NameAddrHeader');
-      
+
         var data = {};
-      
-      
+
+
       var result = parseFunctions[startRule]();
-      
+
       /*
        * The parser is now in one of the following three states:
        *
@@ -13243,7 +13243,7 @@ module.exports = (function(){
         var offset = Math.max(pos, rightmostFailuresPos);
         var found = offset < input.length ? input.charAt(offset) : null;
         var errorPosition = computeErrorPosition();
-        
+
         new this.SyntaxError(
           cleanupExpected(rightmostFailuresExpected),
           found,
@@ -13253,20 +13253,20 @@ module.exports = (function(){
         );
         return -1;
       }
-      
+
       return data;
     },
-    
+
     /* Returns the parser source code. */
     toSource: function() { return this._source; }
   };
-  
+
   /* Thrown when a parser encounters a syntax error. */
-  
+
   result.SyntaxError = function(expected, found, offset, line, column) {
     function buildMessage(expected, found) {
       var expectedHumanized, foundHumanized;
-      
+
       switch (expected.length) {
         case 0:
           expectedHumanized = "end of input";
@@ -13279,12 +13279,12 @@ module.exports = (function(){
             + " or "
             + expected[expected.length - 1];
       }
-      
+
       foundHumanized = found ? quote(found) : "end of input";
-      
+
       return "Expected " + expectedHumanized + " but " + foundHumanized + " found.";
     }
-    
+
     this.name = "SyntaxError";
     this.expected = expected;
     this.found = found;
@@ -13293,9 +13293,9 @@ module.exports = (function(){
     this.line = line;
     this.column = column;
   };
-  
+
   result.SyntaxError.prototype = Error.prototype;
-  
+
   return result;
 })();
 
@@ -15642,15 +15642,15 @@ function receiveReinvite(request) {
         return;
     }
     else {
-    	this.connection.setRemoteDescription(
-      		new rtcninja.RTCSessionDescription({type:'offer', sdp:request.body}),
-      		// success
-      		answer,
-      		// failure
-      		function() {
-        		request.reply(488);
-      		}
-    	);
+      this.connection.setRemoteDescription(
+          new rtcninja.RTCSessionDescription({type:'offer', sdp:request.body}),
+          // success
+          answer,
+          // failure
+          function() {
+            request.reply(488);
+          }
+      );
     }
   }
   else {
@@ -21256,17 +21256,17 @@ Utils.calculateMD5 = function(string) {
 },{"./Constants":1,"./Grammar":6,"./URI":23}],25:[function(require,module,exports){
 var info = function () {return undefined;};
 var error = function () {return undefined;};
-module.exports = { loginfo : function () { 
-					var args = Array.prototype.slice.call(arguments);
-					info.apply(console,args);
-					},
-		   logerror : function() { 
-					var args = Array.prototype.slice.call(arguments);
-					error.apply(console,args);
-					},
-		   setError : function(fn) { error = fn; },
-		   setInfo : function(fn) { info = fn; }
-		};
+module.exports = { loginfo : function () {
+          var args = Array.prototype.slice.call(arguments);
+          info.apply(console,args);
+          },
+       logerror : function() {
+          var args = Array.prototype.slice.call(arguments);
+          error.apply(console,args);
+          },
+       setError : function(fn) { error = fn; },
+       setInfo : function(fn) { info = fn; }
+    };
 
 },{}],26:[function(require,module,exports){
 module.exports = sanityCheck;
@@ -23022,23 +23022,23 @@ module.exports = Adapter;
 // Dependencies
 
 var browser = require('bowser'),
-	debug = require('debug')('rtcninja:Adapter'),
-	debugerror = require('debug')('rtcninja:ERROR:Adapter'),
+  debug = require('debug')('rtcninja:Adapter'),
+  debugerror = require('debug')('rtcninja:ERROR:Adapter'),
 
-	// Internal vars
-	getUserMedia = null,
-	RTCPeerConnection = null,
-	RTCSessionDescription = null,
-	RTCIceCandidate = null,
-	MediaStreamTrack = null,
-	getMediaDevices = null,
-	attachMediaStream = null,
-	canRenegotiate = false,
-	oldSpecRTCOfferOptions = false,
-	browserVersion = Number(browser.version) || 0,
-	isDesktop = !!(!browser.mobile && !browser.tablet),
-	hasWebRTC = false,
-	virtGlobal, virtNavigator;
+  // Internal vars
+  getUserMedia = null,
+  RTCPeerConnection = null,
+  RTCSessionDescription = null,
+  RTCIceCandidate = null,
+  MediaStreamTrack = null,
+  getMediaDevices = null,
+  attachMediaStream = null,
+  canRenegotiate = false,
+  oldSpecRTCOfferOptions = false,
+  browserVersion = Number(browser.version) || 0,
+  isDesktop = !!(!browser.mobile && !browser.tablet),
+  hasWebRTC = false,
+  virtGlobal, virtNavigator;
 
 debugerror.log = console.warn.bind(console);
 
@@ -23051,267 +23051,267 @@ virtNavigator = virtGlobal.navigator || {};
 // Constructor.
 
 function Adapter(options) {
-	// Chrome desktop, Chrome Android, Opera desktop, Opera Android, Android native browser
-	// or generic Webkit browser.
-	if (
-		(isDesktop && browser.chrome && browserVersion >= 32) ||
-		(browser.android && browser.chrome && browserVersion >= 39) ||
-		(isDesktop && browser.opera && browserVersion >= 27) ||
-		(browser.android && browser.opera && browserVersion >= 24) ||
-		(browser.android && browser.webkit && !browser.chrome && browserVersion >= 37) ||
-		(virtNavigator.webkitGetUserMedia && virtGlobal.webkitRTCPeerConnection)
-	) {
-		hasWebRTC = true;
-		getUserMedia = virtNavigator.webkitGetUserMedia.bind(virtNavigator);
-		RTCPeerConnection = virtGlobal.webkitRTCPeerConnection;
-		RTCSessionDescription = virtGlobal.RTCSessionDescription;
-		RTCIceCandidate = virtGlobal.RTCIceCandidate;
-		MediaStreamTrack = virtGlobal.MediaStreamTrack;
-		if (MediaStreamTrack && MediaStreamTrack.getSources) {
-			getMediaDevices = MediaStreamTrack.getSources.bind(MediaStreamTrack);
-		} else if (virtNavigator.getMediaDevices) {
-			getMediaDevices = virtNavigator.getMediaDevices.bind(virtNavigator);
-		}
-		attachMediaStream = function (element, stream) {
-			element.src = URL.createObjectURL(stream);
-			return element;
-		};
-		canRenegotiate = true;
-		oldSpecRTCOfferOptions = false;
-	// Firefox desktop, Firefox Android.
-	} else if (
-		(isDesktop && browser.firefox && browserVersion >= 22) ||
-		(browser.android && browser.firefox && browserVersion >= 33) ||
-		(virtNavigator.mozGetUserMedia && virtGlobal.mozRTCPeerConnection)
-	) {
-		hasWebRTC = true;
-		getUserMedia = virtNavigator.mozGetUserMedia.bind(virtNavigator);
-		RTCPeerConnection = virtGlobal.mozRTCPeerConnection;
-		RTCSessionDescription = virtGlobal.mozRTCSessionDescription;
-		RTCIceCandidate = virtGlobal.mozRTCIceCandidate;
-		MediaStreamTrack = virtGlobal.MediaStreamTrack;
-		attachMediaStream = function (element, stream) {
-			element.src = URL.createObjectURL(stream);
-			return element;
-		};
-		canRenegotiate = false;
-		oldSpecRTCOfferOptions = false;
-		// WebRTC plugin required. For example IE or Safari with the Temasys plugin.
-	} else if (
-		options.plugin &&
-		typeof options.plugin.isRequired === 'function' &&
-		options.plugin.isRequired() &&
-		typeof options.plugin.isInstalled === 'function' &&
-		options.plugin.isInstalled()
-	) {
-		var pluginiface = options.plugin.interface;
+  // Chrome desktop, Chrome Android, Opera desktop, Opera Android, Android native browser
+  // or generic Webkit browser.
+  if (
+    (isDesktop && browser.chrome && browserVersion >= 32) ||
+    (browser.android && browser.chrome && browserVersion >= 39) ||
+    (isDesktop && browser.opera && browserVersion >= 27) ||
+    (browser.android && browser.opera && browserVersion >= 24) ||
+    (browser.android && browser.webkit && !browser.chrome && browserVersion >= 37) ||
+    (virtNavigator.webkitGetUserMedia && virtGlobal.webkitRTCPeerConnection)
+  ) {
+    hasWebRTC = true;
+    getUserMedia = virtNavigator.webkitGetUserMedia.bind(virtNavigator);
+    RTCPeerConnection = virtGlobal.webkitRTCPeerConnection;
+    RTCSessionDescription = virtGlobal.RTCSessionDescription;
+    RTCIceCandidate = virtGlobal.RTCIceCandidate;
+    MediaStreamTrack = virtGlobal.MediaStreamTrack;
+    if (MediaStreamTrack && MediaStreamTrack.getSources) {
+      getMediaDevices = MediaStreamTrack.getSources.bind(MediaStreamTrack);
+    } else if (virtNavigator.getMediaDevices) {
+      getMediaDevices = virtNavigator.getMediaDevices.bind(virtNavigator);
+    }
+    attachMediaStream = function (element, stream) {
+      element.src = URL.createObjectURL(stream);
+      return element;
+    };
+    canRenegotiate = true;
+    oldSpecRTCOfferOptions = false;
+  // Firefox desktop, Firefox Android.
+  } else if (
+    (isDesktop && browser.firefox && browserVersion >= 22) ||
+    (browser.android && browser.firefox && browserVersion >= 33) ||
+    (virtNavigator.mozGetUserMedia && virtGlobal.mozRTCPeerConnection)
+  ) {
+    hasWebRTC = true;
+    getUserMedia = virtNavigator.mozGetUserMedia.bind(virtNavigator);
+    RTCPeerConnection = virtGlobal.mozRTCPeerConnection;
+    RTCSessionDescription = virtGlobal.mozRTCSessionDescription;
+    RTCIceCandidate = virtGlobal.mozRTCIceCandidate;
+    MediaStreamTrack = virtGlobal.MediaStreamTrack;
+    attachMediaStream = function (element, stream) {
+      element.src = URL.createObjectURL(stream);
+      return element;
+    };
+    canRenegotiate = false;
+    oldSpecRTCOfferOptions = false;
+    // WebRTC plugin required. For example IE or Safari with the Temasys plugin.
+  } else if (
+    options.plugin &&
+    typeof options.plugin.isRequired === 'function' &&
+    options.plugin.isRequired() &&
+    typeof options.plugin.isInstalled === 'function' &&
+    options.plugin.isInstalled()
+  ) {
+    var pluginiface = options.plugin.interface;
 
-		hasWebRTC = true;
-		getUserMedia = pluginiface.getUserMedia;
-		RTCPeerConnection = pluginiface.RTCPeerConnection;
-		RTCSessionDescription = pluginiface.RTCSessionDescription;
-		RTCIceCandidate = pluginiface.RTCIceCandidate;
-		MediaStreamTrack = pluginiface.MediaStreamTrack;
-		if (MediaStreamTrack && MediaStreamTrack.getSources) {
-			getMediaDevices = MediaStreamTrack.getSources.bind(MediaStreamTrack);
-		} else if (virtNavigator.getMediaDevices) {
-			getMediaDevices = virtNavigator.getMediaDevices.bind(virtNavigator);
-		}
-		attachMediaStream = pluginiface.attachMediaStream;
-		canRenegotiate = pluginiface.canRenegotiate;
-		oldSpecRTCOfferOptions = true;  // TODO: Update when fixed in the plugin.
-	// Best effort (may be adater.js is loaded).
-	} else if (virtNavigator.getUserMedia && virtGlobal.RTCPeerConnection) {
-		hasWebRTC = true;
-		getUserMedia = virtNavigator.getUserMedia.bind(virtNavigator);
-		RTCPeerConnection = virtGlobal.RTCPeerConnection;
-		RTCSessionDescription = virtGlobal.RTCSessionDescription;
-		RTCIceCandidate = virtGlobal.RTCIceCandidate;
-		MediaStreamTrack = virtGlobal.MediaStreamTrack;
-		if (MediaStreamTrack && MediaStreamTrack.getSources) {
-			getMediaDevices = MediaStreamTrack.getSources.bind(MediaStreamTrack);
-		} else if (virtNavigator.getMediaDevices) {
-			getMediaDevices = virtNavigator.getMediaDevices.bind(virtNavigator);
-		}
-		attachMediaStream = virtGlobal.attachMediaStream || function (element, stream) {
-			element.src = URL.createObjectURL(stream);
-			return element;
-		};
-		canRenegotiate = false;
-		oldSpecRTCOfferOptions = false;
-	}
-
-
-	function throwNonSupported(item) {
-		return function () {
-			throw new Error('rtcninja: WebRTC not supported, missing ' + item +
-			' [browser: ' + browser.name + ' ' + browser.version + ']');
-		};
-	}
+    hasWebRTC = true;
+    getUserMedia = pluginiface.getUserMedia;
+    RTCPeerConnection = pluginiface.RTCPeerConnection;
+    RTCSessionDescription = pluginiface.RTCSessionDescription;
+    RTCIceCandidate = pluginiface.RTCIceCandidate;
+    MediaStreamTrack = pluginiface.MediaStreamTrack;
+    if (MediaStreamTrack && MediaStreamTrack.getSources) {
+      getMediaDevices = MediaStreamTrack.getSources.bind(MediaStreamTrack);
+    } else if (virtNavigator.getMediaDevices) {
+      getMediaDevices = virtNavigator.getMediaDevices.bind(virtNavigator);
+    }
+    attachMediaStream = pluginiface.attachMediaStream;
+    canRenegotiate = pluginiface.canRenegotiate;
+    oldSpecRTCOfferOptions = true;  // TODO: Update when fixed in the plugin.
+  // Best effort (may be adater.js is loaded).
+  } else if (virtNavigator.getUserMedia && virtGlobal.RTCPeerConnection) {
+    hasWebRTC = true;
+    getUserMedia = virtNavigator.getUserMedia.bind(virtNavigator);
+    RTCPeerConnection = virtGlobal.RTCPeerConnection;
+    RTCSessionDescription = virtGlobal.RTCSessionDescription;
+    RTCIceCandidate = virtGlobal.RTCIceCandidate;
+    MediaStreamTrack = virtGlobal.MediaStreamTrack;
+    if (MediaStreamTrack && MediaStreamTrack.getSources) {
+      getMediaDevices = MediaStreamTrack.getSources.bind(MediaStreamTrack);
+    } else if (virtNavigator.getMediaDevices) {
+      getMediaDevices = virtNavigator.getMediaDevices.bind(virtNavigator);
+    }
+    attachMediaStream = virtGlobal.attachMediaStream || function (element, stream) {
+      element.src = URL.createObjectURL(stream);
+      return element;
+    };
+    canRenegotiate = false;
+    oldSpecRTCOfferOptions = false;
+  }
 
 
-	// Public API.
+  function throwNonSupported(item) {
+    return function () {
+      throw new Error('rtcninja: WebRTC not supported, missing ' + item +
+      ' [browser: ' + browser.name + ' ' + browser.version + ']');
+    };
+  }
 
-	// Expose a WebRTC checker.
-	Adapter.hasWebRTC = function () {
-		return hasWebRTC;
-	};
 
-	// Expose getUserMedia.
-	if (getUserMedia) {
-		Adapter.getUserMedia = function (constraints, successCallback, errorCallback) {
-			debug('getUserMedia() | constraints: %o', constraints);
+  // Public API.
 
-			try {
-				getUserMedia(constraints,
-					function (stream) {
-						debug('getUserMedia() | success');
-						if (successCallback) {
-							successCallback(stream);
-						}
-					},
-					function (error) {
-						debug('getUserMedia() | error:', error);
-						if (errorCallback) {
-							errorCallback(error);
-						}
-					}
-				);
-			}
-			catch (error) {
-				debugerror('getUserMedia() | error:', error);
-				if (errorCallback) {
-					errorCallback(error);
-				}
-			}
-		};
-	} else {
-		Adapter.getUserMedia = function (constraints, successCallback, errorCallback) {
-			debugerror('getUserMedia() | WebRTC not supported');
-			if (errorCallback) {
-				errorCallback(new Error('rtcninja: WebRTC not supported, missing ' +
-				'getUserMedia [browser: ' + browser.name + ' ' + browser.version + ']'));
-			} else {
-				throwNonSupported('getUserMedia');
-			}
-		};
-	}
+  // Expose a WebRTC checker.
+  Adapter.hasWebRTC = function () {
+    return hasWebRTC;
+  };
 
-	// Expose RTCPeerConnection.
-	Adapter.RTCPeerConnection = RTCPeerConnection || throwNonSupported('RTCPeerConnection');
+  // Expose getUserMedia.
+  if (getUserMedia) {
+    Adapter.getUserMedia = function (constraints, successCallback, errorCallback) {
+      debug('getUserMedia() | constraints: %o', constraints);
 
-	// Expose RTCSessionDescription.
-	Adapter.RTCSessionDescription = RTCSessionDescription || throwNonSupported('RTCSessionDescription');
+      try {
+        getUserMedia(constraints,
+          function (stream) {
+            debug('getUserMedia() | success');
+            if (successCallback) {
+              successCallback(stream);
+            }
+          },
+          function (error) {
+            debug('getUserMedia() | error:', error);
+            if (errorCallback) {
+              errorCallback(error);
+            }
+          }
+        );
+      }
+      catch (error) {
+        debugerror('getUserMedia() | error:', error);
+        if (errorCallback) {
+          errorCallback(error);
+        }
+      }
+    };
+  } else {
+    Adapter.getUserMedia = function (constraints, successCallback, errorCallback) {
+      debugerror('getUserMedia() | WebRTC not supported');
+      if (errorCallback) {
+        errorCallback(new Error('rtcninja: WebRTC not supported, missing ' +
+        'getUserMedia [browser: ' + browser.name + ' ' + browser.version + ']'));
+      } else {
+        throwNonSupported('getUserMedia');
+      }
+    };
+  }
 
-	// Expose RTCIceCandidate.
-	Adapter.RTCIceCandidate = RTCIceCandidate || throwNonSupported('RTCIceCandidate');
+  // Expose RTCPeerConnection.
+  Adapter.RTCPeerConnection = RTCPeerConnection || throwNonSupported('RTCPeerConnection');
 
-	// Expose MediaStreamTrack.
-	Adapter.MediaStreamTrack = MediaStreamTrack || throwNonSupported('MediaStreamTrack');
+  // Expose RTCSessionDescription.
+  Adapter.RTCSessionDescription = RTCSessionDescription || throwNonSupported('RTCSessionDescription');
 
-	// Expose getMediaDevices.
-	Adapter.getMediaDevices = getMediaDevices;
+  // Expose RTCIceCandidate.
+  Adapter.RTCIceCandidate = RTCIceCandidate || throwNonSupported('RTCIceCandidate');
 
-	// Expose MediaStreamTrack.
-	Adapter.attachMediaStream = attachMediaStream || throwNonSupported('attachMediaStream');
+  // Expose MediaStreamTrack.
+  Adapter.MediaStreamTrack = MediaStreamTrack || throwNonSupported('MediaStreamTrack');
 
-	// Expose canRenegotiate attribute.
-	Adapter.canRenegotiate = canRenegotiate;
+  // Expose getMediaDevices.
+  Adapter.getMediaDevices = getMediaDevices;
 
-	// Expose closeMediaStream.
-	Adapter.closeMediaStream = function (stream) {
-		if (!stream) {
-			return;
-		}
+  // Expose MediaStreamTrack.
+  Adapter.attachMediaStream = attachMediaStream || throwNonSupported('attachMediaStream');
 
-		// Latest spec states that MediaStream has no stop() method and instead must
-		// call stop() on every MediaStreamTrack.
-		if (MediaStreamTrack && MediaStreamTrack.prototype && MediaStreamTrack.prototype.stop) {
-			debug('closeMediaStream() | calling stop() on all the MediaStreamTrack');
+  // Expose canRenegotiate attribute.
+  Adapter.canRenegotiate = canRenegotiate;
 
-			var tracks, i, len;
+  // Expose closeMediaStream.
+  Adapter.closeMediaStream = function (stream) {
+    if (!stream) {
+      return;
+    }
 
-			if (stream.getTracks) {
-				tracks = stream.getTracks();
-				for (i = 0, len = tracks.length; i < len; i += 1) {
-					tracks[i].stop();
-				}
-			} else {
-				tracks = stream.getAudioTracks();
-				for (i = 0, len = tracks.length; i < len; i += 1) {
-					tracks[i].stop();
-				}
+    // Latest spec states that MediaStream has no stop() method and instead must
+    // call stop() on every MediaStreamTrack.
+    if (MediaStreamTrack && MediaStreamTrack.prototype && MediaStreamTrack.prototype.stop) {
+      debug('closeMediaStream() | calling stop() on all the MediaStreamTrack');
 
-				tracks = stream.getVideoTracks();
-				for (i = 0, len = tracks.length; i < len; i += 1) {
-					tracks[i].stop();
-				}
-			}
-		// Deprecated by the spec, but still in use.
-		} else if (typeof stream.stop === 'function') {
-			debug('closeMediaStream() | calling stop() on the MediaStream');
+      var tracks, i, len;
 
-			stream.stop();
-		}
-	};
+      if (stream.getTracks) {
+        tracks = stream.getTracks();
+        for (i = 0, len = tracks.length; i < len; i += 1) {
+          tracks[i].stop();
+        }
+      } else {
+        tracks = stream.getAudioTracks();
+        for (i = 0, len = tracks.length; i < len; i += 1) {
+          tracks[i].stop();
+        }
 
-	// Expose fixPeerConnectionConfig.
-	Adapter.fixPeerConnectionConfig = function (pcConfig) {
-		var i, len, iceServer, hasUrls, hasUrl;
+        tracks = stream.getVideoTracks();
+        for (i = 0, len = tracks.length; i < len; i += 1) {
+          tracks[i].stop();
+        }
+      }
+    // Deprecated by the spec, but still in use.
+    } else if (typeof stream.stop === 'function') {
+      debug('closeMediaStream() | calling stop() on the MediaStream');
 
-		if (!Array.isArray(pcConfig.iceServers)) {
-			pcConfig.iceServers = [];
-		}
+      stream.stop();
+    }
+  };
 
-		for (i = 0, len = pcConfig.iceServers.length; i < len; i += 1) {
-			iceServer = pcConfig.iceServers[i];
-			hasUrls = iceServer.hasOwnProperty('urls');
-			hasUrl = iceServer.hasOwnProperty('url');
+  // Expose fixPeerConnectionConfig.
+  Adapter.fixPeerConnectionConfig = function (pcConfig) {
+    var i, len, iceServer, hasUrls, hasUrl;
 
-			if (typeof iceServer === 'object') {
-				// Has .urls but not .url, so add .url with a single string value.
-				if (hasUrls && !hasUrl) {
-					iceServer.url = (Array.isArray(iceServer.urls) ? iceServer.urls[0] : iceServer.urls);
-				// Has .url but not .urls, so add .urls with same value.
-				} else if (!hasUrls && hasUrl) {
-					iceServer.urls = (Array.isArray(iceServer.url) ? iceServer.url.slice() : iceServer.url);
-				}
+    if (!Array.isArray(pcConfig.iceServers)) {
+      pcConfig.iceServers = [];
+    }
 
-				// Ensure .url is a single string.
-				if (hasUrl && Array.isArray(iceServer.url)) {
-					iceServer.url = iceServer.url[0];
-				}
-			}
-		}
-	};
+    for (i = 0, len = pcConfig.iceServers.length; i < len; i += 1) {
+      iceServer = pcConfig.iceServers[i];
+      hasUrls = iceServer.hasOwnProperty('urls');
+      hasUrl = iceServer.hasOwnProperty('url');
 
-	// Expose fixRTCOfferOptions.
-	Adapter.fixRTCOfferOptions = function (options) {
-		options = options || {};
+      if (typeof iceServer === 'object') {
+        // Has .urls but not .url, so add .url with a single string value.
+        if (hasUrls && !hasUrl) {
+          iceServer.url = (Array.isArray(iceServer.urls) ? iceServer.urls[0] : iceServer.urls);
+        // Has .url but not .urls, so add .urls with same value.
+        } else if (!hasUrls && hasUrl) {
+          iceServer.urls = (Array.isArray(iceServer.url) ? iceServer.url.slice() : iceServer.url);
+        }
 
-		// New spec.
-		if (!oldSpecRTCOfferOptions) {
-			if (options.mandatory && options.mandatory.OfferToReceiveAudio) {
-				options.offerToReceiveAudio = 1;
-			}
-			if (options.mandatory && options.mandatory.OfferToReceiveVideo) {
-				options.offerToReceiveVideo = 1;
-			}
-			delete options.mandatory;
-		// Old spec.
-		} else {
-			if (options.offerToReceiveAudio) {
-				options.mandatory = options.mandatory || {};
-				options.mandatory.OfferToReceiveAudio = true;
-			}
-			if (options.offerToReceiveVideo) {
-				options.mandatory = options.mandatory || {};
-				options.mandatory.OfferToReceiveVideo = true;
-			}
-		}
-	};
+        // Ensure .url is a single string.
+        if (hasUrl && Array.isArray(iceServer.url)) {
+          iceServer.url = iceServer.url[0];
+        }
+      }
+    }
+  };
 
-	return Adapter;
+  // Expose fixRTCOfferOptions.
+  Adapter.fixRTCOfferOptions = function (options) {
+    options = options || {};
+
+    // New spec.
+    if (!oldSpecRTCOfferOptions) {
+      if (options.mandatory && options.mandatory.OfferToReceiveAudio) {
+        options.offerToReceiveAudio = 1;
+      }
+      if (options.mandatory && options.mandatory.OfferToReceiveVideo) {
+        options.offerToReceiveVideo = 1;
+      }
+      delete options.mandatory;
+    // Old spec.
+    } else {
+      if (options.offerToReceiveAudio) {
+        options.mandatory = options.mandatory || {};
+        options.mandatory.OfferToReceiveAudio = true;
+      }
+      if (options.offerToReceiveVideo) {
+        options.mandatory = options.mandatory || {};
+        options.mandatory.OfferToReceiveVideo = true;
+      }
+    }
+  };
+
+  return Adapter;
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -23325,23 +23325,23 @@ module.exports = RTCPeerConnection;
 // Dependencies.
 
 var merge = require('merge'),
-	debug = require('debug')('rtcninja:RTCPeerConnection'),
-	debugerror = require('debug')('rtcninja:ERROR:RTCPeerConnection'),
-	Adapter = require('./Adapter'),
+  debug = require('debug')('rtcninja:RTCPeerConnection'),
+  debugerror = require('debug')('rtcninja:ERROR:RTCPeerConnection'),
+  Adapter = require('./Adapter'),
 
-	// Internal constants.
-	C = {
-		REGEXP_NORMALIZED_CANDIDATE: new RegExp(/^candidate:/i),
-		REGEXP_FIX_CANDIDATE: new RegExp(/(^a=|\r|\n)/gi),
-		REGEXP_RELAY_CANDIDATE: new RegExp(/ relay /i),
-		REGEXP_SDP_CANDIDATES: new RegExp(/^a=candidate:.*\r\n/igm),
-		REGEXP_SDP_NON_RELAY_CANDIDATES: new RegExp(/^a=candidate:(.(?!relay ))*\r\n/igm)
-	},
+  // Internal constants.
+  C = {
+    REGEXP_NORMALIZED_CANDIDATE: new RegExp(/^candidate:/i),
+    REGEXP_FIX_CANDIDATE: new RegExp(/(^a=|\r|\n)/gi),
+    REGEXP_RELAY_CANDIDATE: new RegExp(/ relay /i),
+    REGEXP_SDP_CANDIDATES: new RegExp(/^a=candidate:.*\r\n/igm),
+    REGEXP_SDP_NON_RELAY_CANDIDATES: new RegExp(/^a=candidate:(.(?!relay ))*\r\n/igm)
+  },
 
-	// Internal variables.
-	VAR = {
-		normalizeCandidate: null
-	};
+  // Internal variables.
+  VAR = {
+    normalizeCandidate: null
+  };
 
 debugerror.log = console.warn.bind(console);
 
@@ -23349,721 +23349,721 @@ debugerror.log = console.warn.bind(console);
 // Constructor
 
 function RTCPeerConnection(pcConfig, pcConstraints) {
-	debug('new | pcConfig: %o', pcConfig);
+  debug('new | pcConfig: %o', pcConfig);
 
-	// Set this.pcConfig and this.options.
-	setConfigurationAndOptions.call(this, pcConfig);
+  // Set this.pcConfig and this.options.
+  setConfigurationAndOptions.call(this, pcConfig);
 
-	// NOTE: Deprecated pcConstraints argument.
-	this.pcConstraints = pcConstraints;
+  // NOTE: Deprecated pcConstraints argument.
+  this.pcConstraints = pcConstraints;
 
-	// Own version of the localDescription.
-	this.ourLocalDescription = null;
+  // Own version of the localDescription.
+  this.ourLocalDescription = null;
 
-	// Latest values of PC attributes to avoid events with same value.
-	this.ourSignalingState = null;
-	this.ourIceConnectionState = null;
-	this.ourIceGatheringState = null;
+  // Latest values of PC attributes to avoid events with same value.
+  this.ourSignalingState = null;
+  this.ourIceConnectionState = null;
+  this.ourIceGatheringState = null;
 
-	// Timer for options.gatheringTimeout.
-	this.timerGatheringTimeout = null;
+  // Timer for options.gatheringTimeout.
+  this.timerGatheringTimeout = null;
 
-	// Timer for options.gatheringTimeoutAfterRelay.
-	this.timerGatheringTimeoutAfterRelay = null;
+  // Timer for options.gatheringTimeoutAfterRelay.
+  this.timerGatheringTimeoutAfterRelay = null;
 
-	// Flag to ignore new gathered ICE candidates.
-	this.ignoreIceGathering = false;
+  // Flag to ignore new gathered ICE candidates.
+  this.ignoreIceGathering = false;
 
-	// Flag set when closed.
-	this.closed = false;
+  // Flag set when closed.
+  this.closed = false;
 
-	// Set RTCPeerConnection.
-	setPeerConnection.call(this);
+  // Set RTCPeerConnection.
+  setPeerConnection.call(this);
 
-	// Set properties.
-	setProperties.call(this);
+  // Set properties.
+  setProperties.call(this);
 }
 
 
 // Public API.
 
 RTCPeerConnection.prototype.createOffer = function (successCallback, failureCallback, options) {
-	debug('createOffer()');
+  debug('createOffer()');
 
-	var self = this;
+  var self = this;
 
-	Adapter.fixRTCOfferOptions(options);
+  Adapter.fixRTCOfferOptions(options);
 
-	this.pc.createOffer(
-		function (offer) {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debug('createOffer() | success');
-			if (successCallback) {
-				successCallback(offer);
-			}
-		},
-		function (error) {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debugerror('createOffer() | error:', error);
-			if (failureCallback) {
-				failureCallback(error);
-			}
-		},
-		options
-	);
+  this.pc.createOffer(
+    function (offer) {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debug('createOffer() | success');
+      if (successCallback) {
+        successCallback(offer);
+      }
+    },
+    function (error) {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debugerror('createOffer() | error:', error);
+      if (failureCallback) {
+        failureCallback(error);
+      }
+    },
+    options
+  );
 };
 
 
 RTCPeerConnection.prototype.createAnswer = function (successCallback, failureCallback, options) {
-	debug('createAnswer()');
+  debug('createAnswer()');
 
-	var self = this;
+  var self = this;
 
-	this.pc.createAnswer(
-		function (answer) {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debug('createAnswer() | success');
-			if (successCallback) {
-				successCallback(answer);
-			}
-		},
-		function (error) {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debugerror('createAnswer() | error:', error);
-			if (failureCallback) {
-				failureCallback(error);
-			}
-		},
-		options
-	);
+  this.pc.createAnswer(
+    function (answer) {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debug('createAnswer() | success');
+      if (successCallback) {
+        successCallback(answer);
+      }
+    },
+    function (error) {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debugerror('createAnswer() | error:', error);
+      if (failureCallback) {
+        failureCallback(error);
+      }
+    },
+    options
+  );
 };
 
 
 RTCPeerConnection.prototype.setLocalDescription = function (description, successCallback, failureCallback) {
-	debug('setLocalDescription()');
+  debug('setLocalDescription()');
 
-	var self = this;
+  var self = this;
 
-	this.pc.setLocalDescription(
-		description,
-		// success.
-		function () {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debug('setLocalDescription() | success');
+  this.pc.setLocalDescription(
+    description,
+    // success.
+    function () {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debug('setLocalDescription() | success');
 
-			// Clear gathering timers.
-			clearTimeout(self.timerGatheringTimeout);
-			delete self.timerGatheringTimeout;
-			clearTimeout(self.timerGatheringTimeoutAfterRelay);
-			delete self.timerGatheringTimeoutAfterRelay;
+      // Clear gathering timers.
+      clearTimeout(self.timerGatheringTimeout);
+      delete self.timerGatheringTimeout;
+      clearTimeout(self.timerGatheringTimeoutAfterRelay);
+      delete self.timerGatheringTimeoutAfterRelay;
 
-			runTimerGatheringTimeout();
-			if (successCallback) {
-				successCallback();
-			}
-		},
-		// failure
-		function (error) {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debugerror('setLocalDescription() | error:', error);
-			if (failureCallback) {
-				failureCallback(error);
-			}
-		}
-	);
+      runTimerGatheringTimeout();
+      if (successCallback) {
+        successCallback();
+      }
+    },
+    // failure
+    function (error) {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debugerror('setLocalDescription() | error:', error);
+      if (failureCallback) {
+        failureCallback(error);
+      }
+    }
+  );
 
-	// Enable (again) ICE gathering.
-	this.ignoreIceGathering = false;
+  // Enable (again) ICE gathering.
+  this.ignoreIceGathering = false;
 
-	// Handle gatheringTimeout.
-	function runTimerGatheringTimeout() {
-		if (typeof self.options.gatheringTimeout !== 'number') {
-			return;
-		}
-		// If setLocalDescription was already called, it may happen that
-		// ICE gathering is not needed, so don't run this timer.
-		if (self.pc.iceGatheringState === 'complete') {
-			return;
-		}
+  // Handle gatheringTimeout.
+  function runTimerGatheringTimeout() {
+    if (typeof self.options.gatheringTimeout !== 'number') {
+      return;
+    }
+    // If setLocalDescription was already called, it may happen that
+    // ICE gathering is not needed, so don't run this timer.
+    if (self.pc.iceGatheringState === 'complete') {
+      return;
+    }
 
-		debug('setLocalDescription() | ending gathering in %d ms (gatheringTimeout option)',
-			self.options.gatheringTimeout);
+    debug('setLocalDescription() | ending gathering in %d ms (gatheringTimeout option)',
+      self.options.gatheringTimeout);
 
-		self.timerGatheringTimeout = setTimeout(function () {
-			if (isClosed.call(self)) {
-				return;
-			}
+    self.timerGatheringTimeout = setTimeout(function () {
+      if (isClosed.call(self)) {
+        return;
+      }
 
-			debug('forced end of candidates after gatheringTimeout timeout');
+      debug('forced end of candidates after gatheringTimeout timeout');
 
-			// Clear gathering timers.
-			delete self.timerGatheringTimeout;
-			clearTimeout(self.timerGatheringTimeoutAfterRelay);
-			delete self.timerGatheringTimeoutAfterRelay;
+      // Clear gathering timers.
+      delete self.timerGatheringTimeout;
+      clearTimeout(self.timerGatheringTimeoutAfterRelay);
+      delete self.timerGatheringTimeoutAfterRelay;
 
-			// Ignore new candidates.
-			self.ignoreIceGathering = true;
-			if (self.onicecandidate) {
-				self.onicecandidate({ candidate: null }, null);
-			}
+      // Ignore new candidates.
+      self.ignoreIceGathering = true;
+      if (self.onicecandidate) {
+        self.onicecandidate({ candidate: null }, null);
+      }
 
-		}, self.options.gatheringTimeout);
-	}
+    }, self.options.gatheringTimeout);
+  }
 };
 
 
 RTCPeerConnection.prototype.setRemoteDescription = function (description, successCallback, failureCallback) {
-	debug('setRemoteDescription()');
+  debug('setRemoteDescription()');
 
-	var self = this;
+  var self = this;
 
-	this.pc.setRemoteDescription(
-		description,
-		function () {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debug('setRemoteDescription() | success');
-			if (successCallback) {
-				successCallback();
-			}
-		},
-		function (error) {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debugerror('setRemoteDescription() | error:', error);
-			if (failureCallback) {
-				failureCallback(error);
-			}
-		}
-	);
+  this.pc.setRemoteDescription(
+    description,
+    function () {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debug('setRemoteDescription() | success');
+      if (successCallback) {
+        successCallback();
+      }
+    },
+    function (error) {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debugerror('setRemoteDescription() | error:', error);
+      if (failureCallback) {
+        failureCallback(error);
+      }
+    }
+  );
 };
 
 
 RTCPeerConnection.prototype.updateIce = function (pcConfig) {
-	debug('updateIce() | pcConfig: %o', pcConfig);
+  debug('updateIce() | pcConfig: %o', pcConfig);
 
-	// Update this.pcConfig and this.options.
-	setConfigurationAndOptions.call(this, pcConfig);
+  // Update this.pcConfig and this.options.
+  setConfigurationAndOptions.call(this, pcConfig);
 
-	this.pc.updateIce(this.pcConfig);
+  this.pc.updateIce(this.pcConfig);
 
-	// Enable (again) ICE gathering.
-	this.ignoreIceGathering = false;
+  // Enable (again) ICE gathering.
+  this.ignoreIceGathering = false;
 };
 
 
 RTCPeerConnection.prototype.addIceCandidate = function (candidate, successCallback, failureCallback) {
-	debug('addIceCandidate() | candidate: %o', candidate);
+  debug('addIceCandidate() | candidate: %o', candidate);
 
-	var self = this;
+  var self = this;
 
-	this.pc.addIceCandidate(
-		candidate,
-		function () {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debug('addIceCandidate() | success');
-			if (successCallback) {
-				successCallback();
-			}
-		},
-		function (error) {
-			if (isClosed.call(self)) {
-				return;
-			}
-			debugerror('addIceCandidate() | error:', error);
-			if (failureCallback) {
-				failureCallback(error);
-			}
-		}
-	);
+  this.pc.addIceCandidate(
+    candidate,
+    function () {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debug('addIceCandidate() | success');
+      if (successCallback) {
+        successCallback();
+      }
+    },
+    function (error) {
+      if (isClosed.call(self)) {
+        return;
+      }
+      debugerror('addIceCandidate() | error:', error);
+      if (failureCallback) {
+        failureCallback(error);
+      }
+    }
+  );
 };
 
 
 RTCPeerConnection.prototype.getConfiguration = function () {
-	debug('getConfiguration()');
+  debug('getConfiguration()');
 
-	return this.pc.getConfiguration();
+  return this.pc.getConfiguration();
 };
 
 
 RTCPeerConnection.prototype.getLocalStreams = function () {
-	debug('getLocalStreams()');
+  debug('getLocalStreams()');
 
-	return this.pc.getLocalStreams();
+  return this.pc.getLocalStreams();
 };
 
 
 RTCPeerConnection.prototype.getRemoteStreams = function () {
-	debug('getRemoteStreams()');
+  debug('getRemoteStreams()');
 
-	return this.pc.getRemoteStreams();
+  return this.pc.getRemoteStreams();
 };
 
 
 RTCPeerConnection.prototype.getStreamById = function (streamId) {
-	debug('getStreamById() | streamId: %s', streamId);
+  debug('getStreamById() | streamId: %s', streamId);
 
-	return this.pc.getStreamById(streamId);
+  return this.pc.getStreamById(streamId);
 };
 
 
 RTCPeerConnection.prototype.addStream = function (stream) {
-	debug('addStream() | stream: %s', stream);
+  debug('addStream() | stream: %s', stream);
 
-	this.pc.addStream(stream);
+  this.pc.addStream(stream);
 };
 
 
 RTCPeerConnection.prototype.removeStream = function (stream) {
-	debug('removeStream() | stream: %o', stream);
+  debug('removeStream() | stream: %o', stream);
 
-	this.pc.removeStream(stream);
+  this.pc.removeStream(stream);
 };
 
 
 RTCPeerConnection.prototype.close = function () {
-	debug('close()');
+  debug('close()');
 
-	this.closed = true;
+  this.closed = true;
 
-	// Clear gathering timers.
-	clearTimeout(this.timerGatheringTimeout);
-	delete this.timerGatheringTimeout;
-	clearTimeout(this.timerGatheringTimeoutAfterRelay);
-	delete this.timerGatheringTimeoutAfterRelay;
+  // Clear gathering timers.
+  clearTimeout(this.timerGatheringTimeout);
+  delete this.timerGatheringTimeout;
+  clearTimeout(this.timerGatheringTimeoutAfterRelay);
+  delete this.timerGatheringTimeoutAfterRelay;
 
-	this.pc.close();
+  this.pc.close();
 };
 
 
 RTCPeerConnection.prototype.createDataChannel = function () {
-	debug('createDataChannel()');
+  debug('createDataChannel()');
 
-	return this.pc.createDataChannel.apply(this.pc, arguments);
+  return this.pc.createDataChannel.apply(this.pc, arguments);
 };
 
 
 RTCPeerConnection.prototype.createDTMFSender = function (track) {
-	debug('createDTMFSender()');
+  debug('createDTMFSender()');
 
-	return this.pc.createDTMFSender(track);
+  return this.pc.createDTMFSender(track);
 };
 
 
 RTCPeerConnection.prototype.getStats = function () {
-	debug('getStats()');
+  debug('getStats()');
 
-	return this.pc.getStats.apply(this.pc, arguments);
+  return this.pc.getStats.apply(this.pc, arguments);
 };
 
 
 RTCPeerConnection.prototype.setIdentityProvider = function () {
-	debug('setIdentityProvider()');
+  debug('setIdentityProvider()');
 
-	return this.pc.setIdentityProvider.apply(this.pc, arguments);
+  return this.pc.setIdentityProvider.apply(this.pc, arguments);
 };
 
 
 RTCPeerConnection.prototype.getIdentityAssertion = function () {
-	debug('getIdentityAssertion()');
+  debug('getIdentityAssertion()');
 
-	return this.pc.getIdentityAssertion();
+  return this.pc.getIdentityAssertion();
 };
 
 
 RTCPeerConnection.prototype.reset = function (pcConfig) {
-	debug('reset() | pcConfig: %o', pcConfig);
+  debug('reset() | pcConfig: %o', pcConfig);
 
-	var pc = this.pc;
+  var pc = this.pc;
 
-	// Remove events in the old PC.
-	pc.onnegotiationneeded = null;
-	pc.onicecandidate = null;
-	pc.onaddstream = null;
-	pc.onremovestream = null;
-	pc.ondatachannel = null;
-	pc.onsignalingstatechange = null;
-	pc.oniceconnectionstatechange = null;
-	pc.onicegatheringstatechange = null;
-	pc.onidentityresult = null;
-	pc.onpeeridentity = null;
-	pc.onidpassertionerror = null;
-	pc.onidpvalidationerror = null;
+  // Remove events in the old PC.
+  pc.onnegotiationneeded = null;
+  pc.onicecandidate = null;
+  pc.onaddstream = null;
+  pc.onremovestream = null;
+  pc.ondatachannel = null;
+  pc.onsignalingstatechange = null;
+  pc.oniceconnectionstatechange = null;
+  pc.onicegatheringstatechange = null;
+  pc.onidentityresult = null;
+  pc.onpeeridentity = null;
+  pc.onidpassertionerror = null;
+  pc.onidpvalidationerror = null;
 
-	// Clear gathering timers.
-	clearTimeout(this.timerGatheringTimeout);
-	delete this.timerGatheringTimeout;
-	clearTimeout(this.timerGatheringTimeoutAfterRelay);
-	delete this.timerGatheringTimeoutAfterRelay;
+  // Clear gathering timers.
+  clearTimeout(this.timerGatheringTimeout);
+  delete this.timerGatheringTimeout;
+  clearTimeout(this.timerGatheringTimeoutAfterRelay);
+  delete this.timerGatheringTimeoutAfterRelay;
 
-	// Silently close the old PC.
-	debug('reset() | closing current peerConnection');
-	pc.close();
+  // Silently close the old PC.
+  debug('reset() | closing current peerConnection');
+  pc.close();
 
-	// Set this.pcConfig and this.options.
-	setConfigurationAndOptions.call(this, pcConfig);
+  // Set this.pcConfig and this.options.
+  setConfigurationAndOptions.call(this, pcConfig);
 
-	// Create a new PC.
-	setPeerConnection.call(this);
+  // Create a new PC.
+  setPeerConnection.call(this);
 };
 
 
 // Private Helpers.
 
 function setConfigurationAndOptions(pcConfig) {
-	// Clone pcConfig.
-	this.pcConfig = merge(true, pcConfig);
+  // Clone pcConfig.
+  this.pcConfig = merge(true, pcConfig);
 
-	// Fix pcConfig.
-	Adapter.fixPeerConnectionConfig(this.pcConfig);
+  // Fix pcConfig.
+  Adapter.fixPeerConnectionConfig(this.pcConfig);
 
-	this.options = {
-		iceTransportsRelay: (this.pcConfig.iceTransports === 'relay'),
-		iceTransportsNone: (this.pcConfig.iceTransports === 'none'),
-		gatheringTimeout: this.pcConfig.gatheringTimeout,
-		gatheringTimeoutAfterRelay: this.pcConfig.gatheringTimeoutAfterRelay
-	};
+  this.options = {
+    iceTransportsRelay: (this.pcConfig.iceTransports === 'relay'),
+    iceTransportsNone: (this.pcConfig.iceTransports === 'none'),
+    gatheringTimeout: this.pcConfig.gatheringTimeout,
+    gatheringTimeoutAfterRelay: this.pcConfig.gatheringTimeoutAfterRelay
+  };
 
-	// Remove custom rtcninja.RTCPeerConnection options from pcConfig.
-	delete this.pcConfig.gatheringTimeout;
-	delete this.pcConfig.gatheringTimeoutAfterRelay;
+  // Remove custom rtcninja.RTCPeerConnection options from pcConfig.
+  delete this.pcConfig.gatheringTimeout;
+  delete this.pcConfig.gatheringTimeoutAfterRelay;
 
-	debug('setConfigurationAndOptions | processed pcConfig: %o', this.pcConfig);
+  debug('setConfigurationAndOptions | processed pcConfig: %o', this.pcConfig);
 }
 
 
 function isClosed() {
-	return ((this.closed) || (this.pc && this.pc.iceConnectionState === 'closed'));
+  return ((this.closed) || (this.pc && this.pc.iceConnectionState === 'closed'));
 }
 
 
 function setEvents() {
-	var self = this,
-		pc = this.pc;
+  var self = this,
+    pc = this.pc;
 
-	pc.onnegotiationneeded = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.onnegotiationneeded = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		debug('onnegotiationneeded()');
-		if (self.onnegotiationneeded) {
-			self.onnegotiationneeded(event);
-		}
-	};
+    debug('onnegotiationneeded()');
+    if (self.onnegotiationneeded) {
+      self.onnegotiationneeded(event);
+    }
+  };
 
-	pc.onicecandidate = function (event) {
-		var candidate, isRelay, newCandidate;
+  pc.onicecandidate = function (event) {
+    var candidate, isRelay, newCandidate;
 
-		if (isClosed.call(self)) {
-			return;
-		}
-		if (self.ignoreIceGathering) {
-			return;
-		}
+    if (isClosed.call(self)) {
+      return;
+    }
+    if (self.ignoreIceGathering) {
+      return;
+    }
 
-		// Ignore any candidate (event the null one) if iceTransports:'none' is set.
-		if (self.options.iceTransportsNone) {
-			return;
-		}
+    // Ignore any candidate (event the null one) if iceTransports:'none' is set.
+    if (self.options.iceTransportsNone) {
+      return;
+    }
 
-		candidate = event.candidate;
+    candidate = event.candidate;
 
-		if (candidate) {
-			isRelay = C.REGEXP_RELAY_CANDIDATE.test(candidate.candidate);
+    if (candidate) {
+      isRelay = C.REGEXP_RELAY_CANDIDATE.test(candidate.candidate);
 
-			// Ignore if just relay candidates are requested.
-			if (self.options.iceTransportsRelay && !isRelay) {
-				return;
-			}
+      // Ignore if just relay candidates are requested.
+      if (self.options.iceTransportsRelay && !isRelay) {
+        return;
+      }
 
-			// Handle gatheringTimeoutAfterRelay.
-			if (isRelay && !self.timerGatheringTimeoutAfterRelay &&
-				(typeof self.options.gatheringTimeoutAfterRelay === 'number')) {
-				debug('onicecandidate() | first relay candidate found, ending gathering in %d ms', self.options.gatheringTimeoutAfterRelay);
+      // Handle gatheringTimeoutAfterRelay.
+      if (isRelay && !self.timerGatheringTimeoutAfterRelay &&
+        (typeof self.options.gatheringTimeoutAfterRelay === 'number')) {
+        debug('onicecandidate() | first relay candidate found, ending gathering in %d ms', self.options.gatheringTimeoutAfterRelay);
 
-				self.timerGatheringTimeoutAfterRelay = setTimeout(function () {
-					if (isClosed.call(self)) {
-						return;
-					}
+        self.timerGatheringTimeoutAfterRelay = setTimeout(function () {
+          if (isClosed.call(self)) {
+            return;
+          }
 
-					debug('forced end of candidates after timeout');
+          debug('forced end of candidates after timeout');
 
-					// Clear gathering timers.
-					delete self.timerGatheringTimeoutAfterRelay;
-					clearTimeout(self.timerGatheringTimeout);
-					delete self.timerGatheringTimeout;
+          // Clear gathering timers.
+          delete self.timerGatheringTimeoutAfterRelay;
+          clearTimeout(self.timerGatheringTimeout);
+          delete self.timerGatheringTimeout;
 
-					// Ignore new candidates.
-					self.ignoreIceGathering = true;
-					if (self.onicecandidate) {
-						self.onicecandidate({candidate: null}, null);
-					}
-				}, self.options.gatheringTimeoutAfterRelay);
-			}
+          // Ignore new candidates.
+          self.ignoreIceGathering = true;
+          if (self.onicecandidate) {
+            self.onicecandidate({candidate: null}, null);
+          }
+        }, self.options.gatheringTimeoutAfterRelay);
+      }
 
-			newCandidate = new Adapter.RTCIceCandidate({
-				sdpMid: candidate.sdpMid,
-				sdpMLineIndex: candidate.sdpMLineIndex,
-				candidate: candidate.candidate
-			});
+      newCandidate = new Adapter.RTCIceCandidate({
+        sdpMid: candidate.sdpMid,
+        sdpMLineIndex: candidate.sdpMLineIndex,
+        candidate: candidate.candidate
+      });
 
-			// Force correct candidate syntax (just check it once).
-			if (VAR.normalizeCandidate === null) {
-				if (C.REGEXP_NORMALIZED_CANDIDATE.test(candidate.candidate)) {
-					VAR.normalizeCandidate = false;
-				} else {
-					debug('onicecandidate() | normalizing ICE candidates syntax (remove "a=" and "\\r\\n")');
-					VAR.normalizeCandidate = true;
-				}
-			}
-			if (VAR.normalizeCandidate) {
-				newCandidate.candidate = candidate.candidate.replace(C.REGEXP_FIX_CANDIDATE, '');
-			}
+      // Force correct candidate syntax (just check it once).
+      if (VAR.normalizeCandidate === null) {
+        if (C.REGEXP_NORMALIZED_CANDIDATE.test(candidate.candidate)) {
+          VAR.normalizeCandidate = false;
+        } else {
+          debug('onicecandidate() | normalizing ICE candidates syntax (remove "a=" and "\\r\\n")');
+          VAR.normalizeCandidate = true;
+        }
+      }
+      if (VAR.normalizeCandidate) {
+        newCandidate.candidate = candidate.candidate.replace(C.REGEXP_FIX_CANDIDATE, '');
+      }
 
-			debug(
-				'onicecandidate() | m%d(%s) %s',
-				newCandidate.sdpMLineIndex,
-				newCandidate.sdpMid || 'no mid', newCandidate.candidate);
-			if (self.onicecandidate) {
-				self.onicecandidate(event, newCandidate);
-			}
-		// Null candidate (end of candidates).
-		} else {
-			debug('onicecandidate() | end of candidates');
+      debug(
+        'onicecandidate() | m%d(%s) %s',
+        newCandidate.sdpMLineIndex,
+        newCandidate.sdpMid || 'no mid', newCandidate.candidate);
+      if (self.onicecandidate) {
+        self.onicecandidate(event, newCandidate);
+      }
+    // Null candidate (end of candidates).
+    } else {
+      debug('onicecandidate() | end of candidates');
 
-			// Clear gathering timers.
-			clearTimeout(self.timerGatheringTimeout);
-			delete self.timerGatheringTimeout;
-			clearTimeout(self.timerGatheringTimeoutAfterRelay);
-			delete self.timerGatheringTimeoutAfterRelay;
-			if (self.onicecandidate) {
-				self.onicecandidate(event, null);
-			}
-		}
-	};
+      // Clear gathering timers.
+      clearTimeout(self.timerGatheringTimeout);
+      delete self.timerGatheringTimeout;
+      clearTimeout(self.timerGatheringTimeoutAfterRelay);
+      delete self.timerGatheringTimeoutAfterRelay;
+      if (self.onicecandidate) {
+        self.onicecandidate(event, null);
+      }
+    }
+  };
 
-	pc.onaddstream = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.onaddstream = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		debug('onaddstream() | stream: %o', event.stream);
-		if (self.onaddstream) {
-			self.onaddstream(event, event.stream);
-		}
-	};
+    debug('onaddstream() | stream: %o', event.stream);
+    if (self.onaddstream) {
+      self.onaddstream(event, event.stream);
+    }
+  };
 
-	pc.onremovestream = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.onremovestream = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		debug('onremovestream() | stream: %o', event.stream);
-		if (self.onremovestream) {
-			self.onremovestream(event, event.stream);
-		}
-	};
+    debug('onremovestream() | stream: %o', event.stream);
+    if (self.onremovestream) {
+      self.onremovestream(event, event.stream);
+    }
+  };
 
-	pc.ondatachannel = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.ondatachannel = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		debug('ondatachannel() | datachannel: %o', event.channel);
-		if (self.ondatachannel) {
-			self.ondatachannel(event, event.channel);
-		}
-	};
+    debug('ondatachannel() | datachannel: %o', event.channel);
+    if (self.ondatachannel) {
+      self.ondatachannel(event, event.channel);
+    }
+  };
 
-	pc.onsignalingstatechange = function (event) {
-		if (pc.signalingState === self.ourSignalingState) {
-			return;
-		}
+  pc.onsignalingstatechange = function (event) {
+    if (pc.signalingState === self.ourSignalingState) {
+      return;
+    }
 
-		debug('onsignalingstatechange() | signalingState: %s', pc.signalingState);
-		self.ourSignalingState = pc.signalingState;
-		if (self.onsignalingstatechange) {
-			self.onsignalingstatechange(event, pc.signalingState);
-		}
-	};
+    debug('onsignalingstatechange() | signalingState: %s', pc.signalingState);
+    self.ourSignalingState = pc.signalingState;
+    if (self.onsignalingstatechange) {
+      self.onsignalingstatechange(event, pc.signalingState);
+    }
+  };
 
-	pc.oniceconnectionstatechange = function (event) {
-		if (pc.iceConnectionState === self.ourIceConnectionState) {
-			return;
-		}
+  pc.oniceconnectionstatechange = function (event) {
+    if (pc.iceConnectionState === self.ourIceConnectionState) {
+      return;
+    }
 
-		debug('oniceconnectionstatechange() | iceConnectionState: %s', pc.iceConnectionState);
-		self.ourIceConnectionState = pc.iceConnectionState;
-		if (self.oniceconnectionstatechange) {
-			self.oniceconnectionstatechange(event, pc.iceConnectionState);
-		}
-	};
+    debug('oniceconnectionstatechange() | iceConnectionState: %s', pc.iceConnectionState);
+    self.ourIceConnectionState = pc.iceConnectionState;
+    if (self.oniceconnectionstatechange) {
+      self.oniceconnectionstatechange(event, pc.iceConnectionState);
+    }
+  };
 
-	pc.onicegatheringstatechange = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.onicegatheringstatechange = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		if (pc.iceGatheringState === self.ourIceGatheringState) {
-			return;
-		}
+    if (pc.iceGatheringState === self.ourIceGatheringState) {
+      return;
+    }
 
-		debug('onicegatheringstatechange() | iceGatheringState: %s', pc.iceGatheringState);
-		self.ourIceGatheringState = pc.iceGatheringState;
-		if (self.onicegatheringstatechange) {
-			self.onicegatheringstatechange(event, pc.iceGatheringState);
-		}
-	};
+    debug('onicegatheringstatechange() | iceGatheringState: %s', pc.iceGatheringState);
+    self.ourIceGatheringState = pc.iceGatheringState;
+    if (self.onicegatheringstatechange) {
+      self.onicegatheringstatechange(event, pc.iceGatheringState);
+    }
+  };
 
-	pc.onidentityresult = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.onidentityresult = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		debug('onidentityresult()');
-		if (self.onidentityresult) {
-			self.onidentityresult(event);
-		}
-	};
+    debug('onidentityresult()');
+    if (self.onidentityresult) {
+      self.onidentityresult(event);
+    }
+  };
 
-	pc.onpeeridentity = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.onpeeridentity = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		debug('onpeeridentity()');
-		if (self.onpeeridentity) {
-			self.onpeeridentity(event);
-		}
-	};
+    debug('onpeeridentity()');
+    if (self.onpeeridentity) {
+      self.onpeeridentity(event);
+    }
+  };
 
-	pc.onidpassertionerror = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.onidpassertionerror = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		debug('onidpassertionerror()');
-		if (self.onidpassertionerror) {
-			self.onidpassertionerror(event);
-		}
-	};
+    debug('onidpassertionerror()');
+    if (self.onidpassertionerror) {
+      self.onidpassertionerror(event);
+    }
+  };
 
-	pc.onidpvalidationerror = function (event) {
-		if (isClosed.call(self)) {
-			return;
-		}
+  pc.onidpvalidationerror = function (event) {
+    if (isClosed.call(self)) {
+      return;
+    }
 
-		debug('onidpvalidationerror()');
-		if (self.onidpvalidationerror) {
-			self.onidpvalidationerror(event);
-		}
-	};
+    debug('onidpvalidationerror()');
+    if (self.onidpvalidationerror) {
+      self.onidpvalidationerror(event);
+    }
+  };
 }
 
 
 function setPeerConnection() {
-	// Create a RTCPeerConnection.
-	if (!this.pcConstraints) {
-		this.pc = new Adapter.RTCPeerConnection(this.pcConfig);
-	} else {
-		// NOTE: Deprecated.
-		this.pc = new Adapter.RTCPeerConnection(this.pcConfig, this.pcConstraints);
-	}
+  // Create a RTCPeerConnection.
+  if (!this.pcConstraints) {
+    this.pc = new Adapter.RTCPeerConnection(this.pcConfig);
+  } else {
+    // NOTE: Deprecated.
+    this.pc = new Adapter.RTCPeerConnection(this.pcConfig, this.pcConstraints);
+  }
 
-	// Set RTC events.
-	setEvents.call(this);
+  // Set RTC events.
+  setEvents.call(this);
 }
 
 
 function getLocalDescription() {
-	var pc = this.pc,
-		options = this.options,
-		sdp = null;
+  var pc = this.pc,
+    options = this.options,
+    sdp = null;
 
-	if (!pc.localDescription) {
-		this.ourLocalDescription = null;
-		return null;
-	}
+  if (!pc.localDescription) {
+    this.ourLocalDescription = null;
+    return null;
+  }
 
-	// Mangle the SDP string.
-	if (options.iceTransportsRelay) {
-		sdp = pc.localDescription.sdp.replace(C.REGEXP_SDP_NON_RELAY_CANDIDATES, '');
-	} else if (options.iceTransportsNone) {
-		sdp = pc.localDescription.sdp.replace(C.REGEXP_SDP_CANDIDATES, '');
-	}
+  // Mangle the SDP string.
+  if (options.iceTransportsRelay) {
+    sdp = pc.localDescription.sdp.replace(C.REGEXP_SDP_NON_RELAY_CANDIDATES, '');
+  } else if (options.iceTransportsNone) {
+    sdp = pc.localDescription.sdp.replace(C.REGEXP_SDP_CANDIDATES, '');
+  }
 
-	this.ourLocalDescription = new Adapter.RTCSessionDescription({
-		type: pc.localDescription.type,
-		sdp: sdp || pc.localDescription.sdp
-	});
+  this.ourLocalDescription = new Adapter.RTCSessionDescription({
+    type: pc.localDescription.type,
+    sdp: sdp || pc.localDescription.sdp
+  });
 
-	return this.ourLocalDescription;
+  return this.ourLocalDescription;
 }
 
 
 function setProperties() {
-	var self = this;
+  var self = this;
 
-	Object.defineProperties(this, {
-		peerConnection: {
-			get: function () {
-				return self.pc;
-			}
-		},
+  Object.defineProperties(this, {
+    peerConnection: {
+      get: function () {
+        return self.pc;
+      }
+    },
 
-		signalingState: {
-			get: function () {
-				return self.pc.signalingState;
-			}
-		},
+    signalingState: {
+      get: function () {
+        return self.pc.signalingState;
+      }
+    },
 
-		iceConnectionState: {
-			get: function () {
-				return self.pc.iceConnectionState;
-			}
-		},
+    iceConnectionState: {
+      get: function () {
+        return self.pc.iceConnectionState;
+      }
+    },
 
-		iceGatheringState: {
-			get: function () {
-				return self.pc.iceGatheringState;
-			}
-		},
+    iceGatheringState: {
+      get: function () {
+        return self.pc.iceGatheringState;
+      }
+    },
 
-		localDescription: {
-			get: function () {
-				return getLocalDescription.call(self);
-			}
-		},
+    localDescription: {
+      get: function () {
+        return getLocalDescription.call(self);
+      }
+    },
 
-		remoteDescription: {
-			get: function () {
-				return self.pc.remoteDescription;
-			}
-		},
+    remoteDescription: {
+      get: function () {
+        return self.pc.remoteDescription;
+      }
+    },
 
-		peerIdentity: {
-			get: function () {
-				return self.pc.peerIdentity;
-			}
-		}
-	});
+    peerIdentity: {
+      get: function () {
+        return self.pc.peerIdentity;
+      }
+    }
+  });
 }
 
 },{"./Adapter":35,"debug":32,"merge":40}],37:[function(require,module,exports){
@@ -24075,51 +24075,51 @@ module.exports = rtcninja;
 // Dependencies.
 
 var browser = require('bowser'),
-	debug = require('debug')('rtcninja'),
-	debugerror = require('debug')('rtcninja:ERROR'),
-	version = require('./version'),
-	Adapter = require('./Adapter'),
-	RTCPeerConnection = require('./RTCPeerConnection'),
+  debug = require('debug')('rtcninja'),
+  debugerror = require('debug')('rtcninja:ERROR'),
+  version = require('./version'),
+  Adapter = require('./Adapter'),
+  RTCPeerConnection = require('./RTCPeerConnection'),
 
-	// Internal vars.
-	called = false;
+  // Internal vars.
+  called = false;
 
 debugerror.log = console.warn.bind(console);
 debug('version %s', version);
 debug('detected browser: %s %s [mobile:%s, tablet:%s, android:%s, ios:%s]',
-		browser.name, browser.version, !!browser.mobile, !!browser.tablet,
-		!!browser.android, !!browser.ios);
+    browser.name, browser.version, !!browser.mobile, !!browser.tablet,
+    !!browser.android, !!browser.ios);
 
 
 // Constructor.
 
 function rtcninja(options) {
-	// Load adapter
-	var iface = Adapter(options || {});  // jshint ignore:line
+  // Load adapter
+  var iface = Adapter(options || {});  // jshint ignore:line
 
-	called = true;
+  called = true;
 
-	// Expose RTCPeerConnection class.
-	rtcninja.RTCPeerConnection = RTCPeerConnection;
+  // Expose RTCPeerConnection class.
+  rtcninja.RTCPeerConnection = RTCPeerConnection;
 
-	// Expose WebRTC API and utils.
-	rtcninja.getUserMedia = iface.getUserMedia;
-	rtcninja.RTCSessionDescription = iface.RTCSessionDescription;
-	rtcninja.RTCIceCandidate = iface.RTCIceCandidate;
-	rtcninja.MediaStreamTrack = iface.MediaStreamTrack;
-	rtcninja.getMediaDevices = iface.getMediaDevices;
-	rtcninja.attachMediaStream = iface.attachMediaStream;
-	rtcninja.closeMediaStream = iface.closeMediaStream;
-	rtcninja.canRenegotiate = iface.canRenegotiate;
+  // Expose WebRTC API and utils.
+  rtcninja.getUserMedia = iface.getUserMedia;
+  rtcninja.RTCSessionDescription = iface.RTCSessionDescription;
+  rtcninja.RTCIceCandidate = iface.RTCIceCandidate;
+  rtcninja.MediaStreamTrack = iface.MediaStreamTrack;
+  rtcninja.getMediaDevices = iface.getMediaDevices;
+  rtcninja.attachMediaStream = iface.attachMediaStream;
+  rtcninja.closeMediaStream = iface.closeMediaStream;
+  rtcninja.canRenegotiate = iface.canRenegotiate;
 
-	// Log WebRTC support.
-	if (iface.hasWebRTC()) {
-		debug('WebRTC supported');
-		return true;
-	} else {
-		debugerror('WebRTC not supported');
-		return false;
-	}
+  // Log WebRTC support.
+  if (iface.hasWebRTC()) {
+    debug('WebRTC supported');
+    return true;
+  } else {
+    debugerror('WebRTC not supported');
+    return false;
+  }
 }
 
 
@@ -24127,27 +24127,27 @@ function rtcninja(options) {
 
 // If called without calling rtcninja(), call it.
 rtcninja.hasWebRTC = function () {
-	if (!called) {
-		rtcninja();
-	}
+  if (!called) {
+    rtcninja();
+  }
 
-	return Adapter.hasWebRTC();
+  return Adapter.hasWebRTC();
 };
 
 
 // Expose version property.
 Object.defineProperty(rtcninja, 'version', {
-	get: function () {
-		return version;
-	}
+  get: function () {
+    return version;
+  }
 });
 
 
 // Expose called property.
 Object.defineProperty(rtcninja, 'called', {
-	get: function () {
-		return called;
-	}
+  get: function () {
+    return called;
+  }
 });
 
 
@@ -24468,168 +24468,168 @@ module.exports = require('../package.json').version;
 
 ;(function(isNode) {
 
-	/**
-	 * Merge one or more objects 
-	 * @param bool? clone
-	 * @param mixed,... arguments
-	 * @return object
-	 */
+  /**
+   * Merge one or more objects
+   * @param bool? clone
+   * @param mixed,... arguments
+   * @return object
+   */
 
-	var Public = function(clone) {
+  var Public = function(clone) {
 
-		return merge(clone === true, false, arguments);
+    return merge(clone === true, false, arguments);
 
-	}, publicName = 'merge';
+  }, publicName = 'merge';
 
-	/**
-	 * Merge two or more objects recursively 
-	 * @param bool? clone
-	 * @param mixed,... arguments
-	 * @return object
-	 */
+  /**
+   * Merge two or more objects recursively
+   * @param bool? clone
+   * @param mixed,... arguments
+   * @return object
+   */
 
-	Public.recursive = function(clone) {
+  Public.recursive = function(clone) {
 
-		return merge(clone === true, true, arguments);
+    return merge(clone === true, true, arguments);
 
-	};
+  };
 
-	/**
-	 * Clone the input removing any reference
-	 * @param mixed input
-	 * @return mixed
-	 */
+  /**
+   * Clone the input removing any reference
+   * @param mixed input
+   * @return mixed
+   */
 
-	Public.clone = function(input) {
+  Public.clone = function(input) {
 
-		var output = input,
-			type = typeOf(input),
-			index, size;
+    var output = input,
+      type = typeOf(input),
+      index, size;
 
-		if (type === 'array') {
+    if (type === 'array') {
 
-			output = [];
-			size = input.length;
+      output = [];
+      size = input.length;
 
-			for (index=0;index<size;++index)
+      for (index=0;index<size;++index)
 
-				output[index] = Public.clone(input[index]);
+        output[index] = Public.clone(input[index]);
 
-		} else if (type === 'object') {
+    } else if (type === 'object') {
 
-			output = {};
+      output = {};
 
-			for (index in input)
+      for (index in input)
 
-				output[index] = Public.clone(input[index]);
+        output[index] = Public.clone(input[index]);
 
-		}
+    }
 
-		return output;
+    return output;
 
-	};
+  };
 
-	/**
-	 * Merge two objects recursively
-	 * @param mixed input
-	 * @param mixed extend
-	 * @return mixed
-	 */
+  /**
+   * Merge two objects recursively
+   * @param mixed input
+   * @param mixed extend
+   * @return mixed
+   */
 
-	function merge_recursive(base, extend) {
+  function merge_recursive(base, extend) {
 
-		if (typeOf(base) !== 'object')
+    if (typeOf(base) !== 'object')
 
-			return extend;
+      return extend;
 
-		for (var key in extend) {
+    for (var key in extend) {
 
-			if (typeOf(base[key]) === 'object' && typeOf(extend[key]) === 'object') {
+      if (typeOf(base[key]) === 'object' && typeOf(extend[key]) === 'object') {
 
-				base[key] = merge_recursive(base[key], extend[key]);
+        base[key] = merge_recursive(base[key], extend[key]);
 
-			} else {
+      } else {
 
-				base[key] = extend[key];
+        base[key] = extend[key];
 
-			}
+      }
 
-		}
+    }
 
-		return base;
+    return base;
 
-	}
+  }
 
-	/**
-	 * Merge two or more objects
-	 * @param bool clone
-	 * @param bool recursive
-	 * @param array argv
-	 * @return object
-	 */
+  /**
+   * Merge two or more objects
+   * @param bool clone
+   * @param bool recursive
+   * @param array argv
+   * @return object
+   */
 
-	function merge(clone, recursive, argv) {
+  function merge(clone, recursive, argv) {
 
-		var result = argv[0],
-			size = argv.length;
+    var result = argv[0],
+      size = argv.length;
 
-		if (clone || typeOf(result) !== 'object')
+    if (clone || typeOf(result) !== 'object')
 
-			result = {};
+      result = {};
 
-		for (var index=0;index<size;++index) {
+    for (var index=0;index<size;++index) {
 
-			var item = argv[index],
+      var item = argv[index],
 
-				type = typeOf(item);
+        type = typeOf(item);
 
-			if (type !== 'object') continue;
+      if (type !== 'object') continue;
 
-			for (var key in item) {
+      for (var key in item) {
 
-				var sitem = clone ? Public.clone(item[key]) : item[key];
+        var sitem = clone ? Public.clone(item[key]) : item[key];
 
-				if (recursive) {
+        if (recursive) {
 
-					result[key] = merge_recursive(result[key], sitem);
+          result[key] = merge_recursive(result[key], sitem);
 
-				} else {
+        } else {
 
-					result[key] = sitem;
+          result[key] = sitem;
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-		return result;
+    return result;
 
-	}
+  }
 
-	/**
-	 * Get type of variable
-	 * @param mixed input
-	 * @return string
-	 *
-	 * @see http://jsperf.com/typeofvar
-	 */
+  /**
+   * Get type of variable
+   * @param mixed input
+   * @return string
+   *
+   * @see http://jsperf.com/typeofvar
+   */
 
-	function typeOf(input) {
+  function typeOf(input) {
 
-		return ({}).toString.call(input).slice(8, -1).toLowerCase();
+    return ({}).toString.call(input).slice(8, -1).toLowerCase();
 
-	}
+  }
 
-	if (isNode) {
+  if (isNode) {
 
-		module.exports = Public;
+    module.exports = Public;
 
-	} else {
+  } else {
 
-		window[publicName] = Public;
+    window[publicName] = Public;
 
-	}
+  }
 
 })(typeof module === 'object' && module && typeof module.exports === 'object' && module.exports);
 },{}],41:[function(require,module,exports){
@@ -25198,23 +25198,23 @@ var websocket_version = require('./version');
  * Expose a W3C WebSocket class with just one or two arguments.
  */
 function W3CWebSocket(uri, protocols) {
-	var native_instance;
+  var native_instance;
 
-	if (protocols) {
-		native_instance = new nativeWebSocket(uri, protocols);
-	}
-	else {
-		native_instance = new nativeWebSocket(uri);
-	}
+  if (protocols) {
+    native_instance = new nativeWebSocket(uri, protocols);
+  }
+  else {
+    native_instance = new nativeWebSocket(uri);
+  }
 
-	/**
-	 * 'native_instance' is an instance of nativeWebSocket (the browser's WebSocket
-	 * class). Since it is an Object it will be returned as it is when creating an
-	 * instance of W3CWebSocket via 'new W3CWebSocket()'.
-	 *
-	 * ECMAScript 5: http://bclary.com/2004/11/07/#a-13.2.2
-	 */
-	return native_instance;
+  /**
+   * 'native_instance' is an instance of nativeWebSocket (the browser's WebSocket
+   * class). Since it is an Object it will be returned as it is when creating an
+   * instance of W3CWebSocket via 'new W3CWebSocket()'.
+   *
+   * ECMAScript 5: http://bclary.com/2004/11/07/#a-13.2.2
+   */
+  return native_instance;
 }
 
 

@@ -3,11 +3,6 @@ var _ = require('lodash');
 // Here it goes only utility methods
 module.exports = {
 
-  apiCredentials: {
-    'user': process.env.VOXBONE_API_USERNAME,
-    'pass': process.env.VOXBONE_API_PASSWORD
-  },
-
   jsonHeaders: {
     'Content-type': 'application/json',
     'Accept': 'application/json'
