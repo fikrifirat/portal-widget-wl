@@ -23,8 +23,6 @@ app.set('view engine', 'jade');
 app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
-
-// keeping this as legacy support
 app.use('/click2vox', express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
@@ -39,11 +37,6 @@ var widgetRoutes = require('./routes/widget').router;
 app.use('/click2vox/', routes);
 app.use('/click2vox/', widgetRoutes);
 app.use('/widget/', widgetRoutes);
-
-// This is indented to get the latest version always
-app.use(utils.click2voxJsFileName, function(req, res) {
-  res.redirect('/javascripts/click2vox-1.5.0.js');
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -77,5 +70,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-// minifier.minify(app.locals.click2voxScripts, {template: 'widget.min.js'});
