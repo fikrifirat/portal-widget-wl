@@ -138,7 +138,7 @@ a {
 }
 .vox-widget-wrapper .vw-main .vw-body .vw-footer a{
   padding-right: 62px;
-  background-image: url('../../images/widget-brand.png');
+  background-image: url('../images/widget-brand.png');
   background-size: 60px 12.5px;
   background-position: right center;
   background-repeat: no-repeat;

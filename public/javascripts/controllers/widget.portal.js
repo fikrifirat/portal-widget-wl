@@ -83,7 +83,7 @@ define([
       if($scope.widget.frame_color)
         $scope.tempFrameColor = $scope.widget.frame_color;
       if($scope.widget.button_color)
-        $scope.tempButtonColor = $scope.widget.button_color; 
+        $scope.tempButtonColor = $scope.widget.button_color;
 
       $scope.widget.frame_color = "";
       $scope.widget.button_color = "";
@@ -116,7 +116,7 @@ define([
 
       var req = {
         method: 'POST',
-        url: '/widget/portal-widget/get-code',
+        url: './portal-widget/get-code',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },

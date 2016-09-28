@@ -1,8 +1,8 @@
 extends ../layout
 
 block extra_head
-  link(href="/stylesheets/vxb-widget.css" rel="stylesheet")
-  link(href="/lib/angular-bootstrap-colorpicker/css/colorpicker.min.css" rel="stylesheet")
+  link(href="./stylesheets/vxb-widget.css" rel="stylesheet")
+  link(href="./lib/angular-bootstrap-colorpicker/css/colorpicker.min.css" rel="stylesheet")
 
 block content
   script.
@@ -76,7 +76,7 @@ block content
                             label
                               input(type='checkbox' name='show_frame' ng-model='widget.show_frame')
                               span.radio-name Show frame
-                              span.badge(data-toggle='tooltip' data-placement="right" title="Shows/Hides the background and border of the button") ?                            
+                              span.badge(data-toggle='tooltip' data-placement="right" title="Shows/Hides the background and border of the button") ?
                           div(style="display:inline-block;")
                             span(style="margin-left:20px" ng-show='widget.show_frame') Pick frame color #[i.glyphicon.glyphicon-tint(aria-hidden='true' colorpicker colorpicker-position="right" ng-model="widget.frame_color" style="cursor: pointer" ng-style="{'color': widget.frame_color || 'black'}")]
 
@@ -119,7 +119,7 @@ block content
                           label(for="btn-context")
                             input(type="checkbox" name="rating" ng-model="widget.rating")
                             span &nbsp;Ask for rating after the call ends
-                            span.badge(data-toggle='tooltip' data-placement="right" title="Ask the user/caller to rate after the call ends") ?  
+                            span.badge(data-toggle='tooltip' data-placement="right" title="Ask the user/caller to rate after the call ends") ?
                   .panel.panel-default
                     .panel-heading
                       a.collapsed.title-toggle(data-toggle="collapse" data-target="#collapseIncompatileBrowserConfiguration" href="#collapseIncompatileBrowserConfiguration") Incompatible Browser Configuration

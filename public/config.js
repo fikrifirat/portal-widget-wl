@@ -1,5 +1,5 @@
 require.config({
-  baseUrl: '/javascripts/',
+  baseUrl: '/click2vox/javascripts/',
   shim: {
     bootstrap: {
       deps: [
@@ -59,7 +59,10 @@ require.config({
       '//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min',
       '/lib/clipboard/dist/clipboard.min'
     ],
-    jquery: '/lib/jquery/dist/jquery.min',
+    jquery: [
+      '//cdn.jsdelivr.net/jquery/1.12.4/jquery.min',
+      '/lib/jquery/dist/jquery.min'
+    ],
     'jquery.qtip': [
       '//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min',
       '/lib/qtip2/basic/jquery.qtip.min'
