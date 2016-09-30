@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 
 var pjson = require('../package.json');
+var version = pjson.version.split('.').join('');
 var title = 'Voxbone Widget Generator v' + pjson.version;
 
 var async = require('async');
@@ -18,7 +19,7 @@ var PERMITTED_FIELDS = [
   'dial_pad', 'send_digits', 'hide_widget', 'updated_at',
   'link_button_to_a_page', 'show_text_html',
   'incompatible_browser_configuration', 'new_sip_uri',
-  'show_frame', 'test_setup', 'rating'
+  'show_frame', 'test_setup', 'rating', 'selected_tag'
 ];
 
 var portalHandler = function(req, res, next) {
@@ -53,7 +54,7 @@ var portalHandler = function(req, res, next) {
   var result = {
     widget: fakeWidget,
     params: params,
-    hideIframeTab: true
+    hideIframeTab: false
   };
 
   result.defaultBtnLabel = utils.defaultBtnLabel;
@@ -76,10 +77,32 @@ router.post('/portal-widget/get-code', function(req, res, next) {
   var widgetData = params
     .merge({updated_at: new Date()})
     .permit(PERMITTED_FIELDS);
-
   try {
-    result.widget_code = utils.widgetDivHtmlCode(widgetData, widgetData.did);
-    return res.json(result);
+    if(widgetData.selected_tag==='div'){
+      result.widget_code = utils.widgetDivHtmlCode(widgetData, widgetData.did);
+      return res.json(result);
+    }
+    else{
+      var app_url = process.env.APP_URL || 'http://widget.voxbone.com';
+
+      var html = '';
+      html += '<div class="voxButton">';
+
+      html += '<link rel="stylesheet" href="' + app_url + '/stylesheets/widget.css?v=' + version + '">';
+      html += '<script src="' + app_url + '/javascripts/widget.js?v=' + version + '"></script>';
+
+      var iframe_styles = 'width="300" height="183" frameBorder="0" scrolling="no"';
+      html += '<iframe id="call_button_frame" ' + iframe_styles + '>';
+      html += '</iframe>';
+
+      html += '<div id="control"></div>';
+
+      html += '</div>';
+
+      result.widget_code = html;
+      return res.json(result);
+    }
+
   } catch (e) {
     return res.status(500).json({
       msg: 'Something went wrong while generating code!', err: e

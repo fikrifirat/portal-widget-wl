@@ -17,6 +17,7 @@ define([
     $scope.widgetCode = 'Generating widget code...';
     $scope.tempButtonColor = "";
     $scope.tempFrameColor = "";
+    $scope.selected_tag = 'div';
 
     $scope.master = {
       showWidgetCode: true,
@@ -105,6 +106,7 @@ define([
 
       var data = $scope.widget;
       data.callerId = callerId;
+      data.selected_tag = $scope.selected_tag;
 
       var ibc = $scope.widget.incompatible_browser_configuration;
       if (ibc === 'hide_widget')
@@ -135,6 +137,11 @@ define([
             $scope.widgetCode = 'Error generating widget code snippet. Please check it.';
           });
     };
+
+    $scope.saveConfiguration = function(tag){
+      $scope.selected_tag = tag;
+      $scope.generateWidgetCode();
+    }
 
     $scope.$watch('widget', function () {
       $scope.generateWidgetCode();
