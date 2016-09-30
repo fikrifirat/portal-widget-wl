@@ -1,7 +1,7 @@
 .navbar.navbar, .navbar-default.navbar{
   background-color: transparent;
   color: @navbar-grey ;
-  border-bottom: 1px solid #d7dfe1;
+  margin-bottom:0px;
   min-height: 0;
   .rounded(0);
   .navbar-header{
@@ -9,13 +9,13 @@
   }
   .navbar-brand{
     display: inline-block;
-    width: 110px;
-    height: 50px;
+    width: 220px;
+    height: 90px;
     padding: 0;
     margin: 0;
     float: left;
     background-image: url('../images/navbar-brand.png');
-    background-size: 110px;
+    background-size: 220px;
     background-position: center center;
     background-repeat: no-repeat;
   }
@@ -26,8 +26,8 @@
     font-size: 18px;
     line-height: 20px;
     font-weight: 300;
-    margin: 17px 10px 0;
-    border-left: 1px solid #dadfdf;
+    margin: 50px 10px 0;
+    border-left: 1px solid @vx-purple;
   }
   a.login{
     display: block;
@@ -49,5 +49,8 @@
       text-decoration: none;
     }
   }
+}
+.navbar-container{
+    border-bottom: 20px solid @vx-purple;
 }
 

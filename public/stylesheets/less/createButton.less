@@ -8,6 +8,11 @@
   position: absolute;
 }
 
+.options-group{
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
 .createButton{
   .panel-heading a:after {
     font-family:'Glyphicons Halflings';
@@ -31,13 +36,17 @@
   .badge{
     padding: 2px 5px;
     font-size: 10px;
-    margin: 0 4px;
+    margin: 0 4px 2px 10px;
+    background-color: @vx-purple;
   }
   .body{
-    width: 100%;
-    border-top: 1px solid @border-grey;
     margin-top: 30px;
     padding-top: 40px;
+    margin-left:20px;
+    margin-right:20px;
+    border: 1px solid @border-grey;
+    border-bottom:5px solid @border-grey;
+    background: @widget-bg;
     .halfColorBg;
     .left-col{
       @media (min-width: 992px) {
@@ -53,24 +62,23 @@
   .title{
     display: block;
     color: @subText;
-    font-weight: 700;
-    margin-bottom: 5px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #c9c9c9;
+    font-size:19px;
   }
   .boxPanel{
-    background: @panel-bg;
-    padding: 25px 20px 15px;
-    margin-bottom: 20px;
-    border: 1px solid @border-grey;
-    .rounded(6px);
+    margin-bottom: 40px;
     &.preview {
       border-top-left-radius: 0;
+      border: 1px solid @border-grey;
     }
     button{
       margin: 0 5px 10px;
     }
     label{
       display: block;
-      color: @subText;
+      color: #343C3E;
       margin-bottom: 2px;
     }
     .radio-name{
@@ -133,14 +141,12 @@
     background: #FBFCFC;
   }
   .preview{
-    background: #f0f4f7;
-    padding: 0;
+
 
     .prev-view{
       position: relative;
       padding: 45px 60px 45px;
       .border-radius(5px, 0, 0, 0);
-      border-bottom: 1px solid @border-grey;
       &.dark{
         background: #363636;
       }
@@ -198,6 +204,7 @@
     }
     .prev-code{
       padding: 20px;
+      background: @panel-bg;
       .title{
         p{
           font-size: 12px;

@@ -37,8 +37,12 @@ block content
       .container
         .row
           .col-xs-12
-            h1 Create a WebRTC Call Button for #{params.e164}
-            p #[b Note:] this will create a code widget that can be embedded into any page that allows for JS code and will allow customers to call without installing any software.
+            .portal-title Create a WebRTC Call Button for #{params.e164}
+        .row
+          .col-xs-12
+            .note
+              p #[b Note:]
+              p This will create a code widget that can be embedded into any page that allows for JS code and will allow customers to call without installing any software.
 
             #alert-success.alert.alert-warning.ng-cloak(ng-show="!isWebRTCSupported()") #[i.glyphicon.glyphicon-exclamation-sign] You are using a browser that does not support WebRTC. You can configure and preview your buttons, but you will not be able to place test calls. Please use Chrome or Firefox for maximum functionality.
             #alert-success.alert.alert-success(style="display: none;")
@@ -50,7 +54,7 @@ block content
             form#widget_form(name="widget_form" novalidate)
               section
                 span.title Button Configuration
-                .boxPanel
+                .boxPanel.options-group
                   .form-group
                     label Button Label:
                     input.form-control(type="text", name="button_label", ng-model-options="{updateOn: 'blur'}" ng-model="widget.button_label" value="#{defaultBtnLabel}" placeholder="i.e. #{defaultBtnLabel}")
@@ -66,83 +70,76 @@ block content
                       button.btn-style-c(ng-cloak ng-click="setCustomTheme()" colorpicker colorpicker-position="right" ng-model="widget.button_color" ng-style="{'background': widget.button_color ? widget.button_color : tempButtonColor }") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
                       div(ng-cloak) Custom Theme
 
-                  .panel.panel-default
-                    .panel-heading
-                      a.collapsed.title-toggle(data-toggle="collapse", data-target="#extraConfiguration", href="#extraConfiguration") Extra Configuration
-                    .panel-collapse.collapse#extraConfiguration
-                      .options-wrap.active
-                        .form-group
-                          div(style="display:inline-block;")
-                            label
-                              input(type='checkbox' name='show_frame' ng-model='widget.show_frame')
-                              span.radio-name Show frame
-                              span.badge(data-toggle='tooltip' data-placement="right" title="Shows/Hides the background and border of the button") ?
-                          div(style="display:inline-block;")
+                  .panel-heading
+                    a.collapsed.title-toggle(data-toggle="collapse", data-target="#extraConfiguration", href="#extraConfiguration") Extra Configuration
+                  .panel-collapse.collapse#extraConfiguration
+                    .options-wrap.active
+                      .form-group
+                        div(style="display:inline-block;")
+                          input(id='show_frame' type='checkbox' name='show_frame' ng-model='widget.show_frame')
+                          label(for='show_frame') #[span]  Show frame
+                            .badge(data-toggle='tooltip' data-placement="top" title="Shows/Hides the background and border of the button") ?
+                        div(style="display:inline-block;")
                             span(style="margin-left:20px" ng-show='widget.show_frame') Pick frame color #[i.glyphicon.glyphicon-tint(aria-hidden='true' colorpicker colorpicker-position="right" ng-model="widget.frame_color" style="cursor: pointer" ng-style="{'color': widget.frame_color || 'black'}")]
 
-                        .form-group
-                          label
-                            input(type='checkbox' name='test_setup' ng-model='widget.test_setup')
-                            span.radio-name Test user setup
-                            span.badge(data-toggle='tooltip' data-placement="right" title="Place a link to test the users's WebRTC setup") ?
+                      .form-group
+                        input(id='test_setup' type='checkbox' name='test_setup' ng-model='widget.test_setup')
+                        label(for='test_setup') #[span] Test user setup
+                          .badge(data-toggle='tooltip' data-placement="top" title="Place a link to test the users's WebRTC setup") ?
 
-                        .form-group
-                          label
-                            input(type='checkbox' name='show_branding' ng-model='widget.show_branding')
-                            span.radio-name Show branding
-                            span.badge(data-toggle='tooltip' data-placement="right" title="Toggles Voxbone branding from button and popup") ?
+                      .form-group
+                        input(id='show_branding' type='checkbox' name='show_branding' ng-model='widget.show_branding')
+                        label(for='show_branding') #[span] Show branding
+                          .badge(data-toggle='tooltip' data-placement="top" title="Toggles Voxbone branding from button and popup") ?
 
                 span.title Call Configuration
-                .boxPanel
-                  .panel.panel-default
-                    .panel-heading
-                      a.collapsed.title-toggle(data-toggle="collapse", data-target="#collapseAdvancedCallConfiguration",href="#collapseAdvancedCallConfiguration") Advanced Call Configuration
-                    .panel-collapse.collapse#collapseAdvancedCallConfiguration
-                      .options-wrap.active
-                        .form-group
-                          label(for="btn-context") Caller ID
-                            span.badge(data-toggle="tooltip" data-placement="right" title="Enter the Caller ID that you would like sent with your Click2Vox widget calls (Only valid URI characters will be sent)") ?
-                          input.form-control(type="text" name="caller_id" ng-model-options="{updateOn: 'blur'}" ng-model="widget.caller_id" value="click2vox" placeholder="i.e. click2vox_demo")
-                        .form-group
-                          label(for="btn-context") Context
-                            span.badge(data-toggle='tooltip' data-placement="right" title="Send custom data to your SIP server using the X-Voxbone-Context header. Make sure to configure your SIP server to process this header.") ?
-                          input.form-control(type="text" name="context" ng-model-options="{updateOn: 'blur'}" ng-model="widget.context")
-                        .form-group
-                          label(for="btn-context")
-                            input(type="checkbox" name="dial_pad" ng-model="widget.dial_pad")
-                            span &nbsp;DTMF Dial Pad
-                            span.badge(data-toggle="tooltip" data-placement="right" title="Display a dialpad to allow your users to enter DTMF digits during a call.") ?
-                        .form-group
-                          label(for="btn-context") Send Digits #[span.badge(data-toggle='tooltip' data-placement="right" data-html="true" title="Automatically send DTMF digit(s) after a call is connected. This is useful for automatically navigating IVRs or entering access codes for a conference bridge. Digits should use the following format: <br><br>1,2,3,1200ms,4,5,900ms,6,#<br><br>This string will generate 1 2 3, wait 1200 milliseconds, enter 4, 5, wait 900 milliseconds then enter 6, #") ?]
-                          input.form-control(type="text" name="send_digits" ng-model-options="{updateOn: 'blur'}" ng-model="widget.send_digits")
-                        .form-group
-                          label(for="btn-context")
-                            input(type="checkbox" name="rating" ng-model="widget.rating")
-                            span &nbsp;Ask for rating after the call ends
-                            span.badge(data-toggle='tooltip' data-placement="right" title="Ask the user/caller to rate after the call ends") ?
-                  .panel.panel-default
-                    .panel-heading
-                      a.collapsed.title-toggle(data-toggle="collapse" data-target="#collapseIncompatileBrowserConfiguration" href="#collapseIncompatileBrowserConfiguration") Incompatible Browser Configuration
-                    .panel-collapse.collapse#collapseIncompatileBrowserConfiguration
-                      .options-wrap.active.incompatible
-                        .form-group
+                .boxPanel.options-group
+                  .panel-heading
+                    a.collapsed.title-toggle(data-toggle="collapse", data-target="#collapseAdvancedCallConfiguration",href="#collapseAdvancedCallConfiguration") Advanced Call Configuration
+                  .panel-collapse.collapse#collapseAdvancedCallConfiguration
+                    .options-wrap.active
+                      .form-group
+                        label(for="btn-context") Caller ID
+                          span.badge(data-toggle="tooltip" data-placement="top" title="Enter the Caller ID that you would like sent with your Click2Vox widget calls (Only valid URI characters will be sent)") ?
+                        input.form-control(type="text" name="caller_id" ng-model-options="{updateOn: 'blur'}" ng-model="widget.caller_id" value="click2vox" placeholder="i.e. click2vox_demo")
+                      .form-group
+                        label(for="btn-context") Context
+                          span.badge(data-toggle='tooltip' data-placement="top" title="Send custom data to your SIP server using the X-Voxbone-Context header. Make sure to configure your SIP server to process this header.") ?
+                        input.form-control(type="text" name="context" ng-model-options="{updateOn: 'blur'}" ng-model="widget.context")
+                      .form-group
+                        input(id='dial_pad' type="checkbox" name="dial_pad" ng-model="widget.dial_pad")
+                        label(for='dial_pad') #[span] &nbsp; DTMF Dial Pad
+                          .badge(data-toggle="tooltip" data-placement="top" title="Display a dialpad to allow your users to enter DTMF digits during a call.") ?
+                      .form-group
+                        label(for="btn-context") Send Digits #[span.badge(data-toggle='tooltip' data-placement="top" data-html="true" title="Automatically send DTMF digit(s) after a call is connected. This is useful for automatically navigating IVRs or entering access codes for a conference bridge. Digits should use the following format: <br><br>1,2,3,1200ms,4,5,900ms,6,#<br><br>This string will generate 1 2 3, wait 1200 milliseconds, enter 4, 5, wait 900 milliseconds then enter 6, #") ?]
+                        input.form-control(type="text" name="send_digits" ng-model-options="{updateOn: 'blur'}" ng-model="widget.send_digits")
+                      .form-group
+                        input(id='rating' type="checkbox" name="rating" ng-model="widget.rating")
+                        label(for='rating') #[span] &nbsp; Ask for rating after the call ends
+                          .badge(data-toggle='tooltip' data-placement="top" title="Ask the user/caller to rate after the call ends") ?
+                  .panel-heading
+                    a.collapsed.title-toggle(data-toggle="collapse" data-target="#collapseIncompatileBrowserConfiguration" href="#collapseIncompatileBrowserConfiguration") Incompatible Browser Configuration
+                  .panel-collapse.collapse#collapseIncompatileBrowserConfiguration
+                    .options-wrap.active.incompatible
+                      .form-group
                           label.hide_widget
                             input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="hide_widget")
                             span.radio-name Hide the widget
-                            span.badge(data-toggle='tooltip' data-placement="right" title="If the visitor’s browser does not support WebRTC, hide the widget") ?
+                            span.badge(data-toggle='tooltip' data-placement="top" title="If the visitor’s browser does not support WebRTC, hide the widget") ?
                         .form-group
                           label.link_button_to_a_page
                             input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="link_button_to_a_page")
                             span.radio-name Link button to a page
-                            span.badge(data-toggle='tooltip' data-placement="right" title="If the visitor’s browser does not support WebRTC, specify a URL to go to when the button is clicked") ?
+                            span.badge(data-toggle='tooltip' data-placement="top" title="If the visitor’s browser does not support WebRTC, specify a URL to go to when the button is clicked") ?
                             input.form-control(http-prefix type="url" name="link_button_to_a_page_value" ng-model="widget.link_button_to_a_page_value" ng-show="widget.incompatible_browser_configuration == 'link_button_to_a_page'" placeholder="i.e. https://mysite.com")
                         .form-group
                           label.show_text_html
                             input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="show_text_html")
                             span.radio-name Show text/HTML
-                            span.badge(data-toggle="tooltip" data-placement="right" title="Instead of showing the button, display the entered HTML ") ?
+                            span.badge(data-toggle="tooltip" data-placement="top" title="Instead of showing the button, display the entered HTML ") ?
                             textarea.form-control(type="text" name="show_text_html_value", placeholder="Enter text or HTML" ng-show="widget.incompatible_browser_configuration == 'show_text_html'" ng-bind-html="widget.show_text_html_value" ng-model-options="{updateOn: 'blur'}" ng-model="widget.show_text_html_value")
 
           .col-md-6.right-col
             .section
               include preview_widget
+Add Comment
