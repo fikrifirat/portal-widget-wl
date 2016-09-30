@@ -138,7 +138,7 @@ define([
           });
     };
 
-    $scope.saveConfiguration = function(tag){
+    $scope.setType = function(tag){
       $scope.selected_tag = tag;
       $scope.generateWidgetCode();
     }
