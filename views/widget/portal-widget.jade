@@ -30,7 +30,11 @@ block content
         require(['#{process.env.APP_URL}/click2vox.js']);
     });
 
-  .voxButton#voxButtonPreview(data-div_css_class_name="hidden")
+  .voxButton#voxButtonPreview(data-div_css_class_name="hidden"
+  data-voxbone_webrtc_username='#{widget.webrtc_username}'
+  data-voxbone_webrtc_password='#{widget.webrtc_password}'
+  data-basic_auth='#{widget.basic_auth == 1 ? "true" : "false" }'
+  )
 
   .main.createButton(ng-controller="EditWidgetController" ng-init="initData={widget: #{JSON.stringify(widget)}, did: #{widget.did}, widgetCode: ''}")
     .header
