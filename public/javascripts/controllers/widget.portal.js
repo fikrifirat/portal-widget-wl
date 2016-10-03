@@ -99,6 +99,11 @@ define([
     $scope.generateWidgetCode = function () {
       console.log("--> Generating Output Code...");
 
+      if ($scope.widget.basic_auth !== '1' && !($scope.validAuthUri || false)) {
+        $scope.widgetCode = 'Please specify a valid Auth URL before generating code'
+        return;
+      }
+
       var callerId = $scope.widget.caller_id;
       if (callerId)
         callerId = callerId.replace(/[^a-zA-Z0-9-_]/g, '');
@@ -139,6 +144,33 @@ define([
     $scope.$watch('widget', function () {
       $scope.generateWidgetCode();
     }, true);
+
+    $scope.validateAuthUri = function (form) {
+      voxrtc_config = undefined;
+      var authUrl = form.server_auth_url.$viewValue;
+      $scope.resetUriFlags();
+
+      $.ajax({
+        url: authUrl,
+        jsonp: "callback",
+        dataType: "jsonp"
+      }).always(function () {
+        if (typeof voxrtc_config !== "undefined") {
+          console.log("Valid Auth Service Detected");
+          $scope.validAuthUri = true;
+          voxbone.WebRTC.init(voxrtc_config);
+          $scope.generateWidgetCode();
+        } else {
+          console.log("Invalid Auth Service");
+          $scope.invalidAuthUri = true;
+        }
+      });
+    },
+
+    $scope.resetUriFlags = function () {
+      $scope.validAuthUri = false;
+      $scope.invalidAuthUri = false;
+    }
   };
 
   WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller'];

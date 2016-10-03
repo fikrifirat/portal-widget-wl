@@ -45,9 +45,12 @@ block content
         .row
           .col-xs-12
             .note
-              p #[b Note:]
-              p This will create a code widget that can be embedded into any page that allows for JS code and will allow customers to call without installing any software.
-
+              if params.basic_auth == 1
+                p #[b Note:] this will create a code widget that can be embedded into any page that allows for JS code and will allow customers to call without installing any software.
+              else
+                p #[b Note:] web service needs to be installed to keep your password secret.  Install #[a(href="https://github.com/voxbone/webrtc-auth-servlet") webrtc-auth-servlet] or #[a(href="https://github.com/voxbone/webrtc-auth-perl") webrtc-auth-perl].
+                  |&nbsp;&nbsp;Alternatively enable basic authentication on this did in the customer portal and then return to this page to have a widget with your api key directly embedded into the generated html.
+            
             #alert-success.alert.alert-warning.ng-cloak(ng-show="!isWebRTCSupported()") #[i.glyphicon.glyphicon-exclamation-sign] You are using a browser that does not support WebRTC. You can configure and preview your buttons, but you will not be able to place test calls. Please use Chrome or Firefox for maximum functionality.
             #alert-success.alert.alert-success(style="display: none;")
 
@@ -62,6 +65,26 @@ block content
                   .form-group
                     label Button Label:
                     input.form-control(type="text", name="button_label", ng-model-options="{updateOn: 'blur'}" ng-model="widget.button_label" value="#{defaultBtnLabel}" placeholder="i.e. #{defaultBtnLabel}")
+                  
+                  if params.basic_auth == '0'
+                    .form-group
+                      label Server Auth Url:
+                      input.form-control(
+                        type="text", name="server_auth_url", 
+                        ng-model-options="{updateOn: 'blur'}" 
+                        ng-model="widget.server_auth_url"
+                        ng-pattern="/^(http|https):.+$/"
+                        ng-blur="validateAuthUri(widget_form)",
+                        ng-focus="resetUriFlags()"
+                        placeholder="i.e. https://tomcat.server/servlet/auth"
+                        required
+                      )
+                      div(ng-cloak ng-show="widget_form.server_auth_url.$touched")
+                        div(style="color: red" ng-show="widget_form.server_auth_url.$error.required") HTTP Auth URI is required
+                        div(style="color: red" ng-show="widget_form.server_auth_url.$error.pattern") HTTP Auth URI must be valid
+                        div(style="color: green" ng-show="validAuthUri") Valid Auth Sever Detected
+                        div(style="color: red" ng-show="invalidAuthUri") Url not a valid Auth Sever
+                    
                   .form-group
                     label Button Style:
                     .button-text

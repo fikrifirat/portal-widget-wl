@@ -279,9 +279,14 @@ var check1Ready = (function() {
     var basic = (infoVoxbone.basic_auth === 'true');
     var username = infoVoxbone.voxbone_webrtc_username;
     var key = infoVoxbone.voxbone_webrtc_password;
+    var serverAuthUrl = infoVoxbone.server_auth_url;
 
     if (basic && username && key) {
       voxbone.WebRTC.basicAuthInit(username, key);
+    } else if (!basic && serverAuthUrl) {
+      loadScript(serverAuthUrl, function () {
+        voxbone.WebRTC.init(voxrtc_config);
+      });
     } else {
       voxbone.WebRTC.authServerURL = "https://webrtc.voxbone.com/rest/authentication/createToken";
       getVoxrtcConfig(function(data) {

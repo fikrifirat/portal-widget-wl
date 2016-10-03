@@ -18,7 +18,7 @@ var PERMITTED_FIELDS = [
   'dial_pad', 'send_digits', 'hide_widget', 'updated_at',
   'link_button_to_a_page', 'show_text_html',
   'incompatible_browser_configuration', 'new_sip_uri',
-  'show_frame', 'test_setup', 'rating'
+  'show_frame', 'test_setup', 'rating', 'server_auth_url'
 ];
 
 var portalHandler = function(req, res, next) {
@@ -39,6 +39,7 @@ var portalHandler = function(req, res, next) {
     return utils.objectNotFound(res, req, next);
 
   var fakeWidget = {
+    id: utils.uuid4(),
     did: params.e164,
     sip_uri: 'echo@ivrs', // this is just a placeholder. we should remove it
     rating: true,

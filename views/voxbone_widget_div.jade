@@ -1,3 +1,5 @@
+- var basic_auth = (the_widget.basic_auth == '1')
+
 .voxButton(
   data-button_id=((the_widget._id === undefined) ? undefined : "#{the_widget._id}")
   data-text="#{label}"
@@ -12,9 +14,10 @@
   data-server_url="#{process.env.APP_URL}"
   data-use_default_button_css="true"
   data-div_css_class_name="#{the_widget.button_style}"
-  data-basic_auth=(the_widget.basic_auth === undefined ? undefined : "#{(the_widget.basic_auth === '1')}")
-  data-voxbone_webrtc_username=(the_widget.webrtc_username === undefined ? undefined : "#{the_widget.webrtc_username}")
-  data-voxbone_webrtc_password=(the_widget.webrtc_password === undefined ? undefined : "#{the_widget.webrtc_password}")
+  data-basic_auth=(the_widget.basic_auth === undefined ? undefined : "#{basic_auth}")
+  data-server_auth_url=(the_widget.server_auth_url === undefined ? undefined : "#{the_widget.server_auth_url}")
+  data-voxbone_webrtc_username=(the_widget.webrtc_username === undefined || !basic_auth ? undefined : "#{the_widget.webrtc_username}")
+  data-voxbone_webrtc_password=(the_widget.webrtc_password === undefined || !basic_auth ? undefined : "#{the_widget.webrtc_password}")
   data-rating=((the_widget.rating === undefined || the_widget.rating) ? undefined : "#{the_widget.rating}")
   data-dial_pad=((the_widget.dial_pad === undefined || the_widget.dial_pad) ? undefined : "#{the_widget.dial_pad}")
   data-show_frame=((the_widget.show_frame === undefined || the_widget.show_frame) ? undefined : "#{the_widget.show_frame}")

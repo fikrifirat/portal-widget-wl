@@ -34,6 +34,7 @@ var routes = require('./routes/index');
 var utils = require('./routes/utils');
 var widgetRoutes = require('./routes/widget').router;
 
+app.use('/', routes);
 app.use('/click2vox/', routes);
 app.use('/click2vox/', widgetRoutes);
 app.use('/widget/', widgetRoutes);
