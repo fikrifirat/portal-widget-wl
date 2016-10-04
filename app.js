@@ -1,3 +1,6 @@
+if (process.env.NEW_RELIC_LICENSE_KEY)
+  var newrelic = require('newrelic');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,10 +12,8 @@ var params = require('strong-params');
 
 var app = express();
 
-if (process.env.NEW_RELIC_LICENSE_KEY){
-  var newrelic = require('newrelic');
+if (process.env.NEW_RELIC_LICENSE_KEY)
   app.locals.newrelic = newrelic;
-}
 
 // Use the session middleware
 app.use(session({
