@@ -9,6 +9,11 @@ var params = require('strong-params');
 
 var app = express();
 
+if (process.env.NEW_RELIC_LICENSE_KEY){
+  var newrelic = require('newrelic');
+  app.locals.newrelic = newrelic;
+}
+
 // Use the session middleware
 app.use(session({
   secret: process.env.SECRET || 'super_secret_key',
