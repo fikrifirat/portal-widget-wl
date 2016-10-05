@@ -5,7 +5,7 @@ define([
     'bootstrap'
   ], function (WidgetMixin, $, Clipboard) {
 
-  var WidgetEditController = function ($scope, $http, $window, $controller) {
+  var WidgetEditController = function ($scope, $http, $window, $controller, $cookies) {
     // let's extend from the mixin first of all
     angular.extend(this, $controller(WidgetMixin, {$scope: $scope}));
 
@@ -48,11 +48,22 @@ define([
 
     $scope.loadWidgetData = function () {
       var data = $scope.initData;
-      $scope.widget = angular.extend({}, $scope.widget, $scope.master, data.widget);
+      var savedWidget = $cookies.getObject('widget');
+
+      $scope.widget = angular.extend({}, $scope.widget, $scope.master, data.widget, savedWidget);
       $scope.widgetCode = data.widgetCode;
       $scope.widget.did = $scope.did = data.did;
       $scope.widget.link_button_to_a_page_value = $scope.widget.link_button_to_a_page;
       $scope.widget.show_text_html_value = $scope.widget.show_text_html;
+
+      var ibc = $scope.widget.incompatible_browser_configuration;
+
+      if (ibc === 'hide_widget')
+        $scope.widget.hide_widget = true;
+      else if (ibc === 'link_button_to_a_page')
+        $scope.widget.link_button_to_a_page = true;
+      else if (ibc === 'show_text_html')
+        $scope.widget.show_text_html = true;
     };
 
     // watch for initial widget data
@@ -145,6 +156,7 @@ define([
 
     $scope.$watch('widget', function () {
       $scope.generateWidgetCode();
+      $cookies.putObject('widget', $scope.widget);
     }, true);
 
     $scope.validateAuthUri = function (form) {
@@ -175,7 +187,7 @@ define([
     };
   };
 
-  WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller'];
+  WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies'];
 
   return WidgetEditController;
 });

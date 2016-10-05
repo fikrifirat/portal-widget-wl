@@ -8,6 +8,7 @@ block content
   script.
     require([
       'angular',
+      'angular-cookies',
       'angular-sanitize',
       'angular-bootstrap-colorpicker',
       'jquery',
@@ -16,11 +17,11 @@ block content
       'directives/http.prefix'
     ],
     function(
-      angular, ngSanitize, colorPicker, $,
+      angular, ngCookies, ngSanitize, colorPicker, $,
       WidgetEditController, qtipDirective,
       httpPrefixDirective) {
 
-        angular.module('voxboneApp', ['ngSanitize','colorpicker.module'])
+        angular.module('voxboneApp', ['ngCookies','ngSanitize','colorpicker.module'])
           .directive('qtip', qtipDirective)
           .directive('httpPrefix', httpPrefixDirective)
           .controller('EditWidgetController', WidgetEditController);
@@ -28,6 +29,7 @@ block content
         angular.bootstrap(document, ['voxboneApp']);
 
         require(['#{process.env.APP_URL}/click2vox.js']);
+
     });
 
   .voxButton#voxButtonPreview(data-div_css_class_name="hidden"
@@ -50,7 +52,7 @@ block content
               else
                 p #[b Note:] web service needs to be installed to keep your password secret.  Install #[a(href="https://github.com/voxbone/webrtc-auth-servlet") webrtc-auth-servlet] or #[a(href="https://github.com/voxbone/webrtc-auth-perl") webrtc-auth-perl].
                   |&nbsp;&nbsp;Alternatively enable basic authentication on this did in the customer portal and then return to this page to have a widget with your api key directly embedded into the generated html.
-            
+
             #alert-success.alert.alert-warning.ng-cloak(ng-show="!isWebRTCSupported()") #[i.glyphicon.glyphicon-exclamation-sign] You are using a browser that does not support WebRTC. You can configure and preview your buttons, but you will not be able to place test calls. Please use Chrome or Firefox for maximum functionality.
             #alert-success.alert.alert-success(style="display: none;")
 
@@ -65,13 +67,13 @@ block content
                   .form-group
                     label Button Label:
                     input.form-control(type="text", name="button_label", ng-model-options="{updateOn: 'blur'}" ng-model="widget.button_label" value="#{defaultBtnLabel}" placeholder="i.e. #{defaultBtnLabel}")
-                  
+
                   if params.basic_auth == '0'
                     .form-group
                       label Server Auth Url:
                       input.form-control(
-                        type="text", name="server_auth_url", 
-                        ng-model-options="{updateOn: 'blur'}" 
+                        type="text", name="server_auth_url",
+                        ng-model-options="{updateOn: 'blur'}"
                         ng-model="widget.server_auth_url"
                         ng-pattern="/^(http|https):.+$/"
                         ng-blur="validateAuthUri(widget_form)",
@@ -84,7 +86,7 @@ block content
                         div(style="color: red" ng-show="widget_form.server_auth_url.$error.pattern") HTTP Auth URI must be valid
                         div(style="color: green" ng-show="validAuthUri") Valid Auth Sever Detected
                         div(style="color: red" ng-show="invalidAuthUri") Url not a valid Auth Sever
-                    
+
                   .form-group
                     label Button Style:
                     .button-text
@@ -158,13 +160,13 @@ block content
                             input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="link_button_to_a_page")
                             span.radio-name Link button to a page
                             span.badge(data-toggle='tooltip' data-placement="top" title="If the visitor’s browser does not support WebRTC, specify a URL to go to when the button is clicked") ?
-                            input.form-control(http-prefix type="url" name="link_button_to_a_page_value" ng-model="widget.link_button_to_a_page_value" ng-show="widget.incompatible_browser_configuration == 'link_button_to_a_page'" placeholder="i.e. https://mysite.com")
+                          input.form-control(http-prefix type="url" name="link_button_to_a_page_value" ng-model="widget.link_button_to_a_page_value" ng-show="widget.incompatible_browser_configuration == 'link_button_to_a_page'" placeholder="i.e. https://mysite.com")
                         .form-group
                           label.show_text_html
                             input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="show_text_html")
                             span.radio-name Show text/HTML
                             span.badge(data-toggle="tooltip" data-placement="top" title="Instead of showing the button, display the entered HTML ") ?
-                            textarea.form-control(type="text" name="show_text_html_value", placeholder="Enter text or HTML" ng-show="widget.incompatible_browser_configuration == 'show_text_html'" ng-bind-html="widget.show_text_html_value" ng-model-options="{updateOn: 'blur'}" ng-model="widget.show_text_html_value")
+                          textarea.form-control(type="text" name="show_text_html_value", placeholder="Enter text or HTML" ng-show="widget.incompatible_browser_configuration == 'show_text_html'" ng-bind-html="widget.show_text_html_value" ng-model-options="{updateOn: 'blur'}" ng-model="widget.show_text_html_value")
 
           .col-md-6.right-col
             .section
