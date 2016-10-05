@@ -154,7 +154,10 @@ define([
           });
     };
 
-    $scope.$watch('widget', function () {
+    $scope.$watch('widget', function (newValue, oldValue) {
+      //Don't generate widget when we are using the colorpicker
+      if(newValue.button_color !== oldValue.button_color || newValue.frame_color !== oldValue.frame_color)
+        return;
       $scope.generateWidgetCode();
       $cookies.putObject('widget', $scope.widget);
     }, true);

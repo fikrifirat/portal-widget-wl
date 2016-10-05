@@ -96,7 +96,7 @@ block content
                       button.btn-style-b(ng-cloak ng-click="setTheme('style-b')") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
                       div(ng-cloak) Purple Theme
                     .button-text
-                      button.btn-style-c(ng-cloak ng-click="setCustomTheme()" colorpicker colorpicker-position="right" ng-model="widget.button_color" ng-style="{'background': widget.button_color ? widget.button_color : tempButtonColor }") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
+                      button.btn-style-c(ng-cloak ng-click="setCustomTheme()" colorpicker colorpicker-position="right" ng-model="widget.button_color" ng-blur="generateWidgetCode()" ng-style="{'background': widget.button_color ? widget.button_color : tempButtonColor }") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
                       div(ng-cloak) Custom Theme
 
                   .panel-heading
@@ -109,7 +109,7 @@ block content
                           label(for='show_frame') #[span]  Show frame
                             .badge(data-toggle='tooltip' data-placement="top" title="Shows/Hides the background and border of the button") ?
                         div(style="display:inline-block;")
-                            span(style="margin-left:20px" ng-show='widget.show_frame') Pick frame color #[i.glyphicon.glyphicon-tint(aria-hidden='true' colorpicker colorpicker-position="right" ng-model="widget.frame_color" style="cursor: pointer" ng-style="{'color': widget.frame_color || 'black'}")]
+                            span(style="margin-left:20px" ng-show='widget.show_frame') Pick frame color #[div.glyphicon.glyphicon-tint(tabindex="0" aria-hidden='true' colorpicker colorpicker-position="right" ng-model="widget.frame_color" ng-blur="generateWidgetCode()" style="cursor: pointer" ng-style="{'color': widget.frame_color || 'black'}")]
 
                       .form-group
                         input(id='test_setup' type='checkbox' name='test_setup' ng-model='widget.test_setup')
