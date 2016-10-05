@@ -92,7 +92,9 @@ define([
     };
 
     $scope.setCustomTheme = function() {
-      $scope.tempFrameColor ? $scope.widget.frame_color = $scope.tempFrameColor : $scope.widget.frame_color = "black";
+      $scope.widget.frame_color = "black";
+      if($scope.tempFrameColor)
+        $scope.widget.frame_color = $scope.tempFrameColor;
       $scope.widget.button_color = $scope.tempButtonColor;
     };
 
@@ -100,7 +102,7 @@ define([
       console.log("--> Generating Output Code...");
 
       if ($scope.widget.basic_auth !== '1' && !($scope.validAuthUri || false)) {
-        $scope.widgetCode = 'Please specify a valid Auth URL before generating code'
+        $scope.widgetCode = 'Please specify a valid Auth URL before generating code';
         return;
       }
 
@@ -165,12 +167,12 @@ define([
           $scope.invalidAuthUri = true;
         }
       });
-    },
+    };
 
     $scope.resetUriFlags = function () {
       $scope.validAuthUri = false;
       $scope.invalidAuthUri = false;
-    }
+    };
   };
 
   WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller'];
