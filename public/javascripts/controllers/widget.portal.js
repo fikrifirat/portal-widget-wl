@@ -5,7 +5,7 @@ define([
     'bootstrap'
   ], function (WidgetMixin, $, Clipboard) {
 
-  var WidgetEditController = function ($scope, $http, $window, $controller, $cookies) {
+  var WidgetEditController = function ($scope, $http, $window, $controller, $cookies, $analytics) {
     // let's extend from the mixin first of all
     angular.extend(this, $controller(WidgetMixin, {$scope: $scope}));
 
@@ -64,6 +64,10 @@ define([
         $scope.widget.link_button_to_a_page = true;
       else if (ibc === 'show_text_html')
         $scope.widget.show_text_html = true;
+
+      var current_date = new Date().toISOString();
+      var tracked_label = 'date: ' + current_date + ' user: ' + data.username + ' did: ' + data.did;
+      $analytics.eventTrack('Landed User', { category: 'Landed User', label: tracked_label });
     };
 
     // watch for initial widget data
@@ -190,7 +194,7 @@ define([
     };
   };
 
-  WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies'];
+  WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies', '$analytics'];
 
   return WidgetEditController;
 });

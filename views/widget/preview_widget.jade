@@ -1,9 +1,9 @@
 span.title(ng-cloak) Widget Preview in a {{ (!preview_webrtc_compatible ? "non-" : "") + "WebRTC Browser" }}
 ul.nav.nav-tabs(ng-cloak)
   li(ng-class="{active:previewButton}" ng-click="previewButton = true")
-    a(data-toggle="tab" href="#") Button #[span.badge(data-toggle='tooltip' data-placement="top" data-html="true" data-width="350" title="This is what the click-to-call button will look like when the widget code snippet below is used on your website") ?]
+    a(data-toggle="tab" href="#" analytics-on analytics-event="Widget Preview" analytics-label="Button") Button #[span.badge(data-toggle='tooltip' data-placement="top" data-html="true" data-width="350" title="This is what the click-to-call button will look like when the widget code snippet below is used on your website") ?]
   li(ng-class="{active:!previewButton}" ng-click="previewButton = false" ng-show="preview_webrtc_compatible")
-    a(data-toggle="tab" href="#") Phone #[span.badge(data-toggle='tooltip' data-placement="top" data-html="true" data-width="350" title="Preview of the pop-up call controller that displays once the button is clicked") ?]
+    a(data-toggle="tab" href="#" analytics-on analytics-event="Widget Preview" analytics-label="Phone") Phone #[span.badge(data-toggle='tooltip' data-placement="top" data-html="true" data-width="350" title="Preview of the pop-up call controller that displays once the button is clicked") ?]
 
 .boxPanel.preview
   .prev-view.light
@@ -62,6 +62,7 @@ ul.nav.nav-tabs(ng-cloak)
           ng-show="showCallButton()"
         )
         button.btn-style.launch_call#launch_call_preview(
+          analytics-on analytics-event="Click on Call Button" analytics-label="Click on Call Button"
           ng-style="{'background': widget.button_color, 'border': widget.button_color}"
           ng-cloak ng-disabled="!widget.sip_uri"
           ng-click="makeCall()"
@@ -76,7 +77,7 @@ ul.nav.nav-tabs(ng-cloak)
           a(href="https://voxbone.com" target="_blank") powered by:
 
     .preview-link
-      a(ng-cloak href="#" ng-click="previewButton = true; preview_webrtc_compatible = !preview_webrtc_compatible") {{ "Switch to " + (preview_webrtc_compatible ? "non-" : "") + "WebRTC Browser View" }}
+      a(analytics-on analytics-event="Widget Preview" analytics-label="Switch WebRTC/Non-WebRTC Browser View" ng-cloak href="#" ng-click="previewButton = true; preview_webrtc_compatible = !preview_webrtc_compatible") {{ "Switch to " + (preview_webrtc_compatible ? "non-" : "") + "WebRTC Browser View" }}
     .togle-bg
       a.dark(href="javascript:void(0)" ng-click="widget.background_style = 'dark'")
       a.grey(href="javascript:void(0)" ng-click="widget.background_style = 'grey'")
@@ -93,13 +94,13 @@ ul.nav.nav-tabs(ng-cloak)
           {{ widgetCode }}
 
       .codebox-playground(ng-show="widget.showWidgetCode")
-        .btn-jsfiddle
+        .btn-jsfiddle(analytics-on analytics-event="Code Playground" analytics-label="Select JSFiddle")
           form#code_debug_jsfiddle(action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank")
             input(type="hidden" name="html" value='{{ prepareHtmlForCodepen(widgetCode) }}')
             a(href="#" onclick="$('#code_debug_jsfiddle').submit();") JSFiddle
-        .btn-jsfiddle
+        .btn-jsfiddle(analytics-on analytics-event="Code Playground" analytics-label="Select CodePen")
           form#code_debug_codepen(action="https://codepen.io/pen/define" method="POST" target="_blank")
             input(type="hidden" name="data" value='{"html": "{{ prepareHtmlForCodepen(widgetCode) }}"}')
             a(href="#" onclick="$('#code_debug_codepen').submit();") CodePen
-        .btn-jsfiddle
+        .btn-jsfiddle(analytics-on analytics-event="Code Playground" analytics-label="Copy to Clipboard")
           a(id="clipboard_copy" href="#" data-clipboard-target="#widget_code") Copy to Clipboard

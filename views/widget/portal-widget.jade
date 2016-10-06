@@ -40,7 +40,7 @@ block content
   data-basic_auth='#{widget.basic_auth == 1 ? "true" : "false" }'
   )
 
-  .main.createButton(ng-controller="EditWidgetController" ng-init="initData={widget: #{JSON.stringify(widget)}, did: #{widget.did}, widgetCode: ''}")
+  .main.createButton(ng-controller="EditWidgetController" ng-init="initData={widget: #{JSON.stringify(widget)}, did: #{widget.did}, widgetCode: '', username: '#{widget.webrtc_username}'}")
     .header
       .container
         .row
@@ -66,12 +66,12 @@ block content
               section
                 span.title Button Configuration
                 .boxPanel.options-group
-                  .form-group
+                  .form-group(analytics-on analytics-event="Button Configuration" analytics-label="Button Label")
                     label Button Label:
                     input.form-control(type="text", name="button_label", ng-model-options="{updateOn: 'blur'}" ng-model="widget.button_label" value="#{defaultBtnLabel}" placeholder="i.e. #{defaultBtnLabel}")
 
                   if params.basic_auth == '0'
-                    .form-group
+                    .form-group(analytics-on analytics-event="Button Configuration" analytics-label="Server Auth Url")
                       label Server Auth Url:
                       input.form-control(
                         type="text", name="server_auth_url",
@@ -92,33 +92,33 @@ block content
                   .form-group
                     label Button Style:
                     .button-text
-                      button.btn-style-a(ng-cloak ng-click="setTheme('style-a')") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
+                      button.btn-style-a(analytics-on analytics-event="Button Style" analytics-label="Blue Theme" ng-cloak ng-click="setTheme('style-a')") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
                       div(ng-cloak) Blue Theme
                     .button-text
-                      button.btn-style-b(ng-cloak ng-click="setTheme('style-b')") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
+                      button.btn-style-b(analytics-on analytics-event="Button Style" analytics-label="Purple Theme" ng-cloak ng-click="setTheme('style-b')") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
                       div(ng-cloak) Purple Theme
                     .button-text
-                      button.btn-style-c(ng-cloak ng-click="setCustomTheme()" colorpicker colorpicker-position="right" ng-model="widget.button_color" ng-blur="generateWidgetCode()" ng-style="{'background': widget.button_color ? widget.button_color : tempButtonColor }") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
+                      button.btn-style-c(analytics-on analytics-event="Button Style" analytics-label="Custom Theme" ng-cloak ng-click="setCustomTheme()" colorpicker colorpicker-position="right" ng-model="widget.button_color" ng-blur="generateWidgetCode()" ng-style="{'background': widget.button_color ? widget.button_color : tempButtonColor }") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
                       div(ng-cloak) Custom Theme
 
                   .panel-heading
                     a.collapsed.title-toggle(data-toggle="collapse", data-target="#extraConfiguration", href="#extraConfiguration") Extra Configuration
                   .panel-collapse.collapse#extraConfiguration
                     .options-wrap.active
-                      .form-group
+                      .form-group(analytics-on analytics-event="Extra Configuration" analytics-label="Show frame")
                         div(style="display:inline-block;")
-                          input(id='show_frame' type='checkbox' name='show_frame' ng-model='widget.show_frame')
+                          input(id='show_frame' type='checkbox' name='show_frame' ng-model='widget.show_frame' )
                           label(for='show_frame') #[span]  Show frame
                             .badge(data-toggle='tooltip' data-placement="top" title="Shows/Hides the background and border of the button") ?
                         div(style="display:inline-block;")
                             span(style="margin-left:20px" ng-show='widget.show_frame') Pick frame color #[div.glyphicon.glyphicon-tint(tabindex="0" aria-hidden='true' colorpicker colorpicker-position="right" ng-model="widget.frame_color" ng-blur="generateWidgetCode()" style="cursor: pointer" ng-style="{'color': widget.frame_color || 'black'}")]
 
-                      .form-group
+                      .form-group(analytics-on analytics-event="Extra Configuration" analytics-label="Test user setup")
                         input(id='test_setup' type='checkbox' name='test_setup' ng-model='widget.test_setup')
                         label(for='test_setup') #[span] Test user setup
                           .badge(data-toggle='tooltip' data-placement="top" title="Place a link to test the users's WebRTC setup") ?
 
-                      .form-group
+                      .form-group(analytics-on analytics-event="Extra Configuration" analytics-label="Show branding")
                         input(id='show_branding' type='checkbox' name='show_branding' ng-model='widget.show_branding')
                         label(for='show_branding') #[span] Show branding
                           .badge(data-toggle='tooltip' data-placement="top" title="Toggles Voxbone branding from button and popup") ?
@@ -129,22 +129,22 @@ block content
                     a.collapsed.title-toggle(data-toggle="collapse", data-target="#collapseAdvancedCallConfiguration",href="#collapseAdvancedCallConfiguration") Advanced Call Configuration
                   .panel-collapse.collapse#collapseAdvancedCallConfiguration
                     .options-wrap.active
-                      .form-group
+                      .form-group(analytics-on analytics-event="Advanced Call Configuration" analytics-label="Caller ID")
                         label(for="btn-context") Caller ID
                           span.badge(data-toggle="tooltip" data-placement="top" title="Enter the Caller ID that you would like sent with your Click2Vox widget calls (Only valid URI characters will be sent)") ?
                         input.form-control(type="text" name="caller_id" ng-model-options="{updateOn: 'blur'}" ng-model="widget.caller_id" value="click2vox" placeholder="i.e. click2vox_demo")
-                      .form-group
+                      .form-group(analytics-on analytics-event="Advanced Call Configuration" analytics-label="Context")
                         label(for="btn-context") Context
                           span.badge(data-toggle='tooltip' data-placement="top" title="Send custom data to your SIP server using the X-Voxbone-Context header. Make sure to configure your SIP server to process this header.") ?
                         input.form-control(type="text" name="context" ng-model-options="{updateOn: 'blur'}" ng-model="widget.context")
-                      .form-group
+                      .form-group(analytics-on analytics-event="Advanced Call Configuration" analytics-label="DTMF Dial Pad")
                         input(id='dial_pad' type="checkbox" name="dial_pad" ng-model="widget.dial_pad")
                         label(for='dial_pad') #[span] &nbsp; DTMF Dial Pad
                           .badge(data-toggle="tooltip" data-placement="top" title="Display a dialpad to allow your users to enter DTMF digits during a call.") ?
-                      .form-group
+                      .form-group(analytics-on analytics-event="Advanced Call Configuration" analytics-label="Send Digits")
                         label(for="btn-context") Send Digits #[span.badge(data-toggle='tooltip' data-placement="top" data-html="true" title="Automatically send DTMF digit(s) after a call is connected. This is useful for automatically navigating IVRs or entering access codes for a conference bridge. Digits should use the following format: <br><br>1,2,3,1200ms,4,5,900ms,6,#<br><br>This string will generate 1 2 3, wait 1200 milliseconds, enter 4, 5, wait 900 milliseconds then enter 6, #") ?]
                         input.form-control(type="text" name="send_digits" ng-model-options="{updateOn: 'blur'}" ng-model="widget.send_digits")
-                      .form-group
+                      .form-group(analytics-on analytics-event="Advanced Call Configuration" analytics-label="Ask for Rating")
                         input(id='rating' type="checkbox" name="rating" ng-model="widget.rating")
                         label(for='rating') #[span] &nbsp; Ask for rating after the call ends
                           .badge(data-toggle='tooltip' data-placement="top" title="Ask the user/caller to rate after the call ends") ?
@@ -152,23 +152,23 @@ block content
                     a.collapsed.title-toggle(data-toggle="collapse" data-target="#collapseIncompatileBrowserConfiguration" href="#collapseIncompatileBrowserConfiguration") Incompatible Browser Configuration
                   .panel-collapse.collapse#collapseIncompatileBrowserConfiguration
                     .options-wrap.active.incompatible
-                      .form-group
-                          label.hide_widget
-                            input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="hide_widget")
-                            span.radio-name Hide the widget
-                            span.badge(data-toggle='tooltip' data-placement="top" title="If the visitor’s browser does not support WebRTC, hide the widget") ?
-                        .form-group
-                          label.link_button_to_a_page
-                            input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="link_button_to_a_page")
-                            span.radio-name Link button to a page
-                            span.badge(data-toggle='tooltip' data-placement="top" title="If the visitor’s browser does not support WebRTC, specify a URL to go to when the button is clicked") ?
-                          input.form-control(http-prefix type="url" name="link_button_to_a_page_value" ng-model="widget.link_button_to_a_page_value" ng-show="widget.incompatible_browser_configuration == 'link_button_to_a_page'" placeholder="i.e. https://mysite.com")
-                        .form-group
-                          label.show_text_html
-                            input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="show_text_html")
-                            span.radio-name Show text/HTML
-                            span.badge(data-toggle="tooltip" data-placement="top" title="Instead of showing the button, display the entered HTML ") ?
-                          textarea.form-control(type="text" name="show_text_html_value", placeholder="Enter text or HTML" ng-show="widget.incompatible_browser_configuration == 'show_text_html'" ng-bind-html="widget.show_text_html_value" ng-model-options="{updateOn: 'blur'}" ng-model="widget.show_text_html_value")
+                      .form-group(analytics-on analytics-event="Incompatible Browser Configuration" analytics-label="Hide the widget")
+                        label.hide_widget
+                          input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="hide_widget")
+                          span.radio-name Hide the widget
+                          span.badge(data-toggle='tooltip' data-placement="top" title="If the visitor’s browser does not support WebRTC, hide the widget") ?
+                      .form-group(analytics-on analytics-event="Incompatible Browser Configuration" analytics-label="Link button to a page")
+                        label.link_button_to_a_page
+                          input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="link_button_to_a_page")
+                          span.radio-name Link button to a page
+                          span.badge(data-toggle='tooltip' data-placement="top" title="If the visitor’s browser does not support WebRTC, specify a URL to go to when the button is clicked") ?
+                        input.form-control(http-prefix type="url" name="link_button_to_a_page_value" ng-model="widget.link_button_to_a_page_value" ng-show="widget.incompatible_browser_configuration == 'link_button_to_a_page'" placeholder="i.e. https://mysite.com")
+                      .form-group(analytics-on analytics-event="Incompatible Browser Configuration" analytics-label="Show text/HTML")
+                        label.show_text_html
+                          input(type="radio" name="incompatible_browser_configuration" ng-model="widget.incompatible_browser_configuration" value="show_text_html")
+                          span.radio-name Show text/HTML
+                          span.badge(data-toggle="tooltip" data-placement="top" title="Instead of showing the button, display the entered HTML ") ?
+                        textarea.form-control(type="text" name="show_text_html_value", placeholder="Enter text or HTML" ng-show="widget.incompatible_browser_configuration == 'show_text_html'" ng-bind-html="widget.show_text_html_value" ng-model-options="{updateOn: 'blur'}" ng-model="widget.show_text_html_value")
 
           .col-md-6.right-col
             .section
