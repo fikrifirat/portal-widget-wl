@@ -29,6 +29,16 @@ require.config({
         return 'colorpicker.module';
       }
     },
+    'angulartics': {
+      deps: ['angular'], init: function () {
+        return 'angulartics';
+      }
+    },
+    'angulartics-google-analytics': {
+      deps: ['angulartics'], init: function () {
+        return 'angulartics.google.analytics';
+      }
+    },
   },
   paths: {
     angular: [
@@ -50,6 +60,14 @@ require.config({
     'angular-bootstrap-colorpicker': [
       '//cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-colorpicker/3.0.25/js/bootstrap-colorpicker-module.min',
       '/lib/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min'
+    ],
+    'angulartics': [
+      '//cdnjs.cloudflare.com/ajax/libs/angulartics/1.2.1/angulartics.min',
+      '/lib/angulartics/dist/angulartics.min'
+    ],
+    'angulartics-google-analytics': [
+      '//cdnjs.cloudflare.com/ajax/libs/angulartics-google-analytics/0.2.1/angulartics-ga.min',
+      '/lib/angulartics-google-analytics/dist/angulartics-ga.min'
     ],
     bootstrap: [
       '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min',
