@@ -344,7 +344,7 @@ a {
 
 .vw-icon{
   display: inline-block;
-  background-image: url('../../images/icon-sprite.png');
+  background-image: url('../images/icon-sprite.png');
   background-size: 46px 322px;
   background-position: right center;
   background-repeat: no-repeat;
