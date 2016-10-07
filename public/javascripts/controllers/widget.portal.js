@@ -48,7 +48,7 @@ define([
 
     $scope.loadWidgetData = function () {
       var data = $scope.initData;
-      var savedWidget = $cookies.getObject('widget');
+      var savedWidget = $cookies.getObject($scope.initData.username+'_widget');
 
       $scope.widget = angular.extend({}, $scope.widget, $scope.master, data.widget, savedWidget);
       $scope.widgetCode = data.widgetCode;
@@ -159,11 +159,11 @@ define([
     };
 
     $scope.$watch('widget', function (newValue, oldValue) {
-      //Don't generate widget when we are using the colorpicker
+      //Don't generate widget when we are moving inside the colorpicker
       if(newValue.button_color !== oldValue.button_color || newValue.frame_color !== oldValue.frame_color)
         return;
       $scope.generateWidgetCode();
-      $cookies.putObject('widget', $scope.widget);
+      saveCookie();
     }, true);
 
     $scope.validateAuthUri = function (form) {
@@ -192,6 +192,18 @@ define([
       $scope.validAuthUri = false;
       $scope.invalidAuthUri = false;
     };
+
+    function saveCookie() {
+      var cookieWidget = Object.assign({}, $scope.widget);
+      delete cookieWidget.id;
+      delete cookieWidget.basic_auth;
+      delete cookieWidget.did;
+      delete cookieWidget.webrtc_password;
+      delete cookieWidget.webrtc_username;
+      delete cookieWidget.shouldProvision;
+      delete cookieWidget.sip_uri;
+      $cookies.putObject($scope.initData.username+'_widget', cookieWidget);
+    }
   };
 
   WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies', '$analytics'];
