@@ -68,7 +68,7 @@ block content
                 .boxPanel.options-group
                   .form-group(analytics-on analytics-event="Button Configuration" analytics-label="Button Label")
                     label Button Label:
-                    input.form-control(type="text", name="button_label", ng-model-options="{updateOn: 'blur'}" ng-model="widget.button_label" value="#{defaultBtnLabel}" placeholder="i.e. #{defaultBtnLabel}")
+                    input.form-control(type="text" name="button_label" ng-blur="generateWidgetCode()" ng-model="widget.button_label" value="#{defaultBtnLabel}" placeholder="i.e. #{defaultBtnLabel}")
 
                   if params.basic_auth == '0'
                     .form-group(analytics-on analytics-event="Button Configuration" analytics-label="Server Auth Url")

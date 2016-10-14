@@ -162,6 +162,11 @@ define([
       //Don't generate widget when we are moving inside the colorpicker
       if(newValue.button_color !== oldValue.button_color || newValue.frame_color !== oldValue.frame_color)
         return;
+
+      //Don't generate widget when the user is typing the button label
+      if(newValue.button_label !== oldValue.button_label)
+        return;
+
       $scope.generateWidgetCode();
       saveCookie();
     }, true);
