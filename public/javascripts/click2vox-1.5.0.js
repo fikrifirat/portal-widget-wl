@@ -325,7 +325,11 @@ var check1Ready = (function() {
   }
 
   function init() {
-    setTimeout(function() { document.querySelector("#launch_call_div").style.display = "block"; }, 500);
+    setTimeout(function() {
+      var el = document.querySelector("#launch_call_div");
+      if (el)
+        el.style.display = "block";
+    }, 500);
 
     // let's trigger an event when things are ready
     notifyLoaded();
@@ -451,10 +455,12 @@ var check1Ready = (function() {
 
   function setMicDot(dot) {
     var el = document.querySelector('.vox-widget-wrapper #mic' + dot);
-    if (dot === '5')
-      el.classList.add('peak');
-    else
-      el.classList.add('on');
+    if (el) {
+      if (dot === '5')
+        el.classList.add('peak');
+      else
+        el.classList.add('on');
+    }
   }
 
   function showElement(selector){
@@ -485,7 +491,8 @@ var check1Ready = (function() {
 
   function setWidgetTitle(title){
     var el = document.querySelector('.vox-widget-wrapper #vw-title');
-    el.innerText = title;
+    if (el)
+      el.innerText = title;
   }
 
   function getRingbackTone(){
@@ -580,8 +587,9 @@ var check1Ready = (function() {
   }
 
   function handleEvent (eventName, selector, callback) {
-    var element = document.querySelector(selector);
-    if (element) element.addEventListener(eventName, callback);
+    var el = document.querySelector(selector);
+    if (el)
+      el.addEventListener(eventName, callback);
   }
 
   // Start of Button Events
@@ -672,8 +680,9 @@ var check1Ready = (function() {
   // Pad button event
   handleEvent('click', '.vox-widget-wrapper i.vx-icon-pad', function (e) {
     e.preventDefault();
-    var element = document.querySelector(".vox-widget-wrapper .vw-dialpad");
-    element.classList.toggle('active');
+    var el = document.querySelector(".vox-widget-wrapper .vw-dialpad");
+    if (el)
+      el.classList.toggle('active');
   });
 
   // Mic button event
