@@ -67,7 +67,7 @@ block content
                 span.title Button Configuration
                 .boxPanel.options-group
                   .form-group(analytics-on analytics-event="Button Configuration" analytics-label="Button Label")
-                    label Button Label:
+                    label Button Label
                     input.form-control(type="text" name="button_label" ng-blur="generateWidgetCode()" ng-model="widget.button_label" value="#{defaultBtnLabel}" placeholder="i.e. #{defaultBtnLabel}")
 
                   if params.basic_auth == '0'
@@ -90,7 +90,7 @@ block content
                         div(style="color: red" ng-show="invalidAuthUri") Url not a valid Auth Sever
 
                   .form-group
-                    label Button Style:
+                    label Button Style
                     .button-text
                       button.btn-style-a(analytics-on analytics-event="Button Style" analytics-label="Blue Theme" ng-cloak ng-click="setTheme('style-a')") #[span {{ widget.button_label || '#{defaultBtnLabel}' }}]
                       div(ng-cloak) Blue Theme
