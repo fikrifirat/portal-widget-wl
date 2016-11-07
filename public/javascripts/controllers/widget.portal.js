@@ -115,8 +115,10 @@ define([
 
     $scope.generateWidgetCode = function () {
       console.log("--> Generating Output Code...");
+        //Good Notification
 
       if ($scope.widget.basic_auth !== '1' && !($scope.validAuthUri || false)) {
+        //Bad Notification
         $scope.widgetCode = 'Please specify a valid Auth URL before generating code';
         return;
       }
@@ -149,11 +151,13 @@ define([
         .then(function successCallback(response) {
             $scope.widgetCode = response.data.widget_code;
             $scope.widget_form.$setPristine();
+            $scope.openNotice("Success","Code Generated Successfully!");
+            // Good Notification.
           },
           function errorCallback(response) {
             var data = response.data;
             console.log("Error: ", data);
-
+            $scope.openNotice("Error","Error generating widget code snippet. Please check it.");
             $scope.widgetCode = 'Error generating widget code snippet. Please check it.';
           });
     };
@@ -197,6 +201,16 @@ define([
       $scope.validAuthUri = false;
       $scope.invalidAuthUri = false;
     };
+    //NGToast Helper function.
+    $scope.openNotice = function (text, type) {
+          ngToast.create({
+            template: '<div class="ngtoast-notice">Notice: {{text}}</div>',
+            className: 'ngtoast-default ' + 'ngtoast-notice--' + type,
+            controller: ['$scope', function($scope) {
+              $scope.text = text;
+            }]
+          });
+        };
 
     function saveCookie() {
       var cookieWidget = Object.assign({}, $scope.widget);
@@ -210,6 +224,8 @@ define([
       $cookies.putObject($scope.initData.username+'_widget', cookieWidget);
     }
   };
+
+
 
   WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies', '$analytics', 'ngToast'];
 
