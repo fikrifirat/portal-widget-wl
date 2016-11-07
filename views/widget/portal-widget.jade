@@ -10,6 +10,7 @@ block content
       'angular',
       'angular-cookies',
       'angular-sanitize',
+      'angular-toast',
       'angular-bootstrap-colorpicker',
       'angulartics',
       'angulartics-google-analytics',
@@ -19,11 +20,11 @@ block content
       'directives/http.prefix'
     ],
     function(
-      angular, ngCookies, ngSanitize, colorPicker, angulartics, angularticsGoogleAnalytics, $,
+      angular, ngCookies, ngSanitize, ngToast, colorPicker, angulartics, angularticsGoogleAnalytics, $,
       WidgetEditController, qtipDirective,
       httpPrefixDirective) {
 
-        angular.module('voxboneApp', ['ngCookies','ngSanitize','colorpicker.module','angulartics','angulartics.google.analytics'])
+        angular.module('voxboneApp', ['ngCookies','ngSanitize', 'ngToast', 'colorpicker.module','angulartics','angulartics.google.analytics'])
           .directive('qtip', qtipDirective)
           .directive('httpPrefix', httpPrefixDirective)
           .controller('EditWidgetController', WidgetEditController);

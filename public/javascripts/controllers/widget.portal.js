@@ -5,7 +5,7 @@ define([
     'bootstrap'
   ], function (WidgetMixin, $, Clipboard) {
 
-  var WidgetEditController = function ($scope, $http, $window, $controller, $cookies, $analytics) {
+  var WidgetEditController = function ($scope, $http, $window, $controller, $cookies, $analytics, ngToast) {
     // let's extend from the mixin first of all
     angular.extend(this, $controller(WidgetMixin, {$scope: $scope}));
 
@@ -211,7 +211,7 @@ define([
     }
   };
 
-  WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies', '$analytics'];
+  WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies', '$analytics', 'ngToast'];
 
   return WidgetEditController;
 });
