@@ -151,13 +151,13 @@ define([
         .then(function successCallback(response) {
             $scope.widgetCode = response.data.widget_code;
             $scope.widget_form.$setPristine();
-            $scope.openNotice("Success","Code Generated Successfully!");
+            $scope.openNotice("success","Code Generated Successfully!");
             // Good Notification.
           },
           function errorCallback(response) {
             var data = response.data;
             console.log("Error: ", data);
-            $scope.openNotice("Error","Error generating widget code snippet. Please check it.");
+            $scope.openNotice("error","Error generating widget code snippet. Please check it.");
             $scope.widgetCode = 'Error generating widget code snippet. Please check it.';
           });
     };
@@ -202,10 +202,10 @@ define([
       $scope.invalidAuthUri = false;
     };
     //NGToast Helper function.
-    $scope.openNotice = function (text, type) {
+    $scope.openNotice = function (type, text) {
           ngToast.create({
-            className:'success',
-            content: '<div>'+ text + ' : ' +type + "</div>"
+            className:type,
+            content: '<div>'+ text +"</div>"
 
           });
         };
