@@ -204,11 +204,9 @@ define([
     //NGToast Helper function.
     $scope.openNotice = function (text, type) {
           ngToast.create({
-            template: '<div class="ngtoast-notice">Notice: {{text}}</div>',
-            className: 'ngtoast-default ' + 'ngtoast-notice--' + type,
-            controller: ['$scope', function($scope) {
-              $scope.text = text;
-            }]
+            className:'success',
+            content: '<div>'+ text + ' : ' +type + "</div>"
+
           });
         };
 
