@@ -5,7 +5,7 @@ define([
     'bootstrap'
   ], function (WidgetMixin, $, Clipboard) {
 
-  var WidgetEditController = function ($scope, $http, $window, $controller, $cookies, $analytics) {
+  var WidgetEditController = function ($scope, $http, $window, $controller, $cookies, $analytics, ngToast) {
     // let's extend from the mixin first of all
     angular.extend(this, $controller(WidgetMixin, {$scope: $scope}));
 
@@ -115,8 +115,8 @@ define([
 
     $scope.generateWidgetCode = function () {
       console.log("--> Generating Output Code...");
-
       if ($scope.widget.basic_auth !== '1' && !($scope.validAuthUri || false)) {
+        $scope.openNotice("error","Please specify a valid Auth URL before generating code");
         $scope.widgetCode = 'Please specify a valid Auth URL before generating code';
         return;
       }
@@ -149,11 +149,12 @@ define([
         .then(function successCallback(response) {
             $scope.widgetCode = response.data.widget_code;
             $scope.widget_form.$setPristine();
+            $scope.openNotice("success" ,"Code Generated Successfully!");
           },
           function errorCallback(response) {
             var data = response.data;
             console.log("Error: ", data);
-
+            $scope.openNotice("error" ,"Error generating widget code snippet. Please check it.");
             $scope.widgetCode = 'Error generating widget code snippet. Please check it.';
           });
     };
@@ -197,6 +198,13 @@ define([
       $scope.validAuthUri = false;
       $scope.invalidAuthUri = false;
     };
+    //Function to Open notifications
+    $scope.openNotice = function (type, text) {
+      ngToast.create({
+        className:type,
+        content: '<div>'+ text +"</div>"
+      });
+    };
 
     function saveCookie() {
       var cookieWidget = Object.assign({}, $scope.widget);
@@ -211,7 +219,6 @@ define([
     }
   };
 
-  WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies', '$analytics'];
-
+  WidgetEditController.$inject = ['$scope', '$http', '$window', '$controller', '$cookies', '$analytics', 'ngToast'];
   return WidgetEditController;
 });

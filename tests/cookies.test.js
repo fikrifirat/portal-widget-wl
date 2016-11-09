@@ -23,6 +23,7 @@ module.exports = {
       .setValue('input[name="incompatible_browser_configuration"]', 'show_text_html')
       .clearValue('textarea[name="show_text_html_value"]')
       .setValue('textarea[name="show_text_html_value"]', 'Incompatible_browser')
+      .click('label.show_text_html')
 
       //refresh the page and test cookies
       .url(browser.launchUrl+"/click2vox/?e164=1234567890&login=login&password=password&basic_auth=1")

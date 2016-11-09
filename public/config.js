@@ -24,6 +24,11 @@ require.config({
         return 'ngSanitize';
       }
     },
+    'angular-toast': {
+      deps: ['angular'], init: function () {
+        return 'ngToast';
+      }
+    },
     'angular-bootstrap-colorpicker': {
       deps: ['angular'], init: function () {
         return 'colorpicker.module';
@@ -56,6 +61,9 @@ require.config({
     'angular-sanitize': [
       '//ajax.googleapis.com/ajax/libs/angularjs/1.4.12/angular-sanitize.min',
       '/lib/angular-sanitize/angular-sanitize.min'
+    ],
+    'angular-toast': [
+      '/lib/ngtoast/dist/ngToast.min'
     ],
     'angular-bootstrap-colorpicker': [
       '//cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-colorpicker/3.0.25/js/bootstrap-colorpicker-module.min',
