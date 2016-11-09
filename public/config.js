@@ -63,8 +63,8 @@ require.config({
       '/lib/angular-sanitize/angular-sanitize.min'
     ],
     'angular-toast': [
-      // '/click2vox/lib/ngtoast/dist/ngToast.min',
-      '../lib/ngtoast/dist/ngToast.min'
+      '//cdn.voxbone.com/lib/ngToast/ngToast.min',
+      '/lib/ngtoast/dist/ngToast.min'
     ],
     'angular-bootstrap-colorpicker': [
       '//cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-colorpicker/3.0.25/js/bootstrap-colorpicker-module.min',
