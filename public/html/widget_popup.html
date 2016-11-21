@@ -1,0 +1,28 @@
+<html>
+
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="application/javascript"></script>
+</head>
+
+<body>
+  <script>
+  var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "/click2vox/portal-widget/get-code",
+  "method": "POST",
+  "headers": {
+    "content-type": "application/json",
+  },
+  "data":'{"showWidgetCode":true,"dial_pad":false,"button_style":"style-a","frame_color":"","background_style":"dark","incompatible_browser_configuration":"hide_widget","shouldProvision":false,"id":"05c6123b-298e-4a24-9154-9ad0a256c9b4","did":3225887748,"sip_uri":"echo@ivrs","rating":true,"show_frame":true,"show_branding":true,"test_setup":true,"webrtc_username":"torrey","webrtc_password":"ChangeMe1*","basic_auth":"1","hide_widget":true,"callerId":"BramsoftSales","button_color":"","caller_id":"Bramsoft Sales","context":"Calling from the site","send_digits":"12345"}'
+}
+
+$.ajax(settings).done(function (response) {
+  $('.data').text(response.widget_code);
+});
+  </script>
+<div class = "data"> </div>
+</body>
+
+</html>
