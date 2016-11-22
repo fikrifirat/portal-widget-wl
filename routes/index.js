@@ -7,7 +7,7 @@ var title = 'Voxbone Widget Generator v' + pjson.version;
 
 // This is indented to get the latest version always
 router.get(utils.click2voxJsFileName, function(req, res) {
-  res.redirect(process.env.APP_URL + '/javascripts/click2vox-1.5.0.js');
+  res.redirect(process.env.APP_URL + '/javascripts/click2vox-1.5.1.js');
 });
 
 // FAQ & Known issues documents

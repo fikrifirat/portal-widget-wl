@@ -88,6 +88,29 @@ router.post('/portal-widget/get-code', function(req, res, next) {
   }
 });
 
+router.post('/portal-widget/get-html', function(req, res, next){
+  var result = {};
+  var params = req.parameters;
+
+  _.each(['did', 'show_branding', 'webrtc_username', 'webrtc_password', 'basic_auth'], function (n) {
+    PERMITTED_FIELDS.push(n);
+  });
+
+  var widgetData = params
+    .merge({updated_at: new Date()})
+    .permit(PERMITTED_FIELDS);
+
+  try {
+    result.widget_code = utils.widgetDivHtmlCode(widgetData, widgetData.did);
+
+  } catch (e) {
+    return res.status(500).json({
+      msg: 'Something went wrong while generating code!', err: e
+    });
+  }
+
+});
+
 module.exports = {
   router: router,
   portalHandler: portalHandler

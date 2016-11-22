@@ -19,7 +19,8 @@
 }
 
 $.ajax(settings).done(function (response) {
-  $('.data').text(response.widget_code);
+  console.log(response.widget_code);
+  $('.data').html(response.widget_code);
 });
   </script>
 <div class = "data"> </div>
