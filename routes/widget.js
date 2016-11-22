@@ -101,8 +101,8 @@ router.post('/portal-widget/get-html', function(req, res, next){
     .permit(PERMITTED_FIELDS);
 
   try {
-    result.widget_code = utils.widgetDivHtmlCode(widgetData, widgetData.did);
-
+     result.widget_code = utils.widgetDivHtmlCode(widgetData, widgetData.did);
+    res.render('widget/widget_html', result);
   } catch (e) {
     return res.status(500).json({
       msg: 'Something went wrong while generating code!', err: e
