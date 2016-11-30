@@ -91,17 +91,6 @@ router.post('/portal-widget/get-code', function(req, res, next) {
 router.post('/portal-widget/get-html', function(req, res, next){
   var result = {};
   var widget = JSON.parse(req.parameters.widget);
-  console.log(widget);
-  var params = req.parameters;
-
-  _.each(['did', 'show_branding', 'webrtc_username', 'webrtc_password', 'basic_auth'], function (n) {
-    PERMITTED_FIELDS.push(n);
-  });
-
-  var widgetData = params
-    .merge({updated_at: new Date()})
-    .permit(PERMITTED_FIELDS);
-
   try {
     result.widget_code = utils.widgetDivHtmlCode(widget, widget.did);
     console.log(result);
@@ -112,7 +101,6 @@ router.post('/portal-widget/get-html', function(req, res, next){
       msg: 'Something went wrong while generating code!', err: e
     });
   }
-
 });
 
 module.exports = {
