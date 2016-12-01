@@ -1,5 +1,5 @@
 // Voxbone Click2Vox Widget library
-// Version - v1.5.0
+// Version - v1.5.1
 
 var head = document.getElementsByTagName('head')[0];
 var infoVoxbone, voxButtonElement;
@@ -45,7 +45,7 @@ var check0Ready = (function() {
     loadCss(infoVoxbone.server_url + '/stylesheets/vxb-button.css');
 
   if (typeof voxbone === 'undefined')
-    loadScript("//cdn.voxbone.com/voxbone/voxbone-2.1.0.min.js", check1Ready);
+    loadScript("//cdn.voxbone.com/voxbone/voxbone-2.1.min.js", check1Ready);
   else
     check1Ready();
 });
@@ -600,11 +600,10 @@ var check1Ready = (function() {
     e.preventDefault();
     if(!isChromeOnHttp()){
       makeCall();
-    }
-    else {
+    } else {
       var buttonData = document.querySelector('.voxButton');
-      console.log(buttonData.dataset);
-      open('POST', 'http://0.0.0.0:3000/click2vox/portal-widget/get-html', buttonData.dataset, 'newwin');
+      // console.log(buttonData.dataset);
+      open('POST', infoVoxbone.server_url + '/click2vox/portal-widget/get-html', buttonData.dataset, 'newwin');
     }
   });
   //
