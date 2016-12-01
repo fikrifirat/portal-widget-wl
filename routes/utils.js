@@ -50,5 +50,19 @@ module.exports = {
     };
 
     return jade.renderFile('./views/voxbone_widget_div.jade', params);
+  },
+  widgetSecureDivhtml: function (widget, did) {
+    var jade = require('jade');
+    var script = process.env.APP_URL + this.click2voxJsFileName;
+    var cleanLabel = widget.text.replace(/%20/g , ' '); // Sometimes label has spaces in it. When it does the spaces translate as %20 on the text. This line is to clean that.
+    var params = {
+      did: did,
+      script: script,
+      id: widget._id,
+      label: escape(cleanLabel),
+      the_widget: widget
+    };
+
+    return jade.renderFile('./views/voxbone_secure_widget.jade', params);
   }
 };
