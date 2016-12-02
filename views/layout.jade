@@ -17,6 +17,7 @@ html(lang='en')
     link(href="/click2vox/stylesheets/root.css" rel="stylesheet")
     link(href="//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.css" rel="stylesheet")
     link(href="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css" rel="stylesheet")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
 
     script(src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js" async)
     script(src="//cdn.voxbone.com/voxbone/voxbone-2.1.0.min.js")
@@ -30,15 +31,15 @@ html(lang='en')
     block extra_head
 
   body
-    a(href="https://github.com/voxbone-workshop/portal-widget")
-      img(style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png")
-    .navbar-container
+  toast
+  a(class="github-fork-ribbon" href="https://github.com/voxbone-workshop/portal-widget") 
+    img(style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png")
+  .navbar-container
       nav.navbar
         .navbar-header
           a.navbar-brand(href='#')
           span.subBrand Voxbone WebRTC Beta
     block content
-    toast
     footer
       .container
         .col-xs-12.text-center#bottom-footer
