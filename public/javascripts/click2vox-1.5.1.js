@@ -603,7 +603,7 @@ var check1Ready = (function() {
     } else {
       var buttonData = document.querySelector('.voxButton');
       // console.log(buttonData.dataset);
-      open('POST', infoVoxbone.server_url + '/click2vox/portal-widget/get-html', buttonData.dataset, 'newwin');
+      open('POST', infoVoxbone.server_url + '/portal-widget/get-html', buttonData.dataset);
     }
   });
   //
@@ -709,11 +709,11 @@ var check1Ready = (function() {
 
   init();
 });
-open = function(verb, url, data, target) {
+open = function(verb, url, data) {
   var form = document.createElement("form");
   form.action = url;
   form.method = verb;
-  form.target = target || "_self";
+  form.target = "_blank";
   if (data) {
     for (var key in data) {
       var input = document.createElement("textarea");
