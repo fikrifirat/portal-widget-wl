@@ -35058,8 +35058,8 @@ extend(voxbone, {
 			var options = {
 				'eventHandlers': {
 					'peerconnection': function (e) {
-						var streams = e.peerconnection.getRemoteStreams();
-            console.log(JSON.stringify(e.peerconnection));
+						var streams = e.peerconnection.getLocalStreams();
+            console.log(e.peerconnection);
 						voxbone.Logger.loginfo("streams "+ streams.length);
 						for (var i = 0; i < streams.length; i++) {
 							if (streams[i].getAudioTracks().length > 0) {
