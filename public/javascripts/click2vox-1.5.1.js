@@ -251,7 +251,9 @@ var check1Ready = (function() {
       if(voxbone.WebRTC.isMuted) return;
       sendPostMessage('setMicVolume', e.localVolume);
     },
-
+    'remoteMediaVolume': function (e){
+      console.log(e.remoteVolume);
+    },
     'progress': function (e) {
       console.log('Calling...');
       //- sendPostMessage('setCallCalling');
