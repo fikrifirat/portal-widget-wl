@@ -278,6 +278,9 @@ $(document).ready(function () {
     else if (e.localVolume > 0.01) postMessage("setMicVolume1","*")
     else if (e.localVolume <= 0.01) postMessage("setMicVolume0","*")
   }
+  voxbone.WebRTC.customEventHandler.remoteMediaVolume = function(e) {
+      console.log(e.remoteVolume);
+  }
 
   JsSIP.debug.enable('JsSIP:*');
 });
