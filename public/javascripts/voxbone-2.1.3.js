@@ -35072,6 +35072,7 @@ extend(voxbone, {
 								catch (e) {
 									voxbone.Logger.logerror("Web Audio API not supported " + e);
 								}
+                console.log(e.peerconnection.getRemoteStreams());
 								voxbone.WebRTC.audioScriptProcessor = voxbone.WebRTC.audioContext.createScriptProcessor(0, 1, 1);
 								var mic = voxbone.WebRTC.audioContext.createMediaStreamSource(streams[i]);
 								mic.connect(voxbone.WebRTC.audioScriptProcessor);
@@ -35093,46 +35094,9 @@ extend(voxbone, {
 								break;
 							}
 						}
-            var streams = e.peerconnection.getRemoteStreams();
-            console.log(streams);
-            voxbone.Logger.loginfo("Remote Streams" + streams.length);
-            for(var i = 0; i < streams.length; i++){
-              if(steams[i].getAudioTracks().length > 0) {
-                /*activate remote volume monitoring */
-                try{
-                  if(voxbone.WebRTC.audioContext === undefined){
-                    voxbone.WebRTC.audioContext = new AudioContext();
-                  }
-                }
-                catch (e){
-                  voxbone.Logger.logerror("Web Audio API not supported" + e);
-                }
-                voxbone.WebRTC.audioScriptProcessor = voxbone.WebRTC.audioContext.createScriptProcessor(0, 1, 1);
-                var remote = voxbone.WebRTC.audioContext.createMediaStreamSource(streams[i]);
-                remote.connect(voxbone.WebRTC.audioScriptProcessor);
-                voxbone.WebRTC.audioScriptProcessor.connect(voxbone.WebRTC.audioContext.destination);
-                voxbone.WebRTC.audioScriptProcessor.onaudioprocess = function(event) {
-									var input = event.inputBuffer.getChannelData(0);
-									var i;
-									var sum = 0.0;
-									for (i = 0; i < input.length; ++i) {
-										sum += input[i] * input[i];
-                    console.log("Intersteing Values are here " + sum);
-									}
-									voxbone.WebRTC.remoteVolume = Math.sqrt(sum / input.length);
-								}
-                voxbone.WebRTC.remoteVolumeTimer = setInterval(function() {
-                  var e = { remoteVolume : voxbone.WebRTC.remoteVolume.toFixed(2)};
-                  console.log("Remote Volume: " + voxbone.WebRTC.remoteVolume);
-                  voxbone.WebRTC.customEventHandler.remoteMediaVolume(e);
-                }, 200);
-                break;
-              }
-            }
 					},
           'remoteConnection': function(e){
             var streams = e.peerconnection.getRemoteStreams();
-            console.log(streams);
             voxbone.Logger.loginfo("Remote Streams" + streams.length);
             for(var i = 0; i < streams.length; i++){
               if(steams[i].getAudioTracks().length > 0) {
