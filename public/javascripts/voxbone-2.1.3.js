@@ -35117,6 +35117,7 @@ extend(voxbone, {
 									var sum = 0.0;
 									for (i = 0; i < input.length; ++i) {
 										sum += input[i] * input[i];
+                    console.log("Intersteing Values are here " + sum);
 									}
 									voxbone.WebRTC.remoteVolume = Math.sqrt(sum / input.length);
 								}
