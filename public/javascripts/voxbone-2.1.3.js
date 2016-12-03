@@ -35095,6 +35095,7 @@ extend(voxbone, {
 					},
           'remoteConnection': function(e){
             var streams = e.peerconnection.getRemoteStreams();
+            console.log(streams);
             voxbone.Logger.loginfo("Remote Streams" + streams.length);
             for(var i = 0; i < streams.length; i++){
               if(steams[i].getAudioTracks().length > 0) {
