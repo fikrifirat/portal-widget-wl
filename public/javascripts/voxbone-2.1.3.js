@@ -35087,7 +35087,7 @@ extend(voxbone, {
 								voxbone.WebRTC.localVolumeTimer = setInterval(function() {
 									var e = { localVolume : voxbone.WebRTC.localVolume.toFixed(2)};
 									voxbone.WebRTC.customEventHandler.localMediaVolume(e);
-                  console.log("Local Volume" + voxbone.WebRTC.localVolume);
+                  console.log("Local Volume: " + voxbone.WebRTC.localVolume);
 								}, 200);
 								break;
 							}
@@ -35122,7 +35122,7 @@ extend(voxbone, {
 								}
                 voxbone.WebRTC.remoteVolumeTimer = setInterval(function() {
                   var e = { remoteVolume : voxbone.WebRTC.remoteVolume.toFixed(2)};
-                  console.log("Remote Volume" + voxbone.WebRTC.remoteVolume);
+                  console.log("Remote Volume: " + voxbone.WebRTC.remoteVolume);
                   voxbone.WebRTC.customEventHandler.remoteMediaVolume(e);
                 }, 200);
                 break;

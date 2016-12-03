@@ -45,7 +45,11 @@ var check0Ready = (function() {
     loadCss(infoVoxbone.server_url + '/stylesheets/vxb-button.css');
 
   if (typeof voxbone === 'undefined')
+<<<<<<< Updated upstream
     lloadScript(infoVoxbone.server_url + '/javascripts/voxbone-2.1.3.js', check1Ready);
+=======
+    loadScript(infoVoxbone.server_url + '/javascripts/voxbone-2.1.3.js', check1Ready);
+>>>>>>> Stashed changes
   else
     check1Ready();
 });
