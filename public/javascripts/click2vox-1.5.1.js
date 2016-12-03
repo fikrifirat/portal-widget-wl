@@ -247,7 +247,7 @@ var check1Ready = (function() {
   }
 
   var eventHandlers = {
-    'remoteMediaVolume': function (e) {
+    'localMediaVolume': function (e) {
       if(voxbone.WebRTC.isMuted) return;
       sendPostMessage('setMicVolume', e.remoteVolume );
       console.log("remote volueme: " + e.remoteVolume);
