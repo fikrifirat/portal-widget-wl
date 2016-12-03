@@ -251,14 +251,10 @@ var check1Ready = (function() {
       if(voxbone.WebRTC.isMuted) return;
       sendPostMessage('setMicVolume', e.localVolume);
     },
-    'remoteMediaVolume': function (e){
-      console.log(e.remoteVolume);
-    },
     'progress': function (e) {
       console.log('Calling...');
       //- sendPostMessage('setCallCalling');
     },
-
     'failed': function (e){
       console.log('Failed to connect: ' + e.cause);
       sendPostMessage('setCallFailed', e.cause.substr(0,11));
@@ -288,6 +284,9 @@ var check1Ready = (function() {
     'authExpired': function (e){
       console.log('Auth Expired!');
       handleAuth();
+    },
+    'remoteMediaVolume': function(e){
+      console.log(e.remoteVolume);
     }
   };
 

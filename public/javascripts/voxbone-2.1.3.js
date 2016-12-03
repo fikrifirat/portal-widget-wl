@@ -34738,6 +34738,7 @@ extend(voxbone, {
 			'localMediaVolume': function (e) {
 			},
       'remoteMediaVolume':function (e){
+        console.log(e);
       },
 			'failed': function (e) {
 			},
