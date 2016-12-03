@@ -249,7 +249,7 @@ var check1Ready = (function() {
   var eventHandlers = {
     'localMediaVolume': function (e) {
       if(voxbone.WebRTC.isMuted) return;
-      sendPostMessage('setMicVolume', e.remoteVolume );
+      sendPostMessage('setMicVolume', e.localVolume );
     },
 
     'progress': function (e) {
