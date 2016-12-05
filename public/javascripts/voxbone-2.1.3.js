@@ -35341,7 +35341,7 @@ extend(voxbone, {
 		 * and post the logs
 		 */
 		unloadHandler: function () {
-			if (typeof(voxbone.WebRTC.rtcSession.hangup) === "function") {
+			if (typeof(voxbone.WebRTC.hangup) === "function") {
 					voxbone.Logger.loginfo("Page unloading while a call was in progress, hanging up");
 					voxbone.WebRTC.hangup();
 					voxbone.WebRTC.postLogsToServer();
