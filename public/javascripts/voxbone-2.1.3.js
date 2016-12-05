@@ -34738,7 +34738,7 @@ extend(voxbone, {
 			'localMediaVolume': function (e) {
 			},
       'remoteMediaVolume':function (e){
-        console.log(e);
+        console.log("Remote Volume",e);
       },
 			'failed': function (e) {
 			},
@@ -35059,7 +35059,6 @@ extend(voxbone, {
 				'eventHandlers': {
 					'peerconnection': function (e) {
 						var streams = e.peerconnection.getLocalStreams();
-            console.log(e);
 						voxbone.Logger.loginfo("streams "+ streams.length);
 						for (var i = 0; i < streams.length; i++) {
 							if (streams[i].getAudioTracks().length > 0) {
@@ -35089,7 +35088,6 @@ extend(voxbone, {
 								voxbone.WebRTC.localVolumeTimer = setInterval(function() {
 									var e = { localVolume : voxbone.WebRTC.localVolume.toFixed(2)};
 									voxbone.WebRTC.customEventHandler.localMediaVolume(e);
-                  console.log("Local Volume: " + voxbone.WebRTC.localVolume);
 								}, 200);
 								break;
 							}
@@ -35108,6 +35106,7 @@ extend(voxbone, {
                 }
                 catch (e){
                   voxbone.Logger.logerror("Web Audio API not supported" + e);
+                  console.log("error:" + e);
                 }
                 voxbone.WebRTC.audioScriptProcessor = voxbone.WebRTC.audioContext.createScriptProcessor(0, 1, 1);
                 var remote = voxbone.WebRTC.audioContext.createMediaStreamSource(streams[i]);
