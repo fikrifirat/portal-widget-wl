@@ -35095,45 +35095,30 @@ extend(voxbone, {
 								break;
 							}
 						}
-					},
-          'remoteconnection': function(e){
-            var streams = e.peerconnection.getRemoteStreams();
-            voxbone.Logger.loginfo("Remote Streams" + streams.length);
-            for(var i = 0; i < streams.length; i++){
-              if(steams[i].getAudioTracks().length > 0) {
-                /*activate remote volume monitoring */
+            //Remote Volume tracker
+            var remoteStreams = e.peerconnection.getRemoteStreams();
+            voxbone.Logger.loginfo("Remote Streams" + remoteStreams.length);
+            for(var i = 0; i < remoteStreams.length; i++){
+              if(remoteStreams[i].getAudioTracks().length > 0){
+                /*Remote volume monitoring*/
                 try{
                   if(voxbone.WebRTC.remoteAudioContext === undefined){
                     voxbone.WebRTC.remoteAudioContext = new AudioContext();
                   }
                 }
-                catch (e){
+                catch(e){
                   voxbone.Logger.logerror("Web Audio API not supported" + e);
-                  console.log("error:" + e);
                 }
                 voxbone.WebRTC.audioScriptProcessor = voxbone.WebRTC.remoteAudioContext.createScriptProcessor(0, 1, 1);
-                var remote = voxbone.WebRTC.remoteAudioContext.createMediaStreamSource(streams[i]);
-                remote.connect(voxbone.WebRTC.audioScriptProcessor);
+                var remoteMic = voxbone.WebRTC.remoteAudioContext.createMediaStreamSource(remoteStreams[i]);
+                remoteMic.connect(voxbone.WebRTC.audioScriptProcessor);
                 voxbone.WebRTC.audioScriptProcessor.connect(voxbone.WebRTC.remoteAudioContext.destination);
-                voxbone.WebRTC.audioScriptProcessor.onaudioprocess = function(event) {
-									var input = event.inputBuffer.getChannelData(0);
-									var i;
-									var sum = 0.0;
-									for (i = 0; i < input.length; ++i) {
-										sum += input[i] * input[i];
-                    console.log("Intersteing Values are here " + sum);
-									}
-									voxbone.WebRTC.remoteVolume = Math.sqrt(sum / input.length);
-								}
-                voxbone.WebRTC.remoteVolumeTimer = setInterval(function() {
-                  var e = { remoteVolume : voxbone.WebRTC.remoteVolume.toFixed(2)};
-                  console.log("Remote Volume: " + voxbone.WebRTC.remoteVolume);
-                  voxbone.WebRTC.customEventHandler.remoteMediaVolume(e);
-                }, 200);
-                break;
+                vobone.WebRTC.audioScriptProcessor.onaudioprocess = function(event){
+                  console.log(event);
+                }
               }
             }
-          },
+					},
 					'sending': function (e) {
 						voxbone.WebRTC.callid = e.request.call_id;
 						var  pc = voxbone.WebRTC.rtcSession.connection.pc;
