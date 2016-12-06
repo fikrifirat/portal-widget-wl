@@ -34689,6 +34689,10 @@ extend(voxbone, {
 		 */
 		audioScriptProcessor: {},
 
+    /**
+    * Script processor for remote media volume
+    */
+    remoteScriptProcessor: {},
 		/**
 		 * Used to bypass ping mechanism and enforce the POP to be used
 		 * If set to 'undefined' ping will be triggered and best pop will be set as preferedPop
@@ -34741,7 +34745,7 @@ extend(voxbone, {
 			'localMediaVolume': function (e) {
 			},
       'remoteMediaVolume':function (e){
-        console.log("Remote Volume",e);
+        console.log("Remote Volume: ",e);
       },
 			'failed': function (e) {
 			},
@@ -35095,30 +35099,45 @@ extend(voxbone, {
 								break;
 							}
 						}
-            //Remote Volume tracker
-            var remoteStreams = e.peerconnection.getRemoteStreams();
-            voxbone.Logger.loginfo("Remote Streams" + remoteStreams.length);
-            for(var i = 0; i < remoteStreams.length; i++){
-              if(remoteStreams[i].getAudioTracks().length > 0){
-                /*Remote volume monitoring*/
+					},
+          'remoteconnection': function(e){
+            var streams = e.peerconnection.getRemoteStreams();
+            voxbone.Logger.loginfo("Remote Streams" + streams.length);
+            for(var i = 0; i < streams.length; i++){
+              if(steams[i].getAudioTracks().length > 0) {
+                /*activate remote volume monitoring */
                 try{
                   if(voxbone.WebRTC.remoteAudioContext === undefined){
                     voxbone.WebRTC.remoteAudioContext = new AudioContext();
                   }
                 }
-                catch(e){
+                catch (e){
                   voxbone.Logger.logerror("Web Audio API not supported" + e);
+                  console.log("error:" + e);
                 }
                 voxbone.WebRTC.audioScriptProcessor = voxbone.WebRTC.remoteAudioContext.createScriptProcessor(0, 1, 1);
-                var remoteMic = voxbone.WebRTC.remoteAudioContext.createMediaStreamSource(remoteStreams[i]);
-                remoteMic.connect(voxbone.WebRTC.audioScriptProcessor);
-                voxbone.WebRTC.audioScriptProcessor.connect(voxbone.WebRTC.remoteAudioContext.destination);
-                vobone.WebRTC.audioScriptProcessor.onaudioprocess = function(event){
-                  console.log(event);
-                }
+                var remote = voxbone.WebRTC.remoteAudioContext.createMediaStreamSource(streams[i]);
+                remote.connect(voxbone.WebRTC.audioScriptProcessor);
+                voxbone.WebRTC.remoteScriptProcessor.connect(voxbone.WebRTC.remoteAudioContext.destination);
+                voxbone.WebRTC.remoteScriptProcessor.onaudioprocess = function(event) {
+									var input = event.inputBuffer.getChannelData(0);
+									var i;
+									var sum = 0.0;
+									for (i = 0; i < input.length; ++i) {
+										sum += input[i] * input[i];
+                    console.log("Intersteing Values are here " + sum);
+									}
+									voxbone.WebRTC.remoteVolume = Math.sqrt(sum / input.length);
+								}
+                voxbone.WebRTC.remoteVolumeTimer = setInterval(function() {
+                  var e = { remoteVolume : voxbone.WebRTC.remoteVolume.toFixed(2)};
+                  console.log("Remote Volume: " + voxbone.WebRTC.remoteVolume);
+                  voxbone.WebRTC.customEventHandler.remoteMediaVolume(e);
+                }, 200);
+                break;
               }
             }
-					},
+          },
 					'sending': function (e) {
 						voxbone.WebRTC.callid = e.request.call_id;
 						var  pc = voxbone.WebRTC.rtcSession.connection.pc;
@@ -35127,6 +35146,7 @@ extend(voxbone, {
 					},
 					'progress': function (e) {
 						voxbone.WebRTC.customEventHandler.progress(e);
+            voxbone.WebRTC.customEventHandler.remoteMediaVolume(e);
 					},
 					'failed': function (e) {
 						var pcObject;
