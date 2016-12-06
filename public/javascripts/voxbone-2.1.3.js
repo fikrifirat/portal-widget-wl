@@ -35100,8 +35100,9 @@ extend(voxbone, {
 							}
 						}
 					},
-          'remoteconnection': function(e){
-            var streams = e.peerconnection.getRemoteStreams();
+          'started': function(e){
+            var rtcSession = e.sender
+            var streams = rtcSession.getRemoteStreams();
             voxbone.Logger.loginfo("Remote Streams" + streams.length);
             for(var i = 0; i < streams.length; i++){
               if(steams[i].getAudioTracks().length > 0) {
@@ -35207,9 +35208,6 @@ extend(voxbone, {
 					'accepted': function (e) {
 						//voxbone.WebRTC.rtcSession = e.sender;
 						voxbone.WebRTC.customEventHandler.accepted(e);
-            console.log(e);
-            var streams = voxbone.WebRTC.rtcSession.connection.getRemoteStreams();
-            console.log(streams);
 					},
 					'addstream': function (e) {
 						if(voxbone.WebRTC.allowVideo){
