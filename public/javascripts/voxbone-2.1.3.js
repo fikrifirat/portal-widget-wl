@@ -35207,7 +35207,7 @@ extend(voxbone, {
 					'accepted': function (e) {
 						//voxbone.WebRTC.rtcSession = e.sender;
 						voxbone.WebRTC.customEventHandler.accepted(e);
-            var streams = voxbone.WebRTC.rtcSession.getRemoteStreams();
+            var streams = this.rtcSession.connection.getRemoteStreams();
 					},
 					'addstream': function (e) {
 						if(voxbone.WebRTC.allowVideo){
