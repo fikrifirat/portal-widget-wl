@@ -35114,9 +35114,9 @@ extend(voxbone, {
                 voxbone.WebRTC.audioScriptProcessor = voxbone.WebRTC.remoteAudioContext.createScriptProcessor(0, 1, 1);
                 var remote = voxbone.WebRTC.remoteAudioContext.createMediaStreamSource(streams[i]);
                 remote.connect(voxbone.WebRTC.audioScriptProcessor);
-                voxbone.WebRTC.audioScriptProcessor.connect(voxbone.WebRTC.audioContext.destination);
+                voxbone.WebRTC.audioScriptProcessor.connect(voxbone.WebRTC.remoteAudioContext.destination);
                 voxbone.WebRTC.audioScriptProcessor.onaudioprocess = function(event) {
-									var input =
+									var input = event.inputBuffer.getChannelData(0);
 									var i;
 									var sum = 0.0;
 									for (i = 0; i < input.length; ++i) {
