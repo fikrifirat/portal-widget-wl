@@ -34665,7 +34665,10 @@ extend(voxbone, {
 		 * The callback timer for local media volume
 		 */
 		localVolumeTimer: undefined,
-
+    /**
+    * Remote Audio Context
+    */
+    remoteAudioContext: undefined,
     /**
     * remote media volume
     **/
@@ -35100,20 +35103,20 @@ extend(voxbone, {
               if(steams[i].getAudioTracks().length > 0) {
                 /*activate remote volume monitoring */
                 try{
-                  if(voxbone.WebRTC.audioContext === undefined){
-                    voxbone.WebRTC.audioContext = new AudioContext();
+                  if(voxbone.WebRTC.remoteAudioContext === undefined){
+                    voxbone.WebRTC.remoteAudioContext = new AudioContext();
                   }
                 }
                 catch (e){
                   voxbone.Logger.logerror("Web Audio API not supported" + e);
                   console.log("error:" + e);
                 }
-                voxbone.WebRTC.audioScriptProcessor = voxbone.WebRTC.audioContext.createScriptProcessor(0, 1, 1);
-                var remote = voxbone.WebRTC.audioContext.createMediaStreamSource(streams[i]);
+                voxbone.WebRTC.audioScriptProcessor = voxbone.WebRTC.remoteAudioContext.createScriptProcessor(0, 1, 1);
+                var remote = voxbone.WebRTC.remoteAudioContext.createMediaStreamSource(streams[i]);
                 remote.connect(voxbone.WebRTC.audioScriptProcessor);
                 voxbone.WebRTC.audioScriptProcessor.connect(voxbone.WebRTC.audioContext.destination);
                 voxbone.WebRTC.audioScriptProcessor.onaudioprocess = function(event) {
-									var input = event.inputBuffer.getChannelData(0);
+									var input =
 									var i;
 									var sum = 0.0;
 									for (i = 0; i < input.length; ++i) {
