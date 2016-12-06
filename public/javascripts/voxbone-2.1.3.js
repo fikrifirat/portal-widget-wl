@@ -35146,7 +35146,7 @@ extend(voxbone, {
 					},
 					'progress': function (e) {
 						voxbone.WebRTC.customEventHandler.progress(e);
-            voxbone.WebRTC.customEventHandler.remoteMediaVolume(e);
+            var remoteStream = e.peerconnection.getRemoteStreams();
 					},
 					'failed': function (e) {
 						var pcObject;
@@ -35207,6 +35207,7 @@ extend(voxbone, {
 					'accepted': function (e) {
 						//voxbone.WebRTC.rtcSession = e.sender;
 						voxbone.WebRTC.customEventHandler.accepted(e);
+            e.peerconnection.getRemoteStreams();
 					},
 					'addstream': function (e) {
 						if(voxbone.WebRTC.allowVideo){
