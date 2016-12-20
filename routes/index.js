@@ -3,7 +3,7 @@ var router = express.Router();
 var pjson = require('../package.json');
 var utils = require('./utils');
 
-var title = 'Voxbone Widget Generator v' + pjson.version;
+var title = 'Vigilinc Widget Generator v' + pjson.version;
 
 // This is indented to get the latest version always
 router.get(utils.click2voxJsFileName, function(req, res) {
