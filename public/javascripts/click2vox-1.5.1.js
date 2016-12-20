@@ -604,7 +604,7 @@ var check1Ready = (function() {
     } else {
       var buttonData = document.querySelector('.voxButton');
       // console.log(buttonData.dataset);
-      open('POST', infoVoxbone.server_url + '/click2vox/portal-widget/get-html', buttonData.dataset);
+      open('POST', infoVoxbone.server_url + '/portal-widget/get-html', buttonData.dataset);
     }
   });
   //
