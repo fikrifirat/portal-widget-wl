@@ -45,7 +45,7 @@ var check0Ready = (function() {
     loadCss(infoVoxbone.server_url + '/stylesheets/vxb-button.css');
 
   if (typeof voxbone === 'undefined')
-    loadScript(infoVoxbone.server_url + '/javascripts/voxbone-2.1.3.js', check1Ready);
+    loadScript('//cdn.voxbone.com/voxbone/voxbone-2.1.min.js', check1Ready);
   else
     check1Ready();
 });
