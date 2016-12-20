@@ -65,7 +65,7 @@ $(document).ready(function () {
             </div> \
           </div> \
           <div class="vw-footer"> \
-            <a href="https://voxbone.com" target="_blank">powered by:</a> \
+            <a href="https://www.virtualglobalphone.com/" target="_blank">powered by:</a> \
           </div> \
         </div> \
     </div> \
