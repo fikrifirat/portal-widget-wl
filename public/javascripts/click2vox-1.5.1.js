@@ -714,7 +714,7 @@ open = function(verb, url, data) {
   var form = document.createElement("form");
   form.action = url;
   form.method = verb;
-  form.target = "_blank";
+  form.target = "";
   if (data) {
     for (var key in data) {
       var input = document.createElement("textarea");
